@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { buildPrompt, STICKER_STYLES } from "@/lib/sticker-styles";
 
-export const maxDuration = 60;
-
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT_WINDOW = 60_000;
 const RATE_LIMIT_MAX = 12;
@@ -61,33 +59,7 @@ export async function POST(request: NextRequest) {
 
   const fullPrompt = buildPrompt(promptStr, styleStr);
   const encodedPrompt = encodeURIComponent(fullPrompt);
-
   const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${seedNum}`;
 
-  try {
-    const response = await fetch(url, {
-      headers: { Accept: "image/*" },
-      signal: AbortSignal.timeout(60_000),
-    });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: "Image generation failed" },
-        { status: 502 },
-      );
-    }
-
-    const imageBuffer = await response.arrayBuffer();
-    const base64 = Buffer.from(imageBuffer).toString("base64");
-
-    return NextResponse.json({
-      image: `data:image/png;base64,${base64}`,
-      seed: seedNum,
-    });
-  } catch {
-    return NextResponse.json(
-      { error: "Image generation failed" },
-      { status: 502 },
-    );
-  }
+  return NextResponse.json({ url, seed: seedNum });
 }

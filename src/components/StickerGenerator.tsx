@@ -37,20 +37,23 @@ export default function StickerGenerator() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt, style: selectedStyle, seed }),
-            signal: AbortSignal.timeout(90_000),
           }).then(async (res) => {
             if (!res.ok) throw new Error("Generation failed");
-            return res.json();
+            const data = await res.json();
+            const imgRes = await fetch(data.url, { signal: AbortSignal.timeout(90_000) });
+            if (!imgRes.ok) throw new Error("Image fetch failed");
+            const blob = await imgRes.blob();
+            return { url: URL.createObjectURL(blob), seed: data.seed };
           }),
         ),
       );
 
       const newStickers: GeneratedSticker[] = [];
       results.forEach((result, i) => {
-        if (result.status === "fulfilled" && result.value.image) {
+        if (result.status === "fulfilled" && result.value.url) {
           newStickers.push({
             id: `sticker-${Date.now()}-${i}`,
-            image: result.value.image,
+            image: result.value.url,
             prompt,
             style: selectedStyle,
             seed: seeds[i],
@@ -73,11 +76,17 @@ export default function StickerGenerator() {
     }
   }, [prompt, selectedStyle, generating]);
 
-  const downloadSticker = (sticker: GeneratedSticker) => {
-    const a = document.createElement("a");
-    a.href = sticker.image;
-    a.download = `sticker-${sticker.seed}.png`;
-    a.click();
+  const downloadSticker = async (sticker: GeneratedSticker) => {
+    try {
+      const res = await fetch(sticker.image);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `sticker-${sticker.seed}.png`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch { /* ignore */ }
   };
 
   const clearStickers = () => setStickers([]);
