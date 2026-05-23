@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { STICKER_STYLES, type StickerStyle } from "@/lib/sticker-styles";
+import ExampleGallery from "./ExampleGallery";
 
 interface GeneratedSticker {
   id: string;
@@ -81,6 +82,12 @@ export default function StickerGenerator() {
 
   const clearStickers = () => setStickers([]);
 
+  const useExample = (prompt: string, style: string) => {
+    setPrompt(prompt);
+    setSelectedStyle(style);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div>
       {/* Prompt Input */}
@@ -134,6 +141,9 @@ export default function StickerGenerator() {
           <p className="text-red-500 text-sm mt-3 text-center">{error}</p>
         )}
       </div>
+
+      {/* Example Gallery */}
+      <ExampleGallery onUsePrompt={useExample} />
 
       {/* Sticker Gallery */}
       {stickers.length > 0 && (
