@@ -151,9 +151,6 @@ export default function StickerGenerator() {
         )}
       </div>
 
-      {/* Example Gallery */}
-      <ExampleGallery onUsePrompt={useExample} />
-
       {/* Sticker Gallery */}
       {stickers.length > 0 && (
         <div className="mb-6">
@@ -210,6 +207,9 @@ export default function StickerGenerator() {
           </p>
         </div>
       )}
+
+      {/* Example Gallery */}
+      <ExampleGallery onUsePrompt={useExample} />
     </div>
   );
 }
