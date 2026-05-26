@@ -23,6 +23,9 @@ export const metadata: Metadata = {
       "Create custom AI stickers for WhatsApp and Telegram. Free, no sign up, no app download.",
     type: "website",
   },
+  alternates: {
+    canonical: "https://stickersit.com",
+  },
   other: {
     "google-adsense-account": "ca-pub-4350668459830736",
   },
