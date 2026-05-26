@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { STICKER_STYLES, type StickerStyle } from "@/lib/sticker-styles";
 import ExampleGallery from "./ExampleGallery";
 import AdSenseUnit from "./AdSenseUnit";
@@ -15,32 +15,52 @@ interface GeneratedSticker {
 
 const MAX_STICKERS = 20;
 
+function revokeStickerImages(stickers: GeneratedSticker[]) {
+  stickers.forEach((sticker) => {
+    if (sticker.image.startsWith("blob:")) {
+      URL.revokeObjectURL(sticker.image);
+    }
+  });
+}
+
 export default function StickerGenerator() {
   const [prompt, setPrompt] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("cute-kawaii");
   const [stickers, setStickers] = useState<GeneratedSticker[]>([]);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
+  const stickersRef = useRef<GeneratedSticker[]>([]);
 
-  const fetchSticker = async (seed: number): Promise<{ url: string; seed: number }> => {
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt, style: selectedStyle, seed }),
-    });
-    if (!res.ok) {
-      const body = await res.json().catch(() => null);
-      throw new Error(body?.error || `API error (${res.status})`);
-    }
-    const data = await res.json();
-    const imgRes = await fetch(data.url, { signal: AbortSignal.timeout(90_000) });
-    if (!imgRes.ok) throw new Error("Image provider error");
-    const blob = await imgRes.blob();
-    return { url: URL.createObjectURL(blob), seed: data.seed };
-  };
+  useEffect(() => {
+    stickersRef.current = stickers;
+  }, [stickers]);
 
-  const generateStickers = useCallback(async () => {
+  useEffect(() => {
+    return () => revokeStickerImages(stickersRef.current);
+  }, []);
+
+  const generateStickers = async () => {
     if (!prompt.trim() || generating) return;
+
+    const promptToGenerate = prompt;
+    const styleToGenerate = selectedStyle;
+
+    const fetchSticker = async (seed: number): Promise<{ url: string; seed: number }> => {
+      const res = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: promptToGenerate, style: styleToGenerate, seed }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error || `API error (${res.status})`);
+      }
+      const data = await res.json();
+      const imgRes = await fetch(data.url, { signal: AbortSignal.timeout(90_000) });
+      if (!imgRes.ok) throw new Error("Image provider error");
+      const blob = await imgRes.blob();
+      return { url: URL.createObjectURL(blob), seed: data.seed };
+    };
 
     setGenerating(true);
     setError("");
@@ -57,8 +77,8 @@ export default function StickerGenerator() {
           newStickers.push({
             id: `sticker-${Date.now()}-${i}`,
             image: result.value.url,
-            prompt,
-            style: selectedStyle,
+            prompt: promptToGenerate,
+            style: styleToGenerate,
             seed: seeds[i],
           });
         }
@@ -72,7 +92,9 @@ export default function StickerGenerator() {
         }
         setStickers((prev) => {
           const next = [...newStickers, ...prev];
-          return next.length > MAX_STICKERS ? next.slice(0, MAX_STICKERS) : next;
+          const visibleStickers = next.slice(0, MAX_STICKERS);
+          revokeStickerImages(next.slice(MAX_STICKERS));
+          return visibleStickers;
         });
       }
     } catch {
@@ -80,7 +102,7 @@ export default function StickerGenerator() {
     } finally {
       setGenerating(false);
     }
-  }, [prompt, selectedStyle, generating]);
+  };
 
   const downloadSticker = async (sticker: GeneratedSticker) => {
     try {
@@ -98,7 +120,12 @@ export default function StickerGenerator() {
     }
   };
 
-  const clearStickers = () => setStickers([]);
+  const clearStickers = () => {
+    setStickers((prev) => {
+      revokeStickerImages(prev);
+      return [];
+    });
+  };
 
   const applyExample = (prompt: string, style: string) => {
     setPrompt(prompt);
@@ -209,8 +236,7 @@ export default function StickerGenerator() {
           </div>
 
           <p className="text-xs text-gray-400 mt-2 text-center">
-            Click any sticker to download as PNG. For WhatsApp, convert to WebP
-            format below.
+            Click any sticker to download as PNG.
           </p>
         </div>
       )}

@@ -6,11 +6,11 @@ import { STICKER_STYLES } from "@/lib/sticker-styles";
 const FAQ_ITEMS = [
   {
     q: "Can I make WhatsApp stickers without downloading an app?",
-    a: "Yes! StickerAI is a web-based tool that works right in your browser. No app download needed — just type your idea, pick a style, and download your custom stickers as PNG or WebP files ready for WhatsApp.",
+    a: "Yes! StickerAI is a web-based tool that works right in your browser. No app download needed — just type your idea, pick a style, and download your custom stickers as PNG files.",
   },
   {
     q: "How do I add AI stickers to WhatsApp?",
-    a: "Generate your stickers on StickerAI, download them as WebP images, then open WhatsApp > any chat > sticker icon > add sticker. Select the downloaded WebP files and they'll appear in your sticker tray.",
+    a: "Generate your stickers on StickerAI, download them as PNG images, then import them with your preferred WhatsApp sticker pack tool.",
   },
   {
     q: "Is this AI sticker maker really free?",
@@ -26,7 +26,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "How do I create a full WhatsApp sticker pack?",
-    a: "Generate at least 3 stickers (we recommend 6-12 for a themed pack). Download each one as WebP format, then import them all at once when adding stickers in WhatsApp.",
+    a: "Generate at least 3 stickers (we recommend 6-12 for a themed pack). Download each one as PNG, then import them together with your preferred WhatsApp sticker pack tool.",
   },
   {
     q: "What makes a good sticker prompt?",
@@ -142,8 +142,8 @@ export default function Home() {
                 Download &amp; add to WhatsApp
               </h3>
               <p className="text-sm text-gray-500">
-                Download as PNG or WebP. Open WhatsApp, tap the sticker icon,
-                and add your custom stickers. It&apos;s that easy!
+                Download as PNG, then add your custom stickers with your
+                preferred sticker pack tool. It&apos;s that easy!
               </p>
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function Home() {
             <div className="text-3xl mb-2">💬</div>
             <h3 className="font-semibold text-sm mb-1">WhatsApp</h3>
             <p className="text-xs text-gray-500">
-              Download as WebP. Open WhatsApp &gt; Stickers &gt; Add sticker.
+              Download as PNG and import with a sticker pack tool.
             </p>
           </div>
           <div className="bg-white rounded-2xl p-5 shadow-sm text-center">
