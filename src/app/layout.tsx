@@ -23,6 +23,9 @@ export const metadata: Metadata = {
       "Create custom AI stickers for WhatsApp and Telegram. Free, no sign up, no app download.",
     type: "website",
   },
+  other: {
+    "google-adsense-account": "ca-pub-4350668459830736",
+  },
 };
 
 export default function RootLayout({
@@ -45,15 +48,12 @@ export default function RootLayout({
             gtag('config', 'G-83FLS7XP32');
           `}
         </Script>
-        <meta name="google-adsense-account" content="ca-pub-4350668459830736" />
-        {process.env.NEXT_PUBLIC_ADSENSE_ID && (
-          <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_ID}`}
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4350668459830736"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </head>
       <body className="min-h-full flex flex-col bg-gray-50">{children}</body>
     </html>
