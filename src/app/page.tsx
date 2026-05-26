@@ -129,7 +129,7 @@ export default function Home() {
               </h3>
               <p className="text-sm text-gray-500">
                 Choose from 8 styles (Kawaii, Chibi, Pixel Art, etc.) and
-                click Generate. AI creates 4 unique stickers in seconds.
+                click Generate. AI creates 4 unique sticker variations.
               </p>
             </div>
           </div>

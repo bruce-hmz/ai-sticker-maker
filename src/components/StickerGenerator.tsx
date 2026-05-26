@@ -14,6 +14,7 @@ interface GeneratedSticker {
 }
 
 const MAX_STICKERS = 20;
+const STICKERS_PER_BATCH = 4;
 
 function revokeStickerImages(stickers: GeneratedSticker[]) {
   stickers.forEach((sticker) => {
@@ -28,6 +29,7 @@ export default function StickerGenerator() {
   const [selectedStyle, setSelectedStyle] = useState("cute-kawaii");
   const [stickers, setStickers] = useState<GeneratedSticker[]>([]);
   const [generating, setGenerating] = useState(false);
+  const [generationStep, setGenerationStep] = useState(0);
   const [error, setError] = useState("");
   const stickersRef = useRef<GeneratedSticker[]>([]);
 
@@ -38,6 +40,15 @@ export default function StickerGenerator() {
   useEffect(() => {
     return () => revokeStickerImages(stickersRef.current);
   }, []);
+
+  const addGeneratedSticker = (sticker: GeneratedSticker) => {
+    setStickers((prev) => {
+      const next = [sticker, ...prev];
+      const visibleStickers = next.slice(0, MAX_STICKERS);
+      revokeStickerImages(next.slice(MAX_STICKERS));
+      return visibleStickers;
+    });
+  };
 
   const generateStickers = async () => {
     if (!prompt.trim() || generating) return;
@@ -57,50 +68,53 @@ export default function StickerGenerator() {
       }
       const data = await res.json();
       const imgRes = await fetch(data.url, { signal: AbortSignal.timeout(90_000) });
-      if (!imgRes.ok) throw new Error("Image provider error");
+      if (!imgRes.ok) {
+        const providerError = await imgRes.text().catch(() => "");
+        throw new Error(providerError || `Image provider error (${imgRes.status})`);
+      }
       const blob = await imgRes.blob();
       return { url: URL.createObjectURL(blob), seed: data.seed };
     };
 
     setGenerating(true);
+    setGenerationStep(0);
     setError("");
-    const seeds = Array.from({ length: 4 }, () =>
+    const seeds = Array.from({ length: STICKERS_PER_BATCH }, () =>
       Math.floor(Math.random() * 999999),
     );
 
+    const newStickers: GeneratedSticker[] = [];
     try {
-      const results = await Promise.allSettled(seeds.map(fetchSticker));
-
-      const newStickers: GeneratedSticker[] = [];
-      results.forEach((result, i) => {
-        if (result.status === "fulfilled" && result.value.url) {
-          newStickers.push({
-            id: `sticker-${Date.now()}-${i}`,
-            image: result.value.url,
+      for (const [index, seed] of seeds.entries()) {
+        setGenerationStep(index + 1);
+        try {
+          const result = await fetchSticker(seed);
+          const sticker = {
+            id: `sticker-${Date.now()}-${index}`,
+            image: result.url,
             prompt: promptToGenerate,
             style: styleToGenerate,
-            seed: seeds[i],
-          });
+            seed: result.seed,
+          };
+          newStickers.push(sticker);
+          addGeneratedSticker(sticker);
+        } catch {
+          // Pollinations only allows one queued request per IP, so keep trying the remaining seeds serially.
         }
-      });
+      }
 
       if (newStickers.length === 0) {
         setError("Failed to generate stickers. Please try again.");
       } else {
         if (newStickers.length < seeds.length) {
-          setError(`Generated ${newStickers.length} of ${seeds.length} stickers. Some timed out.`);
+          setError(`Generated ${newStickers.length} of ${seeds.length} stickers. Some requests failed.`);
         }
-        setStickers((prev) => {
-          const next = [...newStickers, ...prev];
-          const visibleStickers = next.slice(0, MAX_STICKERS);
-          revokeStickerImages(next.slice(MAX_STICKERS));
-          return visibleStickers;
-        });
       }
     } catch {
       setError("Network error. Please try again.");
     } finally {
       setGenerating(false);
+      setGenerationStep(0);
     }
   };
 
@@ -178,8 +192,8 @@ export default function StickerGenerator() {
           className="w-full bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold py-3.5 rounded-xl text-base active:scale-95 transition-transform disabled:opacity-50"
         >
           {generating
-            ? "Generating stickers (~30s)..."
-            : "Generate 4 Stickers (Free)"}
+            ? `Generating sticker ${generationStep || 1} of ${STICKERS_PER_BATCH}...`
+            : `Generate ${STICKERS_PER_BATCH} Stickers (Free)`}
         </button>
 
         {error && (
