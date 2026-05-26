@@ -1,5 +1,6 @@
 import StickerGenerator from "@/components/StickerGenerator";
-import ScrollToTopButton from "@/components/ScrollToTopButton";
+import StartCreatingButton from "@/components/StartCreatingButton";
+import AdSenseUnit from "@/components/AdSenseUnit";
 import { STICKER_STYLES } from "@/lib/sticker-styles";
 
 const FAQ_ITEMS = [
@@ -223,6 +224,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Ad Unit - After FAQ */}
+      <AdSenseUnit slot={process.env.NEXT_PUBLIC_AD_SLOT_CONTENT ?? ""} />
+
       {/* CTA */}
       <section className="py-12 text-center">
         <h2 className="text-xl font-bold mb-3">
@@ -231,7 +235,7 @@ export default function Home() {
         <p className="text-sm text-gray-500 mb-6">
           Free, no sign up, no app download
         </p>
-        <ScrollToTopButton />
+        <StartCreatingButton />
       </section>
 
       {/* Footer */}

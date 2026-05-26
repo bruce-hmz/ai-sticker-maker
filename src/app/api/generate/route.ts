@@ -7,9 +7,14 @@ const RATE_LIMIT_MAX = 12;
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
-  const entry = rateLimitMap.get(ip);
 
-  if (!entry || now > entry.resetAt) {
+  // Clean up expired entries
+  for (const [key, val] of rateLimitMap) {
+    if (now > val.resetAt) rateLimitMap.delete(key);
+  }
+
+  const entry = rateLimitMap.get(ip);
+  if (!entry) {
     rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
     return false;
   }
@@ -32,30 +37,40 @@ export async function POST(request: NextRequest) {
     body = await request.json();
   } catch {
     return NextResponse.json(
-      { error: "Invalid request body" },
+      { error: "Invalid JSON body" },
       { status: 400 },
     );
   }
 
   if (!body || typeof body !== "object") {
     return NextResponse.json(
-      { error: "Invalid request body" },
+      { error: "Request body must be a JSON object with 'prompt' (string), 'style' (string), 'seed' (number)" },
       { status: 400 },
     );
   }
 
   const { prompt, style, seed } = body as Record<string, unknown>;
-  const promptStr = typeof prompt === "string" ? prompt.trim().slice(0, 500) : "";
-  const rawStyle = typeof style === "string" ? style : "cute-kawaii";
-  const styleStr = STICKER_STYLES.some((s) => s.id === rawStyle) ? rawStyle : "cute-kawaii";
-  const seedNum = typeof seed === "number" ? Math.floor(seed) : Math.floor(Math.random() * 999999);
 
-  if (!promptStr) {
+  if (typeof prompt !== "string" || !prompt.trim()) {
     return NextResponse.json(
-      { error: "Prompt is required" },
+      { error: "'prompt' must be a non-empty string" },
       { status: 400 },
     );
   }
+  const promptStr = prompt.trim().slice(0, 500);
+
+  const styleStr = typeof style === "string" && STICKER_STYLES.some((s) => s.id === style)
+    ? style
+    : undefined;
+  if (!styleStr) {
+    const valid = STICKER_STYLES.map((s) => s.id).join(", ");
+    return NextResponse.json(
+      { error: `'style' must be one of: ${valid}` },
+      { status: 400 },
+    );
+  }
+
+  const seedNum = typeof seed === "number" ? Math.floor(seed) : Math.floor(Math.random() * 999999);
 
   const fullPrompt = buildPrompt(promptStr, styleStr);
   const encodedPrompt = encodeURIComponent(fullPrompt);

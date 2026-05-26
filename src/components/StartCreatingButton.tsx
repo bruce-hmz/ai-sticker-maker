@@ -1,6 +1,6 @@
 "use client";
 
-export default function ScrollToTopButton() {
+export default function StartCreatingButton() {
   return (
     <a
       href="#"

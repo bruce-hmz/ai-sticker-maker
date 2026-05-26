@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { STICKER_STYLES, type StickerStyle } from "@/lib/sticker-styles";
 import ExampleGallery from "./ExampleGallery";
+import AdSenseUnit from "./AdSenseUnit";
 
 interface GeneratedSticker {
   id: string;
@@ -21,7 +22,24 @@ export default function StickerGenerator() {
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
 
-  const handleGenerate = useCallback(async () => {
+  const fetchSticker = async (seed: number): Promise<{ url: string; seed: number }> => {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, style: selectedStyle, seed }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => null);
+      throw new Error(body?.error || `API error (${res.status})`);
+    }
+    const data = await res.json();
+    const imgRes = await fetch(data.url, { signal: AbortSignal.timeout(90_000) });
+    if (!imgRes.ok) throw new Error("Image provider error");
+    const blob = await imgRes.blob();
+    return { url: URL.createObjectURL(blob), seed: data.seed };
+  };
+
+  const generateStickers = useCallback(async () => {
     if (!prompt.trim() || generating) return;
 
     setGenerating(true);
@@ -31,22 +49,7 @@ export default function StickerGenerator() {
     );
 
     try {
-      const results = await Promise.allSettled(
-        seeds.map((seed) =>
-          fetch("/api/generate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt, style: selectedStyle, seed }),
-          }).then(async (res) => {
-            if (!res.ok) throw new Error("Generation failed");
-            const data = await res.json();
-            const imgRes = await fetch(data.url, { signal: AbortSignal.timeout(90_000) });
-            if (!imgRes.ok) throw new Error("Image fetch failed");
-            const blob = await imgRes.blob();
-            return { url: URL.createObjectURL(blob), seed: data.seed };
-          }),
-        ),
-      );
+      const results = await Promise.allSettled(seeds.map(fetchSticker));
 
       const newStickers: GeneratedSticker[] = [];
       results.forEach((result, i) => {
@@ -64,6 +67,9 @@ export default function StickerGenerator() {
       if (newStickers.length === 0) {
         setError("Failed to generate stickers. Please try again.");
       } else {
+        if (newStickers.length < seeds.length) {
+          setError(`Generated ${newStickers.length} of ${seeds.length} stickers. Some timed out.`);
+        }
         setStickers((prev) => {
           const next = [...newStickers, ...prev];
           return next.length > MAX_STICKERS ? next.slice(0, MAX_STICKERS) : next;
@@ -79,6 +85,7 @@ export default function StickerGenerator() {
   const downloadSticker = async (sticker: GeneratedSticker) => {
     try {
       const res = await fetch(sticker.image);
+      if (!res.ok) throw new Error(`Download failed (${res.status})`);
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -86,12 +93,14 @@ export default function StickerGenerator() {
       a.download = `sticker-${sticker.seed}.png`;
       a.click();
       URL.revokeObjectURL(url);
-    } catch { /* ignore */ }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Download failed");
+    }
   };
 
   const clearStickers = () => setStickers([]);
 
-  const useExample = (prompt: string, style: string) => {
+  const applyExample = (prompt: string, style: string) => {
     setPrompt(prompt);
     setSelectedStyle(style);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -137,7 +146,7 @@ export default function StickerGenerator() {
 
         {/* Generate Button */}
         <button
-          onClick={handleGenerate}
+          onClick={generateStickers}
           disabled={!prompt.trim() || generating}
           className="w-full bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold py-3.5 rounded-xl text-base active:scale-95 transition-transform disabled:opacity-50"
         >
@@ -172,10 +181,8 @@ export default function StickerGenerator() {
             </div>
           </div>
 
-          {/* Ad placeholder */}
-          <div className="bg-gray-50 rounded-xl p-3 mb-4 text-center text-xs text-gray-300 border border-dashed border-gray-200">
-            Advertisement
-          </div>
+          {/* Ad Unit - After sticker results */}
+          <AdSenseUnit slot={process.env.NEXT_PUBLIC_AD_SLOT_RESULTS ?? ""} />
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {stickers.map((sticker) => (
@@ -209,7 +216,7 @@ export default function StickerGenerator() {
       )}
 
       {/* Example Gallery */}
-      <ExampleGallery onUsePrompt={useExample} />
+      <ExampleGallery onUsePrompt={applyExample} />
     </div>
   );
 }
