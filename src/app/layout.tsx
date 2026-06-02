@@ -22,6 +22,23 @@ export const metadata: Metadata = {
     description:
       "Create custom AI stickers for WhatsApp and Telegram. Free, no sign up, no app download.",
     type: "website",
+    url: "https://stickersit.com",
+    siteName: "StickerAI",
+    images: [
+      {
+        url: "/thumbnail.png",
+        width: 1200,
+        height: 630,
+        alt: "StickerAI - Free AI WhatsApp Sticker Maker",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Free AI WhatsApp Sticker Maker Online - No App Needed",
+    description:
+      "Create custom AI stickers for WhatsApp and Telegram. Free, no sign up, no app download.",
+    images: ["/thumbnail.png"],
   },
   alternates: {
     canonical: "https://stickersit.com",
@@ -39,6 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <head>
+        <link rel="preconnect" href="https://image.pollinations.ai" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-83FLS7XP32"
           strategy="afterInteractive"

@@ -66,12 +66,33 @@ export default function Home() {
     })),
   };
 
+  const webAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "StickerAI",
+    url: "https://stickersit.com",
+    description:
+      "Free AI-powered sticker maker for WhatsApp, Telegram, and iMessage. Create custom stickers online without downloading an app.",
+    applicationCategory: "MultimediaApplication",
+    operatingSystem: "Any",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    browserRequirements: "Requires JavaScript. Requires HTML5.",
+  };
+
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
       {/* JSON-LD FAQ Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
       />
 
       {/* Hero */}
