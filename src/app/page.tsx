@@ -1,4 +1,5 @@
 import StickerGenerator from "@/components/StickerGenerator";
+import Link from "next/link";
 import StartCreatingButton from "@/components/StartCreatingButton";
 import AdSenseUnit from "@/components/AdSenseUnit";
 import { STICKER_STYLES } from "@/lib/sticker-styles";
@@ -115,6 +116,21 @@ export default function Home() {
 
       {/* Interactive Tool */}
       <StickerGenerator />
+
+      {/* World Cup 2026 Banner */}
+      <Link href="/world-cup" className="block mb-6">
+        <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow text-white text-center">
+          <p className="text-xs tracking-widest mb-1 font-semibold uppercase opacity-80">
+            ⚽ Limited Time
+          </p>
+          <p className="text-lg font-bold mb-1">
+            World Cup 2026 Sticker Maker
+          </p>
+          <p className="text-sm opacity-90">
+            Create custom FIFA World Cup stickers for free →
+          </p>
+        </div>
+      </Link>
 
       {/* How To Section */}
       <section className="py-12">

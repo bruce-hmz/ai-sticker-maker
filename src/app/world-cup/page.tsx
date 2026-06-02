@@ -138,7 +138,7 @@ export default function WorldCupPage() {
       </section>
 
       {/* Generator */}
-      <StickerGenerator />
+      <StickerGenerator promptSuffix="World Cup 2026 FIFA football soccer theme" />
 
       {/* How It Works */}
       <section className="py-12">

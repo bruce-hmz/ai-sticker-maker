@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { STICKER_STYLES, type StickerStyle } from "@/lib/sticker-styles";
 import ExampleGallery from "./ExampleGallery";
+import WorldCupPrompts from "./WorldCupPrompts";
 import AdSenseUnit from "./AdSenseUnit";
 
 interface GeneratedSticker {
@@ -24,7 +25,7 @@ function revokeStickerImages(stickers: GeneratedSticker[]) {
   });
 }
 
-export default function StickerGenerator() {
+export default function StickerGenerator({ promptSuffix }: { promptSuffix?: string } = {}) {
   const [prompt, setPrompt] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("cute-kawaii");
   const [stickers, setStickers] = useState<GeneratedSticker[]>([]);
@@ -53,7 +54,7 @@ export default function StickerGenerator() {
   const generateStickers = async () => {
     if (!prompt.trim() || generating) return;
 
-    const promptToGenerate = prompt;
+    const promptToGenerate = promptSuffix ? `${prompt}, ${promptSuffix}` : prompt;
     const styleToGenerate = selectedStyle;
 
     setGenerating(true);
@@ -253,6 +254,9 @@ export default function StickerGenerator() {
           </p>
         </div>
       )}
+
+      {/* World Cup 2026 Quick Prompts */}
+      <WorldCupPrompts onUsePrompt={applyExample} />
 
       {/* Example Gallery */}
       <ExampleGallery onUsePrompt={applyExample} />
