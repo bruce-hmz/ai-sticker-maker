@@ -16,6 +16,8 @@ interface GeneratedSticker {
 
 const MAX_STICKERS = 20;
 const STICKERS_PER_BATCH = 1;
+const POLLINATIONS_RETRY_DELAY_MS = 5_000;
+const POLLINATIONS_MAX_RETRIES = 2;
 
 function revokeStickerImages(stickers: GeneratedSticker[]) {
   stickers.forEach((sticker) => {
@@ -23,6 +25,23 @@ function revokeStickerImages(stickers: GeneratedSticker[]) {
       URL.revokeObjectURL(sticker.image);
     }
   });
+}
+
+async function fetchStickerWithRetry(url: string): Promise<Blob> {
+  for (let attempt = 0; attempt <= POLLINATIONS_MAX_RETRIES; attempt++) {
+    const imgRes = await fetch(url, { signal: AbortSignal.timeout(90_000) });
+    if (imgRes.ok) {
+      return await imgRes.blob();
+    }
+    // 402 = Pollinations queue full — wait and retry
+    if (imgRes.status === 402 && attempt < POLLINATIONS_MAX_RETRIES) {
+      await new Promise((r) => setTimeout(r, POLLINATIONS_RETRY_DELAY_MS));
+      continue;
+    }
+    const providerError = await imgRes.text().catch(() => "");
+    throw new Error(providerError || `Image provider error (${imgRes.status})`);
+  }
+  throw new Error("Image provider busy after retries");
 }
 
 export default function StickerGenerator({ promptSuffix }: { promptSuffix?: string } = {}) {
@@ -85,12 +104,7 @@ export default function StickerGenerator({ promptSuffix }: { promptSuffix?: stri
       for (const [index, { url, seed }] of targets.entries()) {
         setGenerationStep(index + 1);
         try {
-          const imgRes = await fetch(url, { signal: AbortSignal.timeout(90_000) });
-          if (!imgRes.ok) {
-            const providerError = await imgRes.text().catch(() => "");
-            throw new Error(providerError || `Image provider error (${imgRes.status})`);
-          }
-          const blob = await imgRes.blob();
+          const blob = await fetchStickerWithRetry(url);
           const sticker = {
             id: `sticker-${Date.now()}-${index}`,
             image: URL.createObjectURL(blob),
@@ -101,14 +115,14 @@ export default function StickerGenerator({ promptSuffix }: { promptSuffix?: stri
           newStickers.push(sticker);
           addGeneratedSticker(sticker);
         } catch {
-          // Pollinations only allows one queued request per IP — skip failed, continue with rest
+          // Pollinations rate limit or timeout — skip, continue with rest
         }
       }
 
       if (newStickers.length === 0) {
-        setError("Failed to generate stickers. Please try again.");
+        setError("Image provider is busy. Please wait a moment and try again.");
       } else if (newStickers.length < targets.length) {
-        setError(`Generated ${newStickers.length} of ${targets.length} stickers. Some requests failed.`);
+        setError(`Generated ${newStickers.length} of ${targets.length} stickers. Some requests were rate-limited.`);
       }
     } catch {
       setError("Network error. Please try again.");
