@@ -127,6 +127,15 @@ export default function TermsPage() {
           <Link href="/" className="text-violet-400 hover:text-violet-600">
             &larr; Back to StickerAI Home
           </Link>
+          <span className="mx-2">·</span>
+          <a
+            href="https://x.com/YangDada3983"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-violet-500 transition-colors"
+          >
+            𝕏 @YangDada3983
+          </a>
         </p>
       </footer>
     </main>

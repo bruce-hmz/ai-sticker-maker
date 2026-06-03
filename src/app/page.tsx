@@ -63,6 +63,7 @@ export default function Home() {
     logo: "https://stickersit.com/thumbnail.png",
     description:
       "Free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord.",
+    sameAs: ["https://x.com/YangDada3983"],
   };
 
   const websiteSchema = {
@@ -346,7 +347,17 @@ export default function Home() {
       {/* Footer */}
       <footer className="text-center py-10 text-xs text-gray-300 border-t border-gray-100 mt-8">
         <p className="text-sm font-semibold text-gray-400 mb-1">StickerAI</p>
-        <p>Free AI Sticker Maker for WhatsApp, Telegram &amp; More</p>
+        <p className="mb-2">Free AI Sticker Maker for WhatsApp, Telegram &amp; More</p>
+        <div className="flex justify-center gap-4 mt-2">
+          <a
+            href="https://x.com/YangDada3983"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-violet-500 transition-colors"
+          >
+            𝕏 @YangDada3983
+          </a>
+        </div>
       </footer>
     </main>
   );
