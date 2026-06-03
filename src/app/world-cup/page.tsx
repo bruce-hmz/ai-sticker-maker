@@ -49,27 +49,38 @@ export const metadata: Metadata = {
 const WORLD_CUP_FAQ = [
   {
     q: "How to make World Cup stickers for WhatsApp?",
-    a: "Just type your World Cup sticker idea (e.g. 'a cute football with Brazil flag colors'), pick a style like Kawaii or Chibi, and click Generate. Download the PNG and add it to WhatsApp with any sticker pack app.",
+    a: "Just visit stickersit.com/world-cup, type your World Cup sticker idea (e.g. 'a cute football with Brazil flag colors'), pick a style like Kawaii or Chibi, and click Generate. The AI creates your sticker in about 30 seconds. Download the PNG file, then add it to WhatsApp using any sticker pack app like Sticker Maker or WhatsApp's built-in sticker tool. No app download or sign-up needed — it works right in your mobile browser.",
   },
   {
     q: "Are these World Cup stickers free?",
-    a: "Yes, completely free. No sign up, no app download, no hidden fees. Generate unlimited World Cup 2026 stickers for your chats.",
+    a: "Yes, StickerAI at stickersit.com is completely free. No sign-up, no app download, no hidden fees, and no watermarks on your stickers. You can generate unlimited World Cup 2026 stickers for all your chats on WhatsApp, Telegram, iMessage, and Discord. The tool is supported by ads, so there are no costs passed on to users.",
   },
   {
     q: "Can I make stickers for my favorite World Cup team?",
-    a: "Absolutely! Describe your team's colors, flag, or mascot in the prompt. For example: 'a chibi football player wearing Argentina jersey celebrating a goal'.",
+    a: "Absolutely! Describe your team's colors, flag, or mascot in the prompt. For example: 'a chibi football player wearing Argentina jersey celebrating a goal' or 'a cute kawaii football with Japan flag colors and a rising sun'. You can include team jerseys, national flags, player celebrations, mascots, or stadium scenes. The more specific you are about the team and the action, the better the sticker will turn out.",
   },
   {
     q: "What sticker styles work best for World Cup themes?",
-    a: "Chibi and Cartoon styles are great for fun player stickers. 3D Rendered works well for trophies and footballs. Pixel Art gives a retro gaming vibe perfect for match-day excitement.",
+    a: "Chibi and Cartoon styles are great for fun player stickers and fan celebrations. 3D Rendered works well for trophies, golden footballs, and medals. Pixel Art gives a retro gaming vibe perfect for match-day excitement. Cute Kawaii is perfect for adorable footballs and mascot-style stickers. Hand-drawn adds an authentic sketch feel. Try the same prompt across multiple styles to find your favorite look for each sticker in your World Cup pack.",
   },
   {
     q: "Can I share World Cup stickers on Telegram and Discord?",
-    a: "Yes! Download as PNG and they work with Telegram (@Stickers bot), Discord (server upload), iMessage, and any platform that supports custom stickers.",
+    a: "Yes! Download your stickers from stickersit.com as PNG files and they work with all major platforms. For Telegram, use the @Stickers bot to create a sticker pack. For Discord, upload your PNG stickers to your server (320x320 recommended). For iMessage, import them using Sticker Maker Studio. The universal PNG format ensures your World Cup stickers work everywhere you chat.",
   },
 ];
 
 export default function WorldCupPage() {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://stickersit.com/#organization",
+    name: "StickerAI",
+    url: "https://stickersit.com",
+    logo: "https://stickersit.com/thumbnail.png",
+    description:
+      "Free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord.",
+  };
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -99,8 +110,30 @@ export default function WorldCupPage() {
     ],
   };
 
+  const sportsEventSchema = {
+    "@context": "https://schema.org",
+    "@type": "SportsEvent",
+    name: "FIFA World Cup 2026",
+    startDate: "2026-06-11",
+    endDate: "2026-07-19",
+    location: {
+      "@type": "Place",
+      name: "United States, Canada, Mexico",
+    },
+    organizer: {
+      "@type": "Organization",
+      name: "FIFA",
+    },
+  };
+
   return (
     <main id="top" className="max-w-2xl mx-auto px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationSchema),
+        }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -108,6 +141,12 @@ export default function WorldCupPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(sportsEventSchema),
+        }}
       />
 
       {/* Breadcrumb */}

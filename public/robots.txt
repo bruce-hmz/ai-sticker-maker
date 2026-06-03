@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
 
+# AI search crawlers — explicitly allowed for search/retrieval
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
 Sitemap: https://stickersit.com/sitemap.xml
