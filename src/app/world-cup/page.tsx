@@ -341,14 +341,15 @@ export default function WorldCupPage() {
       {/* Footer */}
       <footer className="text-center py-10 text-xs text-gray-300 border-t border-gray-100 mt-8">
         <p className="text-sm font-semibold text-gray-400 mb-1">StickerAI</p>
-        <p>
+        <p className="mb-3">
           Free World Cup 2026 Sticker Maker for WhatsApp, Telegram &amp; More
         </p>
-        <p className="mt-2">
-          <Link href="/" className="text-violet-400 hover:text-violet-600">
-            ← Back to StickerAI Home
-          </Link>
-          <span className="mx-2">·</span>
+        <div className="flex flex-wrap justify-center gap-4 mt-2">
+          <Link href="/" className="text-gray-400 hover:text-violet-500 transition-colors">Home</Link>
+          <Link href="/about" className="text-gray-400 hover:text-violet-500 transition-colors">About</Link>
+          <Link href="/contact" className="text-gray-400 hover:text-violet-500 transition-colors">Contact</Link>
+          <Link href="/privacy" className="text-gray-400 hover:text-violet-500 transition-colors">Privacy Policy</Link>
+          <Link href="/terms" className="text-gray-400 hover:text-violet-500 transition-colors">Terms</Link>
           <a
             href="https://x.com/YangDada3983"
             target="_blank"
@@ -357,7 +358,7 @@ export default function WorldCupPage() {
           >
             𝕏 @YangDada3983
           </a>
-        </p>
+        </div>
       </footer>
     </main>
   );
