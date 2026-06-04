@@ -11,12 +11,14 @@ declare global {
 export default function AdSenseUnit({ slot }: { slot: string }) {
   useEffect(() => {
     try {
+      const ins = document.querySelector(`ins[data-ad-slot="${slot}"]`);
+      if (ins && ins.getAttribute("data-adsbygoogle-status")) return;
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.push({});
     } catch {
       /* AdSense not loaded */
     }
-  }, []);
+  }, [slot]);
 
   const clientId = process.env.NEXT_PUBLIC_ADSENSE_ID;
   if (!clientId || !slot) return null;

@@ -7,35 +7,39 @@ const RATE_LIMIT_WINDOW = 60_000;
 const RATE_LIMIT_WINDOW_SECONDS = RATE_LIMIT_WINDOW / 1000;
 const RATE_LIMIT_MAX = 12;
 
-function isLocallyRateLimited(ip: string): boolean {
+function isLocallyRateLimited(ip: string, count = 1): boolean {
   const now = Date.now();
 
-  // Clean up expired entries
   for (const [key, val] of rateLimitMap) {
     if (now > val.resetAt) rateLimitMap.delete(key);
   }
 
   const entry = rateLimitMap.get(ip);
   if (!entry) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
-    return false;
+    rateLimitMap.set(ip, { count, resetAt: now + RATE_LIMIT_WINDOW });
+    return count > RATE_LIMIT_MAX;
   }
 
-  entry.count++;
+  entry.count += count;
   return entry.count > RATE_LIMIT_MAX;
 }
 
-async function isSharedRateLimited(ip: string): Promise<boolean> {
+async function isSharedRateLimited(ip: string, count = 1): Promise<boolean> {
   const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
   const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 
   if (!redisUrl || !redisToken) {
-    return isLocallyRateLimited(ip);
+    return isLocallyRateLimited(ip, count);
   }
 
   const ipHash = createHash("sha256").update(ip).digest("hex").slice(0, 24);
   const windowId = Math.floor(Date.now() / RATE_LIMIT_WINDOW);
   const key = `generate:${windowId}:${ipHash}`;
+
+  const pipeline: [string, ...unknown[]][] = [
+    ["INCRBY", key, count],
+    ["EXPIRE", key, RATE_LIMIT_WINDOW_SECONDS * 2],
+  ];
 
   const response = await fetch(`${redisUrl}/pipeline`, {
     method: "POST",
@@ -43,10 +47,7 @@ async function isSharedRateLimited(ip: string): Promise<boolean> {
       Authorization: `Bearer ${redisToken}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify([
-      ["INCR", key],
-      ["EXPIRE", key, RATE_LIMIT_WINDOW_SECONDS * 2],
-    ]),
+    body: JSON.stringify(pipeline),
   });
 
   if (!response.ok) {
@@ -54,12 +55,12 @@ async function isSharedRateLimited(ip: string): Promise<boolean> {
   }
 
   const result = await response.json();
-  const count = Array.isArray(result) ? result[0]?.result : undefined;
-  if (typeof count !== "number") {
+  const totalCount = Array.isArray(result) ? result[0]?.result : undefined;
+  if (typeof totalCount !== "number") {
     throw new Error("Rate limit store returned an invalid response");
   }
 
-  return count > RATE_LIMIT_MAX;
+  return totalCount > RATE_LIMIT_MAX;
 }
 
 function getClientIp(request: NextRequest): string {
@@ -72,9 +73,33 @@ function getClientIp(request: NextRequest): string {
 
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request);
+
+  let body: unknown;
   try {
-    if (!(await isSharedRateLimited(ip))) {
-      return handleGenerationRequest(request);
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid JSON body" },
+      { status: 400 },
+    );
+  }
+
+  if (!body || typeof body !== "object") {
+    return NextResponse.json(
+      { error: "Request body must be a JSON object with 'prompt' (string), 'style' (string)" },
+      { status: 400 },
+    );
+  }
+
+  const { prompt, style, count } = body as Record<string, unknown>;
+
+  const batchCount = typeof count === "number"
+    ? Math.min(Math.max(1, Math.floor(count)), 4)
+    : 1;
+
+  try {
+    if (!(await isSharedRateLimited(ip, batchCount))) {
+      return handleGenerationRequest(prompt, style, batchCount);
     }
   } catch {
     return NextResponse.json(
@@ -89,26 +114,7 @@ export async function POST(request: NextRequest) {
   );
 }
 
-async function handleGenerationRequest(request: NextRequest) {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json(
-      { error: "Invalid JSON body" },
-      { status: 400 },
-    );
-  }
-
-  if (!body || typeof body !== "object") {
-    return NextResponse.json(
-      { error: "Request body must be a JSON object with 'prompt' (string), 'style' (string), 'seed' (number)" },
-      { status: 400 },
-    );
-  }
-
-  const { prompt, style, seed } = body as Record<string, unknown>;
-
+function handleGenerationRequest(prompt: unknown, style: unknown, count: number) {
   if (typeof prompt !== "string" || !prompt.trim()) {
     return NextResponse.json(
       { error: "'prompt' must be a non-empty string" },
@@ -128,18 +134,17 @@ async function handleGenerationRequest(request: NextRequest) {
     );
   }
 
-  if (typeof seed !== "undefined" && (typeof seed !== "number" || !Number.isFinite(seed))) {
-    return NextResponse.json(
-      { error: "'seed' must be a finite number when provided" },
-      { status: 400 },
-    );
-  }
-
-  const seedNum = typeof seed === "number" ? Math.floor(seed) : Math.floor(Math.random() * 999999);
-
   const fullPrompt = buildPrompt(promptStr, styleStr);
   const encodedPrompt = encodeURIComponent(fullPrompt);
-  const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${seedNum}`;
 
-  return NextResponse.json({ url, seed: seedNum });
+  const results = Array.from({ length: count }, () => {
+    const seed = Math.floor(Math.random() * 999999);
+    const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=384&height=384&nologo=true&seed=${seed}`;
+    return { url, seed };
+  });
+
+  if (count === 1) {
+    return NextResponse.json(results[0]);
+  }
+  return NextResponse.json({ results });
 }

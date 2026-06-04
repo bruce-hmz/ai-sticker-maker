@@ -57,6 +57,9 @@ export default function RootLayout({
     <html lang="en" className="h-full antialiased">
       <head>
         <link rel="preconnect" href="https://image.pollinations.ai" />
+      </head>
+      <body className="min-h-full flex flex-col bg-gray-50">
+        {children}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-83FLS7XP32"
           strategy="afterInteractive"
@@ -75,8 +78,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
-      </head>
-      <body className="min-h-full flex flex-col bg-gray-50">{children}</body>
+      </body>
     </html>
   );
 }
