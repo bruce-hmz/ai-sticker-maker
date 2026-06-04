@@ -28,10 +28,10 @@ export default function ContactPage() {
             For general inquiries, support, or partnership requests:
           </p>
           <a
-            href="mailto:hello@stickersit.com"
+            href="mailto:yang2big@gmail.com"
             className="inline-block mt-2 text-violet-600 hover:underline font-medium"
           >
-            hello@stickersit.com
+            yang2big@gmail.com
           </a>
         </section>
 

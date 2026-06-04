@@ -67,7 +67,7 @@ export default function AboutPage() {
           <p>
             Questions, feedback, or partnership inquiries? Reach us at{" "}
             <a href="mailto:hello@stickersit.com" className="text-violet-600 hover:underline">
-              hello@stickersit.com
+              yang2big@gmail.com
             </a>
             {" "}or on{" "}
             <a
