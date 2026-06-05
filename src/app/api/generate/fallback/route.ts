@@ -88,6 +88,7 @@ async function isSharedRateLimited(ip: string): Promise<boolean> {
 export async function POST(request: NextRequest) {
   const apiKey = process.env.SENSENOVA_API_KEY;
   if (!apiKey) {
+    console.error("[fallback] SENSENOVA_API_KEY is missing");
     return NextResponse.json(
       { error: "Fallback service unavailable" },
       { status: 503 },
@@ -103,7 +104,8 @@ export async function POST(request: NextRequest) {
         { status: 429 },
       );
     }
-  } catch {
+  } catch (err) {
+    console.error("[fallback] Rate limit check failed:", err);
     return NextResponse.json(
       { error: "Rate limit check failed. Please try again later." },
       { status: 503 },
