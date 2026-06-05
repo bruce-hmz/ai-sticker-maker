@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
+import sharp from "sharp";
 import { buildPrompt, STICKER_STYLES } from "@/lib/sticker-styles";
 
 // SenseNova image generation takes ~25-30s
@@ -178,7 +179,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Fetch image from SenseNova CDN and proxy to client
+    // Fetch image from SenseNova CDN, resize to 512x512 for stickers
     const imageResponse = await fetch(imageUrl, {
       signal: AbortSignal.timeout(30_000),
     });
@@ -189,10 +190,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
-    return new NextResponse(imageBuffer, {
+    const rawBuffer = Buffer.from(await imageResponse.arrayBuffer());
+    const resizedBuffer = await sharp(rawBuffer)
+      .resize(512, 512, { fit: "inside" })
+      .png({ quality: 90 })
+      .toBuffer();
+
+    return new NextResponse(new Uint8Array(resizedBuffer), {
       headers: {
-        "Content-Type": imageResponse.headers.get("Content-Type") || "image/png",
+        "Content-Type": "image/png",
         "X-Sticker-Seed": String(Date.now()),
       },
     });
