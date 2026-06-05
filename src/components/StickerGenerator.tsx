@@ -15,9 +15,6 @@ interface GeneratedSticker {
 }
 
 const MAX_STICKERS = 20;
-const STICKERS_PER_BATCH = 1;
-const POLLINATIONS_RETRY_DELAY_MS = 5_000;
-const POLLINATIONS_MAX_RETRIES = 2;
 
 function revokeStickerImages(stickers: GeneratedSticker[]) {
   stickers.forEach((sticker) => {
@@ -27,54 +24,11 @@ function revokeStickerImages(stickers: GeneratedSticker[]) {
   });
 }
 
-async function fetchStickerWithRetry(url: string): Promise<Blob> {
-  for (let attempt = 0; attempt <= POLLINATIONS_MAX_RETRIES; attempt++) {
-    const imgRes = await fetch(url, { signal: AbortSignal.timeout(90_000) });
-    if (imgRes.ok) {
-      return await imgRes.blob();
-    }
-    // 402 = Pollinations queue full — wait and retry
-    if (imgRes.status === 402 && attempt < POLLINATIONS_MAX_RETRIES) {
-      await new Promise((r) => setTimeout(r, POLLINATIONS_RETRY_DELAY_MS));
-      continue;
-    }
-    const providerError = await imgRes.text().catch(() => "");
-    throw new Error(providerError || `Image provider error (${imgRes.status})`);
-  }
-  throw new Error("Image provider busy after retries");
-}
-
-async function fetchFallbackSticker(
-  prompt: string,
-  style: string,
-): Promise<Blob> {
-  const res = await fetch("/api/generate/fallback", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt, style }),
-    signal: AbortSignal.timeout(90_000),
-  });
-
-  if (!res.ok) {
-    const body = await res.json().catch(() => null);
-    throw new Error(body?.error || `Fallback failed (${res.status})`);
-  }
-
-  // Server returns { url } — fetch image from SenseNova CDN directly
-  const { url } = await res.json();
-  if (!url) throw new Error("No image URL in fallback response");
-
-  const imgRes = await fetch(url, { signal: AbortSignal.timeout(60_000) });
-  if (!imgRes.ok) throw new Error(`Fallback image fetch failed (${imgRes.status})`);
-  return await imgRes.blob();
-}
-
 export default function StickerGenerator({ promptSuffix }: { promptSuffix?: string } = {}) {
   const [prompt, setPrompt] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("cute-kawaii");
   const [stickers, setStickers] = useState<GeneratedSticker[]>([]);
   const [generating, setGenerating] = useState(false);
-  const [generationStep, setGenerationStep] = useState(0);
   const [error, setError] = useState("");
   const stickersRef = useRef<GeneratedSticker[]>([]);
 
@@ -102,75 +56,43 @@ export default function StickerGenerator({ promptSuffix }: { promptSuffix?: stri
     const styleToGenerate = selectedStyle;
 
     setGenerating(true);
-    setGenerationStep(0);
     setError("");
 
-    let targets: { url: string; seed: number }[] = [];
     try {
+      // Step 1: Call API to generate image (returns URL)
       const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: promptToGenerate, style: styleToGenerate, count: STICKERS_PER_BATCH }),
+        body: JSON.stringify({ prompt: promptToGenerate, style: styleToGenerate }),
+        signal: AbortSignal.timeout(90_000),
       });
+
       if (!res.ok) {
         const body = await res.json().catch(() => null);
         throw new Error(body?.error || `API error (${res.status})`);
       }
-      const data = await res.json();
-      targets = data.results ?? [data];
+
+      const { url, seed } = await res.json();
+
+      // Step 2: Fetch the image from CDN
+      const imgRes = await fetch(url, { signal: AbortSignal.timeout(60_000) });
+      if (!imgRes.ok) {
+        throw new Error("Failed to download generated image");
+      }
+
+      const blob = await imgRes.blob();
+      const sticker: GeneratedSticker = {
+        id: `sticker-${Date.now()}`,
+        image: URL.createObjectURL(blob),
+        prompt: promptToGenerate,
+        style: styleToGenerate,
+        seed,
+      };
+      addGeneratedSticker(sticker);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Network error. Please try again.");
-      setGenerating(false);
-      return;
-    }
-
-    const newStickers: GeneratedSticker[] = [];
-    try {
-      for (const [index, { url, seed }] of targets.entries()) {
-        setGenerationStep(index + 1);
-        try {
-          const blob = await fetchStickerWithRetry(url);
-          const sticker = {
-            id: `sticker-${Date.now()}-${index}`,
-            image: URL.createObjectURL(blob),
-            prompt: promptToGenerate,
-            style: styleToGenerate,
-            seed,
-          };
-          newStickers.push(sticker);
-          addGeneratedSticker(sticker);
-        } catch {
-          // Pollinations failed — try SenseNova fallback
-          try {
-            const fallbackBlob = await fetchFallbackSticker(
-              promptToGenerate,
-              styleToGenerate,
-            );
-            const sticker = {
-              id: `sticker-fallback-${Date.now()}-${index}`,
-              image: URL.createObjectURL(fallbackBlob),
-              prompt: promptToGenerate,
-              style: styleToGenerate,
-              seed: 0,
-            };
-            newStickers.push(sticker);
-            addGeneratedSticker(sticker);
-          } catch {
-            // Both providers failed — skip
-          }
-        }
-      }
-
-      if (newStickers.length === 0) {
-        setError("Image provider is busy. Please wait a moment and try again.");
-      } else if (newStickers.length < targets.length) {
-        setError(`Generated ${newStickers.length} of ${targets.length} stickers. Some requests were rate-limited.`);
-      }
-    } catch {
-      setError("Network error. Please try again.");
+      setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
     } finally {
       setGenerating(false);
-      setGenerationStep(0);
     }
   };
 

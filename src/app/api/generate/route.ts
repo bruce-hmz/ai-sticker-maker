@@ -2,10 +2,26 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
 import { buildPrompt, STICKER_STYLES } from "@/lib/sticker-styles";
 
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+// SenseNova image generation takes ~25-30s
+export const maxDuration = 60;
+
+const SENSENOVA_API_URL = "https://token.sensenova.cn/v1/images/generations";
+const SENSENOVA_MODEL = "sensenova-u1-fast";
+const SENSENOVA_IMAGE_SIZE = "2048x2048";
+
 const RATE_LIMIT_WINDOW = 60_000;
 const RATE_LIMIT_WINDOW_SECONDS = RATE_LIMIT_WINDOW / 1000;
 const RATE_LIMIT_MAX = 12;
+
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function getClientIp(request: NextRequest): string {
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip")?.trim() ||
+    "unknown"
+  );
+}
 
 function isLocallyRateLimited(ip: string, count = 1): boolean {
   const now = Date.now();
@@ -63,15 +79,15 @@ async function isSharedRateLimited(ip: string, count = 1): Promise<boolean> {
   return totalCount > RATE_LIMIT_MAX;
 }
 
-function getClientIp(request: NextRequest): string {
-  return (
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    request.headers.get("x-real-ip")?.trim() ||
-    "unknown"
-  );
-}
-
 export async function POST(request: NextRequest) {
+  const apiKey = process.env.SENSENOVA_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json(
+      { error: "Service unavailable. Please try again later." },
+      { status: 503 },
+    );
+  }
+
   const ip = getClientIp(request);
 
   let body: unknown;
@@ -91,30 +107,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { prompt, style, count } = body as Record<string, unknown>;
+  const { prompt, style } = body as Record<string, unknown>;
 
-  const batchCount = typeof count === "number"
-    ? Math.min(Math.max(1, Math.floor(count)), 4)
-    : 1;
-
-  try {
-    if (!(await isSharedRateLimited(ip, batchCount))) {
-      return handleGenerationRequest(prompt, style, batchCount);
-    }
-  } catch {
-    return NextResponse.json(
-      { error: "Rate limit check failed. Please try again later." },
-      { status: 503 },
-    );
-  }
-
-  return NextResponse.json(
-    { error: "Too many requests. Please wait a moment." },
-    { status: 429 },
-  );
-}
-
-function handleGenerationRequest(prompt: unknown, style: unknown, count: number) {
   if (typeof prompt !== "string" || !prompt.trim()) {
     return NextResponse.json(
       { error: "'prompt' must be a non-empty string" },
@@ -134,17 +128,61 @@ function handleGenerationRequest(prompt: unknown, style: unknown, count: number)
     );
   }
 
-  const fullPrompt = buildPrompt(promptStr, styleStr);
-  const encodedPrompt = encodeURIComponent(fullPrompt);
-
-  const results = Array.from({ length: count }, () => {
-    const seed = Math.floor(Math.random() * 999999);
-    const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=384&height=384&nologo=true&seed=${seed}`;
-    return { url, seed };
-  });
-
-  if (count === 1) {
-    return NextResponse.json(results[0]);
+  try {
+    if (await isSharedRateLimited(ip)) {
+      return NextResponse.json(
+        { error: "Too many requests. Please wait a moment." },
+        { status: 429 },
+      );
+    }
+  } catch {
+    return NextResponse.json(
+      { error: "Rate limit check failed. Please try again later." },
+      { status: 503 },
+    );
   }
-  return NextResponse.json({ results });
+
+  const fullPrompt = buildPrompt(promptStr, styleStr);
+
+  try {
+    const apiResponse = await fetch(SENSENOVA_API_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: SENSENOVA_MODEL,
+        prompt: fullPrompt,
+        size: SENSENOVA_IMAGE_SIZE,
+        n: 1,
+      }),
+      signal: AbortSignal.timeout(60_000),
+    });
+
+    if (!apiResponse.ok) {
+      const errorText = await apiResponse.text().catch(() => "Unknown error");
+      return NextResponse.json(
+        { error: `Image generation failed. Please try again.` },
+        { status: 502 },
+      );
+    }
+
+    const data = await apiResponse.json();
+    const imageUrl: string | undefined = data?.data?.[0]?.url;
+
+    if (!imageUrl) {
+      return NextResponse.json(
+        { error: "Image generation returned no image. Please try again." },
+        { status: 502 },
+      );
+    }
+
+    return NextResponse.json({ url: imageUrl, seed: Date.now() });
+  } catch {
+    return NextResponse.json(
+      { error: "Image generation timed out. Please try again." },
+      { status: 504 },
+    );
+  }
 }

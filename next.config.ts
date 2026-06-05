@@ -3,7 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "image.pollinations.ai" },
       { protocol: "https", hostname: "*.sensecoreapi-oss.cn" },
     ],
   },
@@ -30,7 +29,7 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://adservice.google.com https://*.googleadservices.com https://ep1.adtrafficquality.google; img-src 'self' https://image.pollinations.ai https://*.sensecoreapi-oss.cn https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net data: blob:; connect-src 'self' https://image.pollinations.ai https://*.sensecoreapi-oss.cn https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://adservice.google.com https://*.doubleclick.net https://ep1.adtrafficquality.google https://*.googleadservices.com; style-src 'self' 'unsafe-inline'; frame-src https://googleads.g.doubleclick.net https://td.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net;",
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://adservice.google.com https://*.googleadservices.com https://ep1.adtrafficquality.google; img-src 'self' https://*.sensecoreapi-oss.cn https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net data: blob:; connect-src 'self' https://*.sensecoreapi-oss.cn https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://adservice.google.com https://*.doubleclick.net https://ep1.adtrafficquality.google https://*.googleadservices.com; style-src 'self' 'unsafe-inline'; frame-src https://googleads.g.doubleclick.net https://td.doubleclick.net https://*.googlesyndication.com https://*.doubleclick.net;",
           },
           {
             key: "Permissions-Policy",
