@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     q: "Can I make stickers on my iPhone without downloading an app?",
-    a: "Yes. You have two options that work without installing anything. Option 1: Use iOS 17+'s built-in feature — open Photos, touch and hold a subject, tap \"Add Sticker,\" and it appears in your Messages sticker tray. Option 2: Visit stickersit.com in Safari or Chrome on your iPhone, type a description of the sticker you want (like \"a cute cat wearing sunglasses\"), pick a style, and tap Generate. Your custom AI sticker is ready in about 30 seconds — no app download, no sign up, no cost. Download the PNG and use it in WhatsApp, iMessage, Telegram, or any messaging app.",
+    a: "Yes. You have two options that work without installing anything. Option 1: Use iOS 17+'s built-in feature — open Photos, touch and hold a subject, tap \"Add Sticker,\" and it appears in your Messages sticker tray. You can also add effects (Outline, Comic, Puffy, Shiny) and create animated stickers from Live Photos. Option 2: Visit stickersit.com in Safari or Chrome on your iPhone, type a description of the sticker you want (like \"a cute cat wearing sunglasses\"), pick a style, and tap Generate. Your custom AI sticker is ready in about 30 seconds — no app download, no sign up, no cost. Download the PNG and use it in WhatsApp, iMessage, Telegram, or any messaging app.",
   },
   {
     q: "What is the difference between iOS built-in stickers and StickerAI?",
@@ -70,6 +70,14 @@ const FAQ_ITEMS = [
   {
     q: "Which iPhone models support custom stickers?",
     a: "All iPhone models support custom stickers via StickerAI or third-party apps — you just need a web browser (Safari or Chrome) to visit stickersit.com and download PNG files. The iOS 17 built-in \"lift subject from photo\" sticker feature requires an iPhone XS, XR, or newer with iOS 17 or later installed. The A12 Bionic chip or later is needed for the on-device subject detection. However, you don't need iOS 17 to use StickerAI — it works on any iPhone that can run a modern web browser, including older models. The downloaded PNG stickers are compatible with any messaging app on any iPhone.",
+  },
+  {
+    q: "Can I make animated stickers on my iPhone?",
+    a: "Yes, with iOS 17+ you can turn Live Photos into animated stickers. Open Photos, find a Live Photo (look for the \"Live\" badge), touch and hold the subject, tap \"Add Sticker,\" then hold the sticker and choose \"Add Effect.\" Toggle the \"Live\" switch on and your sticker will animate when tapped in Messages. Note that animated stickers only work in iMessage — WhatsApp and Telegram require static PNG files. For those platforms, use StickerAI to generate creative static stickers instead.",
+  },
+  {
+    q: "Do iPhone stickers sync to my iPad and Mac?",
+    a: "Yes. Stickers created using the iOS built-in cutout feature sync automatically to all devices sharing the same Apple ID via iCloud — including iPad and Mac. This means a sticker you create on your iPhone will appear in Messages on your iPad and Mac. However, stickers downloaded from StickerAI (PNG files) are saved to your Camera Roll and do not auto-sync as stickers — you'll need to add them to each device separately using a sticker pack app or the iOS cutout method.",
   },
 ];
 
@@ -180,19 +188,26 @@ export default function HowToMakeStickerOnIphonePage() {
       </section>
 
       {/* Method 1: iOS Built-in */}
-      <section className="py-8">
+      <section className="py-8 space-y-6">
+        <div className="flex items-center gap-3">
+          <span className="bg-gray-100 text-gray-600 font-bold text-sm w-8 h-8 rounded-full flex items-center justify-center shrink-0">
+            1
+          </span>
+          <h2 className="text-lg font-bold">Use iOS Built-in Sticker Features (iOS 17+)</h2>
+        </div>
+        <p className="text-sm text-gray-600">
+          If your iPhone runs iOS 17 or later, Apple includes several built-in
+          ways to create and use stickers — no extra app needed. Here&apos;s
+          everything you can do.
+        </p>
+
+        {/* 1a. Basic Cutout */}
         <div className="bg-white rounded-2xl p-6 shadow-sm">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="bg-gray-100 text-gray-600 font-bold text-sm w-8 h-8 rounded-full flex items-center justify-center shrink-0">
-              1
-            </span>
-            <h2 className="text-lg font-bold">Use iOS Built-in Cutout (iOS 17+)</h2>
-          </div>
+          <h3 className="font-semibold text-sm mb-3">Turn a Photo Subject into a Sticker</h3>
           <p className="text-sm text-gray-600 mb-4">
-            If your iPhone runs iOS 17 or later, you can turn any subject in your
-            Photos into a sticker — no extra app needed. This works great for
-            turning real photos (your pet, a flower, a coffee cup) into chat
-            stickers.
+            The fastest way to make a sticker on iPhone. Works with any photo
+            that has a clear subject — your pet, a flower, a coffee cup, a
+            friend.
           </p>
           <div className="space-y-3 text-sm text-gray-500">
             <div className="flex gap-3 items-start">
@@ -205,12 +220,85 @@ export default function HowToMakeStickerOnIphonePage() {
             </div>
             <div className="flex gap-3 items-start">
               <span className="text-gray-300 shrink-0">Step 3</span>
-              <p>Tap <strong className="text-gray-700">&ldquo;Add Sticker&rdquo;</strong> — it saves to your Messages sticker drawer</p>
+              <p>Tap <strong className="text-gray-700">&ldquo;Add Sticker&rdquo;</strong> — it saves to your Messages sticker drawer instantly</p>
             </div>
           </div>
-          <div className="mt-4 bg-amber-50 rounded-xl p-3 text-xs text-amber-700">
-            <strong>Limitation:</strong> This only works with existing photos. You can&apos;t create original sticker designs from imagination — you need a photo of the thing first. Requires iPhone XS/XR or newer with iOS 17+.
+        </div>
+
+        {/* 1b. Add Effects */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 className="font-semibold text-sm mb-3">Add Effects to Your Stickers</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            iOS lets you apply visual effects to any sticker you&apos;ve created.
+            Open Messages, tap <strong>&ldquo;+&rdquo;</strong> →
+            <strong> Stickers</strong>, then touch and hold your sticker and
+            tap <strong>&ldquo;Add Effect&rdquo;</strong>.
+          </p>
+          <div className="grid grid-cols-2 gap-2 text-sm text-gray-500">
+            <div className="bg-gray-50 rounded-lg p-3">
+              <p className="font-medium text-gray-700">Outline</p>
+              <p className="text-xs">Adds a white border around your sticker</p>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-3">
+              <p className="font-medium text-gray-700">Comic</p>
+              <p className="text-xs">Adds a halftone comic-book style</p>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-3">
+              <p className="font-medium text-gray-700">Puffy</p>
+              <p className="text-xs">Gives a puffy, inflated 3D look</p>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-3">
+              <p className="font-medium text-gray-700">Shiny</p>
+              <p className="text-xs">Adds a glossy, reflective shine</p>
+            </div>
           </div>
+        </div>
+
+        {/* 1c. Live Photo Animated Stickers */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 className="font-semibold text-sm mb-3">Make Animated Stickers from Live Photos</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            If you have a Live Photo, you can turn it into an animated sticker
+            that plays a short video clip when you tap it in Messages.
+          </p>
+          <div className="space-y-3 text-sm text-gray-500">
+            <div className="flex gap-3 items-start">
+              <span className="text-gray-300 shrink-0">Step 1</span>
+              <p>Open <strong className="text-gray-700">Photos</strong> and find a Live Photo (look for the &ldquo;Live&rdquo; badge)</p>
+            </div>
+            <div className="flex gap-3 items-start">
+              <span className="text-gray-300 shrink-0">Step 2</span>
+              <p>Touch and hold the subject until the animated ripple appears, then release</p>
+            </div>
+            <div className="flex gap-3 items-start">
+              <span className="text-gray-300 shrink-0">Step 3</span>
+              <p>Tap <strong className="text-gray-700">&ldquo;Add Sticker&rdquo;</strong>, then hold the sticker and tap <strong className="text-gray-700">&ldquo;Add Effect&rdquo;</strong></p>
+            </div>
+            <div className="flex gap-3 items-start">
+              <span className="text-gray-300 shrink-0">Step 4</span>
+              <p>Toggle the <strong className="text-gray-700">&ldquo;Live&rdquo;</strong> switch ON — your sticker now animates when tapped</p>
+            </div>
+          </div>
+        </div>
+
+        {/* 1d. Use in Other Apps + Sync */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm">
+          <h3 className="font-semibold text-sm mb-3">Use Stickers in Other Apps &amp; Sync Across Devices</h3>
+          <p className="text-sm text-gray-600 mb-3">
+            Your iOS stickers aren&apos;t limited to Messages. You can use them
+            in Photos, Notes, Mail, and any app that supports Markup:
+          </p>
+          <div className="space-y-2 text-sm text-gray-500 mb-4">
+            <p>Open an image or document → tap <strong className="text-gray-700">Edit</strong> → tap the <strong className="text-gray-700">Markup</strong> icon (pen) → tap <strong className="text-gray-700">&ldquo;+&rdquo;</strong> → <strong className="text-gray-700">&ldquo;Add Sticker&rdquo;</strong>. Drag to position and pinch to resize.</p>
+          </div>
+          <div className="bg-green-50 rounded-xl p-3 text-xs text-green-700">
+            <strong>iCloud Sync:</strong> Stickers you create on your iPhone automatically sync to your iPad and Mac via iCloud — as long as they share the same Apple ID.
+          </div>
+        </div>
+
+        {/* Limitation callout */}
+        <div className="bg-amber-50 rounded-2xl p-4 text-xs text-amber-700">
+          <strong>Limitation of iOS built-in stickers:</strong> They only work with existing photos. You can&apos;t create original sticker designs from your imagination — you need a photo of the thing first. Requires iPhone XS/XR or newer with iOS 17+. For creative stickers from text descriptions, see Method 2 below.
         </div>
       </section>
 
