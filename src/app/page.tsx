@@ -353,6 +353,7 @@ export default function Home() {
           <Link href="/contact" className="text-gray-400 hover:text-violet-500 transition-colors">Contact</Link>
           <Link href="/privacy" className="text-gray-400 hover:text-violet-500 transition-colors">Privacy Policy</Link>
           <Link href="/terms" className="text-gray-400 hover:text-violet-500 transition-colors">Terms</Link>
+          <Link href="/how-to-make-a-sticker-on-iphone" className="text-gray-400 hover:text-violet-500 transition-colors">iPhone Stickers</Link>
           <a
             href="https://x.com/YangDada3983"
             target="_blank"
