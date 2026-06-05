@@ -44,6 +44,24 @@ async function fetchStickerWithRetry(url: string): Promise<Blob> {
   throw new Error("Image provider busy after retries");
 }
 
+async function fetchFallbackSticker(
+  prompt: string,
+  style: string,
+): Promise<Blob> {
+  const res = await fetch("/api/generate/fallback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt, style }),
+  });
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error || `Fallback failed (${res.status})`);
+  }
+
+  return await res.blob();
+}
+
 export default function StickerGenerator({ promptSuffix }: { promptSuffix?: string } = {}) {
   const [prompt, setPrompt] = useState("");
   const [selectedStyle, setSelectedStyle] = useState("cute-kawaii");
@@ -115,7 +133,24 @@ export default function StickerGenerator({ promptSuffix }: { promptSuffix?: stri
           newStickers.push(sticker);
           addGeneratedSticker(sticker);
         } catch {
-          // Pollinations rate limit or timeout — skip, continue with rest
+          // Pollinations failed — try SenseNova fallback
+          try {
+            const fallbackBlob = await fetchFallbackSticker(
+              promptToGenerate,
+              styleToGenerate,
+            );
+            const sticker = {
+              id: `sticker-fallback-${Date.now()}-${index}`,
+              image: URL.createObjectURL(fallbackBlob),
+              prompt: promptToGenerate,
+              style: styleToGenerate,
+              seed: 0,
+            };
+            newStickers.push(sticker);
+            addGeneratedSticker(sticker);
+          } catch {
+            // Both providers failed — skip
+          }
         }
       }
 
