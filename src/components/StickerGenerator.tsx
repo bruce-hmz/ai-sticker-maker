@@ -59,12 +59,12 @@ export default function StickerGenerator({ promptSuffix }: { promptSuffix?: stri
     setError("");
 
     try {
-      // Step 1: Call API to generate image (returns URL)
+      // API returns image binary directly (proxied from SenseNova CDN)
       const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: promptToGenerate, style: styleToGenerate }),
-        signal: AbortSignal.timeout(90_000),
+        signal: AbortSignal.timeout(120_000),
       });
 
       if (!res.ok) {
@@ -72,21 +72,14 @@ export default function StickerGenerator({ promptSuffix }: { promptSuffix?: stri
         throw new Error(body?.error || `API error (${res.status})`);
       }
 
-      const { url, seed } = await res.json();
-
-      // Step 2: Fetch the image from CDN
-      const imgRes = await fetch(url, { signal: AbortSignal.timeout(60_000) });
-      if (!imgRes.ok) {
-        throw new Error("Failed to download generated image");
-      }
-
-      const blob = await imgRes.blob();
+      const seed = res.headers.get("X-Sticker-Seed") || String(Date.now());
+      const blob = await res.blob();
       const sticker: GeneratedSticker = {
         id: `sticker-${Date.now()}`,
         image: URL.createObjectURL(blob),
         prompt: promptToGenerate,
         style: styleToGenerate,
-        seed,
+        seed: Number(seed),
       };
       addGeneratedSticker(sticker);
     } catch (e) {

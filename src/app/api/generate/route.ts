@@ -178,7 +178,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ url: imageUrl, seed: Date.now() });
+    // Fetch image from SenseNova CDN and proxy to client
+    const imageResponse = await fetch(imageUrl, {
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!imageResponse.ok) {
+      return NextResponse.json(
+        { error: "Failed to download generated image. Please try again." },
+        { status: 502 },
+      );
+    }
+
+    const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
+    return new NextResponse(imageBuffer, {
+      headers: {
+        "Content-Type": imageResponse.headers.get("Content-Type") || "image/png",
+        "X-Sticker-Seed": String(Date.now()),
+      },
+    });
   } catch {
     return NextResponse.json(
       { error: "Image generation timed out. Please try again." },
