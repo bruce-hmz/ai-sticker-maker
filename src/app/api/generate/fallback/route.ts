@@ -85,7 +85,7 @@ async function isSharedRateLimited(ip: string): Promise<boolean> {
   return totalCount > RATE_LIMIT_MAX;
 }
 
-async function callSenseNovaApi(prompt: string): Promise<Response> {
+export async function POST(request: NextRequest) {
   const apiKey = process.env.SENSENOVA_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
@@ -94,66 +94,6 @@ async function callSenseNovaApi(prompt: string): Promise<Response> {
     );
   }
 
-  const payload = {
-    model: SENSENOVA_MODEL,
-    prompt,
-    size: SENSENOVA_IMAGE_SIZE,
-    n: 1,
-  };
-
-  const apiResponse = await fetch(SENSENOVA_API_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-    signal: AbortSignal.timeout(60_000),
-  });
-
-  if (!apiResponse.ok) {
-    const errorText = await apiResponse.text().catch(() => "Unknown error");
-    return NextResponse.json(
-      { error: `Image generation failed: ${errorText}` },
-      { status: 502 },
-    );
-  }
-
-  const data = await apiResponse.json();
-  const imageUrl = data?.data?.[0]?.url;
-  const b64Image = data?.data?.[0]?.b64_json;
-
-  if (b64Image) {
-    const imageBuffer = Buffer.from(b64Image, "base64");
-    return new NextResponse(imageBuffer, {
-      headers: { "Content-Type": "image/png" },
-    });
-  }
-
-  if (!imageUrl) {
-    return NextResponse.json(
-      { error: "Image generation returned no image" },
-      { status: 502 },
-    );
-  }
-
-  const imageResponse = await fetch(imageUrl, {
-    signal: AbortSignal.timeout(30_000),
-  });
-  if (!imageResponse.ok) {
-    return NextResponse.json(
-      { error: "Failed to download generated image" },
-      { status: 502 },
-    );
-  }
-
-  const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
-  return new NextResponse(imageBuffer, {
-    headers: { "Content-Type": imageResponse.headers.get("Content-Type") || "image/png" },
-  });
-}
-
-export async function POST(request: NextRequest) {
   const ip = getClientIp(request);
 
   try {
@@ -209,5 +149,48 @@ export async function POST(request: NextRequest) {
   }
 
   const fullPrompt = buildPrompt(promptStr, styleStr);
-  return callSenseNovaApi(fullPrompt);
+
+  try {
+    const apiResponse = await fetch(SENSENOVA_API_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: SENSENOVA_MODEL,
+        prompt: fullPrompt,
+        size: SENSENOVA_IMAGE_SIZE,
+        n: 1,
+      }),
+      signal: AbortSignal.timeout(60_000),
+    });
+
+    if (!apiResponse.ok) {
+      const errorText = await apiResponse.text().catch(() => "Unknown error");
+      return NextResponse.json(
+        { error: `Image generation failed: ${errorText}` },
+        { status: 502 },
+      );
+    }
+
+    const data = await apiResponse.json();
+    const imageUrl: string | undefined = data?.data?.[0]?.url;
+
+    if (!imageUrl) {
+      return NextResponse.json(
+        { error: "Image generation returned no image" },
+        { status: 502 },
+      );
+    }
+
+    // Return URL to client — client fetches image directly (same pattern as Pollinations)
+    return NextResponse.json({ url: imageUrl, seed: 0 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    return NextResponse.json(
+      { error: `Image generation failed: ${message}` },
+      { status: 502 },
+    );
+  }
 }

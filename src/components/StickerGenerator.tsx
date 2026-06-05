@@ -52,7 +52,7 @@ async function fetchFallbackSticker(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt, style }),
-    signal: AbortSignal.timeout(120_000),
+    signal: AbortSignal.timeout(90_000),
   });
 
   if (!res.ok) {
@@ -60,7 +60,13 @@ async function fetchFallbackSticker(
     throw new Error(body?.error || `Fallback failed (${res.status})`);
   }
 
-  return await res.blob();
+  // Server returns { url } — fetch image from SenseNova CDN directly
+  const { url } = await res.json();
+  if (!url) throw new Error("No image URL in fallback response");
+
+  const imgRes = await fetch(url, { signal: AbortSignal.timeout(60_000) });
+  if (!imgRes.ok) throw new Error(`Fallback image fetch failed (${imgRes.status})`);
+  return await imgRes.blob();
 }
 
 export default function StickerGenerator({ promptSuffix }: { promptSuffix?: string } = {}) {
