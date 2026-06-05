@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
 import { buildPrompt, STICKER_STYLES } from "@/lib/sticker-styles";
 
+// SenseNova image generation takes ~25-30s; default Vercel function timeout is 10s
+export const maxDuration = 60;
+
 const SENSENOVA_API_URL = "https://token.sensenova.cn/v1/images/generations";
 const SENSENOVA_MODEL = "sensenova-u1-fast";
 const SENSENOVA_IMAGE_SIZE = "2048x2048";
