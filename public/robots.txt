@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
 
+# Content Signals — AI usage preferences
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
 # AI search crawlers — explicitly allowed for search/retrieval
 User-agent: GPTBot
 Allow: /

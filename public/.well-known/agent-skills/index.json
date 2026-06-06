@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "sticker-generation",
+      "type": "skill-md",
+      "description": "Generate custom AI stickers from text prompts with 8 artistic styles for WhatsApp, Telegram, iMessage, and Discord.",
+      "url": "https://stickersit.com/.well-known/agents.md",
+      "digest": "sha256:2b4d2bd30d368171293bc7d1e5c1261de56b44ebdc5dba338938ff1b1cb77556"
+    }
+  ]
+}

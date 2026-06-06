@@ -1,0 +1,19 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://stickersit.com/api/generate",
+      "service-doc": [
+        {
+          "href": "https://stickersit.com/llms.txt",
+          "type": "text/markdown"
+        }
+      ],
+      "describedby": [
+        {
+          "href": "https://stickersit.com/.well-known/agents.md",
+          "type": "text/markdown"
+        }
+      ]
+    }
+  ]
+}

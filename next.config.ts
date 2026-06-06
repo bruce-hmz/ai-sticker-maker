@@ -16,7 +16,12 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Link",
-            value: "</llms.txt>; rel=\"agent\"; type=\"text/markdown\", </.well-known/agents.md>; rel=\"agent\"; type=\"text/markdown\"",
+            value: [
+              "</.well-known/api-catalog>; rel=\"api-catalog\"",
+              "</llms.txt>; rel=\"service-doc\"; type=\"text/markdown\"",
+              "</.well-known/agents.md>; rel=\"describedby\"; type=\"text/markdown\"",
+              "</.well-known/agent-skills/index.json>; rel=\"service-desc\"; type=\"application/json\"",
+            ].join(", "),
           },
         ],
       },
@@ -70,6 +75,15 @@ const nextConfig: NextConfig = {
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/.well-known/api-catalog",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/linkset+json",
           },
         ],
       },
