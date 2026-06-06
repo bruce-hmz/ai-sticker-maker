@@ -17,4 +17,8 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
+# AI Agent Discovery
+Agent: https://stickersit.com/llms.txt
+Agent: https://stickersit.com/.well-known/agents.md
+
 Sitemap: https://stickersit.com/sitemap.xml

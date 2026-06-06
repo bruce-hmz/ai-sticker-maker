@@ -12,6 +12,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/",
+        headers: [
+          {
+            key: "Link",
+            value: "</llms.txt>; rel=\"agent\"; type=\"text/markdown\", </.well-known/agents.md>; rel=\"agent\"; type=\"text/markdown\"",
+          },
+        ],
+      },
+      {
         source: "/(.*)",
         headers: [
           {
