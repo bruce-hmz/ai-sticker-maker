@@ -3,6 +3,7 @@ import Link from "next/link";
 import StartCreatingButton from "@/components/StartCreatingButton";
 import AdSenseUnit from "@/components/AdSenseUnit";
 import { STICKER_STYLES } from "@/lib/sticker-styles";
+import { listStickers } from "@/lib/sticker-storage";
 
 const FAQ_ITEMS = [
   {
@@ -53,7 +54,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
-export default function Home() {
+export default async function Home() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -139,6 +140,20 @@ export default function Home() {
     ],
   };
 
+  // Fetch latest stickers for social proof
+  let latestStickers: { id: string; prompt: string; imageUrl: string; style: string }[] = [];
+  try {
+    const result = await listStickers({ page: 1, limit: 6 });
+    latestStickers = result.stickers.map((s) => ({
+      id: s.id,
+      prompt: s.prompt,
+      imageUrl: s.imageUrl,
+      style: s.style,
+    }));
+  } catch {
+    // KV not configured — skip latest stickers
+  }
+
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
       {/* JSON-LD Schemas */}
@@ -191,6 +206,39 @@ export default function Home() {
 
       {/* Interactive Tool */}
       <StickerGenerator />
+
+      {/* Latest Stickers — social proof */}
+      {latestStickers.length > 0 && (
+        <section className="mb-6">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="text-sm font-bold text-gray-500">Latest Stickers</h2>
+            <Link href="/stickers" className="text-xs text-violet-600 font-semibold hover:text-violet-800">
+              View all →
+            </Link>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            {latestStickers.map((s) => (
+              <Link
+                key={s.id}
+                href={`/sticker/${s.id}`}
+                className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+              >
+                <div className="aspect-square p-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={s.imageUrl}
+                    alt={s.prompt}
+                    width={512}
+                    height={512}
+                    className="w-full h-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* World Cup 2026 Banner */}
       <Link href="/world-cup" className="block mb-6">
