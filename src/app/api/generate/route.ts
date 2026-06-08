@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
 import sharp from "sharp";
 import { buildPrompt, STICKER_STYLES } from "@/lib/sticker-styles";
+import { isStorageConfigured, saveSticker } from "@/lib/sticker-storage";
 
 // SenseNova image generation takes ~25-30s
 export const maxDuration = 60;
@@ -196,10 +197,30 @@ export async function POST(request: NextRequest) {
       .png({ quality: 90 })
       .toBuffer();
 
+    const seed = Date.now();
+
+    // Persist to Blob + KV if storage is configured
+    if (isStorageConfigured()) {
+      const metadata = await saveSticker(
+        promptStr,
+        styleStr,
+        seed,
+        resizedBuffer,
+      );
+      return NextResponse.json({
+        id: metadata.id,
+        imageUrl: metadata.imageUrl,
+        prompt: metadata.prompt,
+        style: metadata.style,
+        seed: metadata.seed,
+      });
+    }
+
+    // Fallback: return raw PNG binary (no persistence)
     return new NextResponse(new Uint8Array(resizedBuffer), {
       headers: {
         "Content-Type": "image/png",
-        "X-Sticker-Seed": String(Date.now()),
+        "X-Sticker-Seed": String(seed),
       },
     });
   } catch {

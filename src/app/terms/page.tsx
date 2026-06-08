@@ -6,11 +6,38 @@ export const metadata: Metadata = {
   description:
     "Terms of service for StickerAI — free AI sticker maker for WhatsApp, Telegram, iMessage, and Discord.",
   alternates: { canonical: "https://stickersit.com/terms" },
+  openGraph: {
+    title: "Terms of Service | StickerAI",
+    description:
+      "Terms of service for StickerAI — free AI sticker maker for WhatsApp, Telegram, iMessage, and Discord.",
+    url: "https://stickersit.com/terms",
+    siteName: "StickerAI",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Terms of Service | StickerAI",
+    description:
+      "Terms of service for StickerAI — free AI sticker maker for WhatsApp, Telegram, iMessage, and Discord.",
+  },
 };
 
 export default function TermsPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://stickersit.com" },
+      { "@type": "ListItem", position: 2, name: "Terms of Service" },
+    ],
+  };
+
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1 className="text-3xl font-bold mb-6">Terms of Service</h1>
       <p className="text-sm text-gray-500 mb-8">
         Last updated: June 3, 2026

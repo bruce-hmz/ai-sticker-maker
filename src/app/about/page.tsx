@@ -6,11 +6,38 @@ export const metadata: Metadata = {
   description:
     "StickerAI is a free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord. No app download, no sign up required.",
   alternates: { canonical: "https://stickersit.com/about" },
+  openGraph: {
+    title: "About | StickerAI",
+    description:
+      "StickerAI is a free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord. No app download, no sign up required.",
+    url: "https://stickersit.com/about",
+    siteName: "StickerAI",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "About | StickerAI",
+    description:
+      "StickerAI is a free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord.",
+  },
 };
 
 export default function AboutPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://stickersit.com" },
+      { "@type": "ListItem", position: 2, name: "About" },
+    ],
+  };
+
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1 className="text-3xl font-bold mb-6">About StickerAI</h1>
 
       <div className="space-y-8 text-sm text-gray-700 leading-relaxed">

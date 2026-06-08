@@ -181,6 +181,12 @@ export default function Home() {
         <p className="text-violet-600 font-semibold text-sm">
           Works with WhatsApp, Telegram, iMessage &amp; Discord
         </p>
+        <p className="text-gray-400 text-xs mt-2">
+          or{" "}
+          <Link href="/stickers" className="text-violet-500 hover:underline">
+            browse the sticker gallery
+          </Link>
+        </p>
       </section>
 
       {/* Interactive Tool */}
@@ -349,6 +355,7 @@ export default function Home() {
         <p className="text-sm font-semibold text-gray-400 mb-1">StickerAI</p>
         <p className="mb-3">Free AI Sticker Maker for WhatsApp, Telegram &amp; More</p>
         <div className="flex flex-wrap justify-center gap-4 mt-2">
+          <Link href="/stickers" className="text-gray-400 hover:text-violet-500 transition-colors">Browse Stickers</Link>
           <Link href="/about" className="text-gray-400 hover:text-violet-500 transition-colors">About</Link>
           <Link href="/contact" className="text-gray-400 hover:text-violet-500 transition-colors">Contact</Link>
           <Link href="/privacy" className="text-gray-400 hover:text-violet-500 transition-colors">Privacy Policy</Link>

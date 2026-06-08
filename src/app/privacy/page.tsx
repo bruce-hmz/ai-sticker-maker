@@ -6,11 +6,38 @@ export const metadata: Metadata = {
   description:
     "Privacy policy for StickerAI — learn how we handle your data when using our free AI sticker maker.",
   alternates: { canonical: "https://stickersit.com/privacy" },
+  openGraph: {
+    title: "Privacy Policy | StickerAI",
+    description:
+      "Privacy policy for StickerAI — learn how we handle your data when using our free AI sticker maker.",
+    url: "https://stickersit.com/privacy",
+    siteName: "StickerAI",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Privacy Policy | StickerAI",
+    description:
+      "Privacy policy for StickerAI — learn how we handle your data when using our free AI sticker maker.",
+  },
 };
 
 export default function PrivacyPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://stickersit.com" },
+      { "@type": "ListItem", position: 2, name: "Privacy Policy" },
+    ],
+  };
+
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
       <p className="text-sm text-gray-500 mb-8">
         Last updated: June 3, 2026

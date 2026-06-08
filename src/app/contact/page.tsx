@@ -6,11 +6,41 @@ export const metadata: Metadata = {
   description:
     "Get in touch with the StickerAI team. Questions, feedback, or partnership inquiries welcome.",
   alternates: { canonical: "https://stickersit.com/contact" },
+  openGraph: {
+    title: "Contact | StickerAI",
+    description:
+      "Get in touch with the StickerAI team. Questions, feedback, or partnership inquiries welcome.",
+    url: "https://stickersit.com/contact",
+    siteName: "StickerAI",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Contact | StickerAI",
+    description:
+      "Get in touch with the StickerAI team. Questions, feedback, or partnership inquiries welcome.",
+  },
 };
 
 export default function ContactPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact StickerAI",
+    url: "https://stickersit.com/contact",
+    mainEntity: {
+      "@type": "Organization",
+      name: "StickerAI",
+      email: "yang2big@gmail.com",
+    },
+  };
+
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1 className="text-3xl font-bold mb-6">Contact Us</h1>
 
       <div className="space-y-8 text-sm text-gray-700 leading-relaxed">

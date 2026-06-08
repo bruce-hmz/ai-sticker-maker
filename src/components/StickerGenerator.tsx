@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { STICKER_STYLES, type StickerStyle } from "@/lib/sticker-styles";
 import ExampleGallery from "./ExampleGallery";
 import WorldCupPrompts from "./WorldCupPrompts";
@@ -12,6 +13,7 @@ interface GeneratedSticker {
   prompt: string;
   style: string;
   seed: number;
+  persisted?: boolean; // true if saved to Blob + KV
 }
 
 const MAX_STICKERS = 20;
@@ -72,15 +74,34 @@ export default function StickerGenerator({ promptSuffix }: { promptSuffix?: stri
         throw new Error(body?.error || `API error (${res.status})`);
       }
 
-      const seed = res.headers.get("X-Sticker-Seed") || String(Date.now());
-      const blob = await res.blob();
-      const sticker: GeneratedSticker = {
-        id: `sticker-${Date.now()}`,
-        image: URL.createObjectURL(blob),
-        prompt: promptToGenerate,
-        style: styleToGenerate,
-        seed: Number(seed),
-      };
+      const contentType = res.headers.get("content-type") ?? "";
+      let sticker: GeneratedSticker;
+
+      if (contentType.includes("application/json")) {
+        // New path: server persisted the sticker, returns JSON
+        const data = await res.json();
+        sticker = {
+          id: data.id,
+          image: data.imageUrl,
+          prompt: data.prompt,
+          style: data.style,
+          seed: data.seed,
+          persisted: true,
+        };
+      } else {
+        // Legacy path: server returns raw PNG binary
+        const seed = res.headers.get("X-Sticker-Seed") || String(Date.now());
+        const blob = await res.blob();
+        sticker = {
+          id: `sticker-${Date.now()}`,
+          image: URL.createObjectURL(blob),
+          prompt: promptToGenerate,
+          style: styleToGenerate,
+          seed: Number(seed),
+          persisted: false,
+        };
+      }
+
       addGeneratedSticker(sticker);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
@@ -211,11 +232,20 @@ export default function StickerGenerator({ promptSuffix }: { promptSuffix?: stri
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center gap-2">
                   <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-semibold bg-black/50 px-3 py-1 rounded-full">
                     Download PNG
                   </span>
                 </div>
+                {sticker.persisted && (
+                  <Link
+                    href={`/sticker/${sticker.id}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs bg-black/50 hover:bg-black/70 px-2 py-0.5 rounded-full"
+                  >
+                    Share
+                  </Link>
+                )}
               </div>
             ))}
           </div>
