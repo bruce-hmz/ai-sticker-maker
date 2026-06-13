@@ -96,6 +96,10 @@ export function buildPrompt(userPrompt: string, styleId: string): string {
   const resolvedStyleId = resolveStickerStyleId(styleId);
   const style = STICKER_STYLES.find((s) => s.id === resolvedStyleId) ?? STICKER_STYLES[0];
   const prefix = style.promptPrefix;
-  const cleaned = userPrompt.replace(PROMPT_BLOCKLIST, "").replace(/,(\s*,)+/g, ",").trim();
+  const cleaned = userPrompt
+    .replace(PROMPT_BLOCKLIST, "")
+    .replace(/,(\s*,)+/g, ",")
+    .replace(/^[\s,]+/, "")
+    .trim();
   return `${prefix}, ${cleaned}, NO text, NO words, NO letters on the sticker`;
 }
