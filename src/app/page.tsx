@@ -330,15 +330,24 @@ export default async function Home({ searchParams }: PageProps) {
         <p className="text-gray-400 text-center text-sm mb-8">
           From cute kawaii to retro pixel art — find your perfect style
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {STICKER_STYLES.map((style) => (
             <div
               key={style.id}
-              className="bg-white rounded-xl p-4 shadow-sm text-center"
+              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"
             >
-              <span className="text-3xl block mb-2">{style.emoji}</span>
-              <p className="font-semibold text-sm">{style.name}</p>
-              <p className="text-xs text-gray-400">{style.desc}</p>
+              <div className="aspect-square relative bg-gray-50">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={style.image}
+                  alt={style.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-4 text-center">
+                <p className="font-bold text-sm mb-1">{style.emoji} {style.name}</p>
+                <p className="text-[10px] text-gray-400 leading-tight">{style.desc}</p>
+              </div>
             </div>
           ))}
         </div>

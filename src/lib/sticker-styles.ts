@@ -2,6 +2,7 @@ export interface StickerStyle {
   id: string;
   name: string;
   emoji: string;
+  image: string;
   promptPrefix: string;
   desc: string;
 }
@@ -11,6 +12,7 @@ export const STICKER_STYLES: StickerStyle[] = [
     id: "cute-kawaii",
     name: "Cute Kawaii",
     emoji: "🌸",
+    image: "/examples/cute-kawaii-cat.png",
     desc: "Pastel, adorable, soft",
     promptPrefix:
       "cute kawaii sticker illustration, pastel colors, round shapes, adorable, soft shading, chibi-like, white background, die-cut sticker edges",
@@ -19,6 +21,7 @@ export const STICKER_STYLES: StickerStyle[] = [
     id: "chibi",
     name: "Chibi",
     emoji: "🎀",
+    image: "/examples/chibi-dog.png",
     desc: "Big head, cute body",
     promptPrefix:
       "chibi style sticker, big head small body, simple cute design, bold outlines, flat colors, white background, die-cut sticker edges",
@@ -27,6 +30,7 @@ export const STICKER_STYLES: StickerStyle[] = [
     id: "pixel-art",
     name: "Pixel Art",
     emoji: "🎮",
+    image: "/examples/pixel-art-rocket.png",
     desc: "16-bit retro gaming",
     promptPrefix:
       "pixel art sticker, 16-bit retro game style, clean pixels, vibrant colors, white background, die-cut sticker edges",
@@ -35,6 +39,7 @@ export const STICKER_STYLES: StickerStyle[] = [
     id: "cartoon",
     name: "Cartoon",
     emoji: "🎨",
+    image: "/examples/cartoon-coffee.png",
     desc: "Bold, colorful, fun",
     promptPrefix:
       "cartoon sticker, bold outlines, bright flat colors, expressive, comic book style, white background, die-cut sticker edges",
@@ -43,6 +48,7 @@ export const STICKER_STYLES: StickerStyle[] = [
     id: "hand-drawn",
     name: "Hand-drawn",
     emoji: "✏️",
+    image: "/examples/hand-drawn-cat.png",
     desc: "Sketch, doodle style",
     promptPrefix:
       "hand-drawn doodle sticker, sketch style, pencil lines, simple cute, minimal color, white background, die-cut sticker edges",
@@ -51,6 +57,7 @@ export const STICKER_STYLES: StickerStyle[] = [
     id: "3d-rendered",
     name: "3D Rendered",
     emoji: "✨",
+    image: "/examples/3d-avocado.png",
     desc: "Pixar-like quality",
     promptPrefix:
       "3D rendered sticker, Pixar-like quality, soft volumetric lighting, vibrant saturated colors, smooth surfaces, white background, die-cut sticker edges",
@@ -59,6 +66,7 @@ export const STICKER_STYLES: StickerStyle[] = [
     id: "minimalist",
     name: "Minimalist",
     emoji: "◻️",
+    image: "/examples/minimalist-star.png",
     desc: "Clean, modern, simple",
     promptPrefix:
       "minimalist sticker, simple clean design, single color line art, elegant, modern, white background, die-cut sticker edges",
@@ -67,6 +75,7 @@ export const STICKER_STYLES: StickerStyle[] = [
     id: "retro",
     name: "Retro/Vintage",
     emoji: "📻",
+    image: "/examples/retro-camera.png",
     desc: "Vintage, nostalgic vibes",
     promptPrefix:
       "retro vintage sticker, 70s 80s aesthetic, warm muted colors, textured, nostalgic, white background, die-cut sticker edges",

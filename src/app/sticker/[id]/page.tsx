@@ -129,7 +129,7 @@ export default async function StickerDetailPage({ params }: PageProps) {
             href={tryUrl}
             className="border border-violet-500 text-violet-600 font-semibold px-6 py-2.5 rounded-xl text-sm hover:bg-violet-50 transition-colors"
           >
-            Try this prompt
+            Make your version
           </Link>
         </div>
       </div>
@@ -142,25 +142,36 @@ export default async function StickerDetailPage({ params }: PageProps) {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {related.map((s) => (
-              <Link
+              <div
                 key={s.id}
-                href={`/sticker/${s.id}`}
-                className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"
               >
-                <div className="aspect-square p-2">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={s.imageUrl}
-                    alt={s.prompt}
-                    width={512}
-                    height={512}
-                    className="w-full h-full object-contain"
-                  />
+                <Link href={`/sticker/${s.id}`} className="block">
+                  <div className="aspect-square p-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={s.imageUrl}
+                      alt={s.prompt}
+                      width={512}
+                      height={512}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <p className="text-[10px] text-gray-500 px-2 pb-2 truncate">
+                    {s.prompt}
+                  </p>
+                </Link>
+
+                {/* Try prompt action */}
+                <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-white via-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform">
+                  <Link
+                    href={`/?prompt=${encodeURIComponent(s.prompt)}&style=${s.style}#generator`}
+                    className="block w-full text-center bg-violet-600 text-white text-[10px] font-bold py-1.5 rounded-lg hover:bg-violet-700 transition-colors"
+                  >
+                    Try prompt
+                  </Link>
                 </div>
-                <p className="text-xs text-gray-500 px-2 pb-2 truncate">
-                  {s.prompt}
-                </p>
-              </Link>
+              </div>
             ))}
           </div>
         </section>
