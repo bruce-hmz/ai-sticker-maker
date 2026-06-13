@@ -73,11 +73,20 @@ export const STICKER_STYLES: StickerStyle[] = [
   },
 ];
 
+const DEFAULT_STYLE_ID = STICKER_STYLES[0].id;
+const STICKER_STYLE_IDS = new Set(STICKER_STYLES.map((style) => style.id));
+
+export function resolveStickerStyleId(styleId: string | null | undefined): string {
+  if (!styleId) return DEFAULT_STYLE_ID;
+  return STICKER_STYLE_IDS.has(styleId) ? styleId : DEFAULT_STYLE_ID;
+}
+
 const PROMPT_BLOCKLIST = /\b(ignore\s+(previous|prior|above|all)\s*(instructions?|prompts?|rules?)|disregard|override|new\s+instruction|system\s*prompt|you\s+are|act\s+as|pretend|forget)\b/gi;
 
 export function buildPrompt(userPrompt: string, styleId: string): string {
-  const style = STICKER_STYLES.find((s) => s.id === styleId);
-  const prefix = style?.promptPrefix ?? STICKER_STYLES[0].promptPrefix;
+  const resolvedStyleId = resolveStickerStyleId(styleId);
+  const style = STICKER_STYLES.find((s) => s.id === resolvedStyleId) ?? STICKER_STYLES[0];
+  const prefix = style.promptPrefix;
   const cleaned = userPrompt.replace(PROMPT_BLOCKLIST, "").replace(/,(\s*,)+/g, ",").trim();
   return `${prefix}, ${cleaned}, NO text, NO words, NO letters on the sticker`;
 }

@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { STICKER_STYLES, type StickerStyle } from "@/lib/sticker-styles";
+import {
+  resolveStickerStyleId,
+  STICKER_STYLES,
+  type StickerStyle,
+} from "@/lib/sticker-styles";
 import ExampleGallery from "./ExampleGallery";
 import WorldCupPrompts from "./WorldCupPrompts";
 import AdSenseUnit from "./AdSenseUnit";
@@ -26,9 +30,17 @@ function revokeStickerImages(stickers: GeneratedSticker[]) {
   });
 }
 
-export default function StickerGenerator({ promptSuffix }: { promptSuffix?: string } = {}) {
-  const [prompt, setPrompt] = useState("");
-  const [selectedStyle, setSelectedStyle] = useState("cute-kawaii");
+export default function StickerGenerator({
+  initialPrompt = "",
+  initialStyle,
+  promptSuffix,
+}: {
+  initialPrompt?: string;
+  initialStyle?: string;
+  promptSuffix?: string;
+} = {}) {
+  const [prompt, setPrompt] = useState(initialPrompt);
+  const [selectedStyle, setSelectedStyle] = useState(resolveStickerStyleId(initialStyle));
   const [stickers, setStickers] = useState<GeneratedSticker[]>([]);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState("");
@@ -143,10 +155,12 @@ export default function StickerGenerator({ promptSuffix }: { promptSuffix?: stri
     <div>
       {/* Prompt Input */}
       <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
-        <label className="block text-sm font-semibold mb-2">
+        <label htmlFor="sticker-prompt" className="block text-sm font-semibold mb-2">
           Describe your sticker
         </label>
         <textarea
+          id="sticker-prompt"
+          name="prompt"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="e.g. a happy cat with a birthday hat, a coffee cup saying good morning, a cute dinosaur..."

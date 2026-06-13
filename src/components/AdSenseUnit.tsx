@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -9,12 +9,17 @@ declare global {
 }
 
 export default function AdSenseUnit({ slot }: { slot: string }) {
+  const pushedRef = useRef(false);
+
   useEffect(() => {
+    if (!slot || pushedRef.current) return;
+
     try {
       const ins = document.querySelector(`ins[data-ad-slot="${slot}"]`);
       if (ins && ins.getAttribute("data-adsbygoogle-status")) return;
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.push({});
+      pushedRef.current = true;
     } catch {
       /* AdSense not loaded */
     }

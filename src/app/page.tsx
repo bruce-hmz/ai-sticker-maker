@@ -2,7 +2,7 @@ import StickerGenerator from "@/components/StickerGenerator";
 import Link from "next/link";
 import StartCreatingButton from "@/components/StartCreatingButton";
 import AdSenseUnit from "@/components/AdSenseUnit";
-import { STICKER_STYLES } from "@/lib/sticker-styles";
+import { resolveStickerStyleId, STICKER_STYLES } from "@/lib/sticker-styles";
 import { listStickers } from "@/lib/sticker-storage";
 
 const FAQ_ITEMS = [
@@ -54,7 +54,15 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
-export default async function Home() {
+interface PageProps {
+  searchParams: Promise<{ prompt?: string; style?: string }>;
+}
+
+export default async function Home({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const initialPrompt = params.prompt?.trim() ?? "";
+  const initialStyle = resolveStickerStyleId(params.style);
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -205,7 +213,11 @@ export default async function Home() {
       </section>
 
       {/* Interactive Tool */}
-      <StickerGenerator />
+      <StickerGenerator
+        key={`${initialStyle}:${initialPrompt}`}
+        initialPrompt={initialPrompt}
+        initialStyle={initialStyle}
+      />
 
       {/* Latest Stickers — social proof */}
       {latestStickers.length > 0 && (
