@@ -320,37 +320,6 @@ export default async function Home({ searchParams }: PageProps) {
         </div>
       </section>
 
-      {/* Style Showcase */}
-      <section className="py-16 bg-black -mx-4 px-4 overflow-hidden">
-        <h2 className="text-3xl font-black uppercase tracking-tighter text-center mb-4 text-white">
-          Visual Engines
-        </h2>
-        <p className="text-accent text-center text-[10px] font-black uppercase tracking-[0.2em] mb-12">
-          Precision styles for every mood
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-          {STICKER_STYLES.map((style) => (
-            <div
-              key={style.id}
-              className="bg-white rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(249,115,22,1)] border-2 border-white"
-            >
-              <div className="aspect-square relative bg-gray-50">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={style.image}
-                  alt={style.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4 text-center">
-                <p className="font-black text-[10px] mb-1 uppercase tracking-widest text-black">{style.emoji} {style.name}</p>
-                <p className="text-[9px] text-gray-400 font-bold uppercase tracking-tight">{style.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Export Guide */}
       <section className="py-12">
         <h2 className="text-2xl font-bold text-center mb-3">
@@ -360,31 +329,31 @@ export default async function Home({ searchParams }: PageProps) {
           Works everywhere you chat
         </p>
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white rounded-2xl p-5 shadow-sm text-center">
+          <div className="bg-white die-cut-static rounded-xl p-5 text-center">
             <div className="text-3xl mb-2">💬</div>
-            <h3 className="font-semibold text-sm mb-1">WhatsApp</h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="font-black uppercase tracking-tight text-sm mb-1">WhatsApp</h3>
+            <p className="text-[10px] text-gray-500 font-medium">
               Download as PNG and import with a sticker pack tool.
             </p>
           </div>
-          <div className="bg-white rounded-2xl p-5 shadow-sm text-center">
+          <div className="bg-white die-cut-static rounded-xl p-5 text-center">
             <div className="text-3xl mb-2">✈️</div>
-            <h3 className="font-semibold text-sm mb-1">Telegram</h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="font-black uppercase tracking-tight text-sm mb-1">Telegram</h3>
+            <p className="text-[10px] text-gray-500 font-medium">
               Download as PNG. Use @Stickers bot to create a sticker pack.
             </p>
           </div>
-          <div className="bg-white rounded-2xl p-5 shadow-sm text-center">
+          <div className="bg-white die-cut-static rounded-xl p-5 text-center">
             <div className="text-3xl mb-2">🍎</div>
-            <h3 className="font-semibold text-sm mb-1">iMessage</h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="font-black uppercase tracking-tight text-sm mb-1">iMessage</h3>
+            <p className="text-[10px] text-gray-500 font-medium">
               Download as PNG. Use Sticker Maker Studio app to import.
             </p>
           </div>
-          <div className="bg-white rounded-2xl p-5 shadow-sm text-center">
+          <div className="bg-white die-cut-static rounded-xl p-5 text-center">
             <div className="text-3xl mb-2">🎮</div>
-            <h3 className="font-semibold text-sm mb-1">Discord</h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="font-black uppercase tracking-tight text-sm mb-1">Discord</h3>
+            <p className="text-[10px] text-gray-500 font-medium">
               Upload PNG stickers to your server. 320x320 recommended.
             </p>
           </div>
