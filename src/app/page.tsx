@@ -189,27 +189,26 @@ export default async function Home({ searchParams }: PageProps) {
       />
 
       {/* Hero */}
-      <section className="text-center mb-8">
-        <p className="text-violet-500 text-sm tracking-widest mb-3 font-semibold">
-          AI Sticker Maker
-        </p>
-        <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-3">
-          Free AI WhatsApp Sticker
+      <section className="text-center mb-16">
+        <div className="inline-block bg-black text-white px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-[0.3em] mb-6">
+          System v2.0
+        </div>
+        <h1 className="text-4xl md:text-5xl font-black leading-[0.9] mb-6 uppercase tracking-tighter">
+          The AI Sticker
           <br />
-          Maker Online
+          <span className="text-accent">Workshop</span>
         </h1>
-        <p className="text-gray-500 text-sm mb-1">
-          No app download. No sign up. Just type and create.
+        <p className="text-gray-500 text-sm mb-2 font-bold uppercase tracking-widest">
+          No app. No login. Just pure creation.
         </p>
-        <p className="text-violet-600 font-semibold text-sm">
-          Works with WhatsApp, Telegram, iMessage &amp; Discord
+        <p className="text-black font-black text-xs uppercase border-y-2 border-black inline-block py-1 tracking-tight">
+          WhatsApp • Telegram • iMessage • Discord
         </p>
-        <p className="text-gray-400 text-xs mt-2">
-          or{" "}
-          <Link href="/stickers" className="text-violet-500 hover:underline">
-            browse the sticker gallery
+        <div className="mt-8">
+          <Link href="/stickers" className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-accent transition-colors">
+            Enter the Gallery →
           </Link>
-        </p>
+        </div>
       </section>
 
       {/* Interactive Tool */}
@@ -221,21 +220,24 @@ export default async function Home({ searchParams }: PageProps) {
 
       {/* Latest Stickers — social proof */}
       {latestStickers.length > 0 && (
-        <section className="mb-6">
-          <div className="flex justify-between items-center mb-3">
-            <h2 className="text-sm font-bold text-gray-500">Latest Stickers</h2>
-            <Link href="/stickers" className="text-xs text-violet-600 font-semibold hover:text-violet-800">
-              View all →
+        <section className="mb-12">
+          <div className="flex justify-between items-end mb-4">
+            <div>
+              <h2 className="text-sm font-black uppercase tracking-tighter text-black">Recent Output</h2>
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Live from the Lab</p>
+            </div>
+            <Link href="/stickers" className="text-[10px] text-accent font-black uppercase tracking-widest hover:underline">
+              View all
             </Link>
           </div>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
             {latestStickers.map((s) => (
               <Link
                 key={s.id}
                 href={`/sticker/${s.id}`}
-                className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                className="bg-white rounded-lg overflow-hidden die-cut-static"
               >
-                <div className="aspect-square p-1">
+                <div className="aspect-square p-1.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={s.imageUrl}
@@ -253,69 +255,65 @@ export default async function Home({ searchParams }: PageProps) {
       )}
 
       {/* World Cup 2026 Banner */}
-      <Link href="/world-cup" className="block mb-6">
-        <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow text-white text-center">
-          <p className="text-xs tracking-widest mb-1 font-semibold uppercase opacity-80">
-            ⚽ Limited Time
+      <Link href="/world-cup" className="block mb-12">
+        <div className="bg-black rounded-xl p-6 die-cut-static text-white text-center group">
+          <p className="text-[10px] tracking-[0.3em] mb-2 font-black uppercase text-accent">
+            ⚽ Limited Edition
           </p>
-          <p className="text-lg font-bold mb-1">
-            World Cup 2026 Sticker Maker
+          <p className="text-2xl font-black mb-1 uppercase tracking-tighter">
+            World Cup 2026 Lab
           </p>
-          <p className="text-sm opacity-90">
-            Create custom FIFA World Cup stickers for free →
+          <p className="text-xs font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">
+            Start the tournament →
           </p>
         </div>
       </Link>
 
       {/* How To Section */}
-      <section className="py-12">
-        <h2 className="text-2xl font-bold text-center mb-3">
-          How to Make WhatsApp Stickers Online Without App
+      <section className="py-16 border-t-2 border-black/5">
+        <h2 className="text-3xl font-black uppercase tracking-tighter text-center mb-4">
+          The Process
         </h2>
-        <p className="text-gray-400 text-center text-sm mb-8">
-          Create custom stickers in 3 simple steps
+        <p className="text-gray-400 text-center text-[10px] font-black uppercase tracking-[0.2em] mb-12">
+          3 Steps to physical stickers
         </p>
-        <div className="grid gap-4">
-          <div className="bg-white rounded-2xl p-6 shadow-sm flex gap-4 items-start">
-            <span className="bg-violet-100 text-violet-600 font-bold text-lg w-10 h-10 rounded-full flex items-center justify-center shrink-0">
-              1
+        <div className="grid gap-6">
+          <div className="bg-white die-cut-static rounded-xl p-8 flex gap-6 items-start">
+            <span className="bg-black text-white font-black text-xl w-12 h-12 rounded-lg flex items-center justify-center shrink-0 -rotate-3">
+              01
             </span>
             <div>
-              <h3 className="font-semibold text-sm mb-1">
-                Type your sticker idea
+              <h3 className="font-black uppercase tracking-tight text-lg mb-2 text-black">
+                Draft the Idea
               </h3>
-              <p className="text-sm text-gray-500">
-                Describe what you want — &ldquo;a happy cat wearing
-                sunglasses&rdquo; or &ldquo;cute coffee cup with heart
-                eyes&rdquo;. The more specific, the better!
+              <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                Describe your subject in detail. The Sticker Lab works best with specific prompts like &ldquo;a happy cat wearing sunglasses&rdquo;.
               </p>
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 shadow-sm flex gap-4 items-start">
-            <span className="bg-violet-100 text-violet-600 font-bold text-lg w-10 h-10 rounded-full flex items-center justify-center shrink-0">
-              2
+          <div className="bg-white die-cut-static rounded-xl p-8 flex gap-6 items-start">
+            <span className="bg-black text-white font-black text-xl w-12 h-12 rounded-lg flex items-center justify-center shrink-0 rotate-3">
+              02
             </span>
             <div>
-              <h3 className="font-semibold text-sm mb-1">
-                Pick a style &amp; generate
+              <h3 className="font-black uppercase tracking-tight text-lg mb-2 text-black">
+                Select Visual Engine
               </h3>
-              <p className="text-sm text-gray-500">
-                Choose from 8 styles (Kawaii, Chibi, Pixel Art, etc.) and
-                click Generate. AI creates 4 unique sticker variations.
+              <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                Pick from 8 precision engines (Kawaii, Chibi, Pixel Art, etc.) to set the artistic DNA of your creation.
               </p>
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-6 shadow-sm flex gap-4 items-start">
-            <span className="bg-violet-100 text-violet-600 font-bold text-lg w-10 h-10 rounded-full flex items-center justify-center shrink-0">
-              3
+          <div className="bg-white die-cut-static rounded-xl p-8 flex gap-6 items-start">
+            <span className="bg-black text-white font-black text-xl w-12 h-12 rounded-lg flex items-center justify-center shrink-0 -rotate-2">
+              03
             </span>
             <div>
-              <h3 className="font-semibold text-sm mb-1">
-                Download &amp; add to WhatsApp
+              <h3 className="font-black uppercase tracking-tight text-lg mb-2 text-black">
+                Export to World
               </h3>
-              <p className="text-sm text-gray-500">
-                Download as PNG, then add your custom stickers with your
-                preferred sticker pack tool. It&apos;s that easy!
+              <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                Download your high-res PNG and import it into WhatsApp, Telegram, or Discord. Instant digital presence.
               </p>
             </div>
           </div>
@@ -323,18 +321,18 @@ export default async function Home({ searchParams }: PageProps) {
       </section>
 
       {/* Style Showcase */}
-      <section className="py-12">
-        <h2 className="text-2xl font-bold text-center mb-3">
-          AI Sticker Generator with Multiple Styles
+      <section className="py-16 bg-black -mx-4 px-4 overflow-hidden">
+        <h2 className="text-3xl font-black uppercase tracking-tighter text-center mb-4 text-white">
+          Visual Engines
         </h2>
-        <p className="text-gray-400 text-center text-sm mb-8">
-          From cute kawaii to retro pixel art — find your perfect style
+        <p className="text-accent text-center text-[10px] font-black uppercase tracking-[0.2em] mb-12">
+          Precision styles for every mood
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           {STICKER_STYLES.map((style) => (
             <div
               key={style.id}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+              className="bg-white rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(249,115,22,1)] border-2 border-white"
             >
               <div className="aspect-square relative bg-gray-50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -345,8 +343,8 @@ export default async function Home({ searchParams }: PageProps) {
                 />
               </div>
               <div className="p-4 text-center">
-                <p className="font-bold text-sm mb-1">{style.emoji} {style.name}</p>
-                <p className="text-[10px] text-gray-400 leading-tight">{style.desc}</p>
+                <p className="font-black text-[10px] mb-1 uppercase tracking-widest text-black">{style.emoji} {style.name}</p>
+                <p className="text-[9px] text-gray-400 font-bold uppercase tracking-tight">{style.desc}</p>
               </div>
             </div>
           ))}

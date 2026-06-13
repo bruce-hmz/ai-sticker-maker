@@ -82,54 +82,56 @@ export default async function StickerDetailPage({ params }: PageProps) {
   ];
 
   return (
-    <main className="max-w-2xl mx-auto px-4 py-8">
+    <main className="max-w-2xl mx-auto px-4 py-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       {/* Breadcrumb */}
-      <nav className="text-sm text-gray-400 mb-6">
-        <Link href="/" className="hover:text-violet-500">Home</Link>
-        <span className="mx-1.5">›</span>
-        <Link href="/stickers" className="hover:text-violet-500">Stickers</Link>
-        <span className="mx-1.5">›</span>
-        <span className="text-gray-600">{sticker.prompt.slice(0, 40)}{sticker.prompt.length > 40 ? "..." : ""}</span>
+      <nav className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-8">
+        <Link href="/" className="hover:text-black">Home</Link>
+        <span className="mx-2">/</span>
+        <Link href="/stickers" className="hover:text-black">Catalog</Link>
+        <span className="mx-2">/</span>
+        <span className="text-black">Unit {sticker.id.slice(0, 8)}</span>
       </nav>
 
       {/* Sticker Image */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm text-center mb-6">
-        <div className="inline-block max-w-sm mx-auto">
+      <div className="bg-white die-cut-static rounded-xl p-8 text-center mb-12">
+        <div className="inline-block max-w-sm mx-auto bg-gray-50 p-6 rounded-lg border-2 border-dashed border-black/10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={sticker.imageUrl}
             alt={`AI generated sticker: ${sticker.prompt}`}
             width={512}
             height={512}
-            className="w-full rounded-xl"
+            className="w-full h-auto"
           />
         </div>
 
-        <h1 className="text-xl font-bold mt-4 mb-1">
-          &ldquo;{sticker.prompt}&rdquo;
-        </h1>
-        <p className="text-gray-500 text-sm">
-          {styleEmoji} {styleName} style
-        </p>
+        <div className="mt-8">
+          <h1 className="text-3xl font-black uppercase tracking-tighter mb-2">
+            &ldquo;{sticker.prompt}&rdquo;
+          </h1>
+          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
+            Processed by {styleEmoji} <span className="text-black">{styleName}</span> Engine
+          </p>
+        </div>
 
-        <div className="flex gap-3 justify-center mt-5">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
           <a
             href={sticker.imageUrl}
             download={`sticker-${sticker.id}.png`}
-            className="bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold px-6 py-2.5 rounded-xl text-sm active:scale-95 transition-transform"
+            className="bg-black text-white font-black px-8 py-3.5 rounded-lg text-xs uppercase tracking-widest die-cut"
           >
-            Download PNG
+            Export PNG
           </a>
           <Link
             href={tryUrl}
-            className="border border-violet-500 text-violet-600 font-semibold px-6 py-2.5 rounded-xl text-sm hover:bg-violet-50 transition-colors"
+            className="bg-white text-black border-2 border-black font-black px-8 py-3.5 rounded-lg text-xs uppercase tracking-widest hover:bg-accent hover:text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
           >
-            Make your version
+            Fork Prompt
           </Link>
         </div>
       </div>
@@ -137,17 +139,18 @@ export default async function StickerDetailPage({ params }: PageProps) {
       {/* Related Stickers */}
       {related.length > 0 && (
         <section>
-          <h2 className="text-lg font-bold mb-3">
-            More {styleName} stickers
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="mb-6">
+            <h2 className="text-sm font-black uppercase tracking-tighter">Related Units</h2>
+            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">More from {styleName} Engine</p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {related.map((s) => (
               <div
                 key={s.id}
-                className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                className="group relative bg-white rounded-lg overflow-hidden die-cut-static"
               >
                 <Link href={`/sticker/${s.id}`} className="block">
-                  <div className="aspect-square p-2">
+                  <div className="aspect-square p-3 bg-gray-50">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={s.imageUrl}
@@ -157,18 +160,15 @@ export default async function StickerDetailPage({ params }: PageProps) {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <p className="text-[10px] text-gray-500 px-2 pb-2 truncate">
-                    {s.prompt}
-                  </p>
                 </Link>
 
                 {/* Try prompt action */}
-                <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-white via-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform">
+                <div className="absolute inset-x-0 bottom-0 p-2 bg-white translate-y-full group-hover:translate-y-0 transition-transform border-t-2 border-black">
                   <Link
                     href={`/?prompt=${encodeURIComponent(s.prompt)}&style=${s.style}#generator`}
-                    className="block w-full text-center bg-violet-600 text-white text-[10px] font-bold py-1.5 rounded-lg hover:bg-violet-700 transition-colors"
+                    className="block w-full text-center bg-black text-white text-[8px] font-black uppercase tracking-widest py-1.5 rounded-sm hover:bg-accent transition-colors"
                   >
-                    Try prompt
+                    Fork
                   </Link>
                 </div>
               </div>

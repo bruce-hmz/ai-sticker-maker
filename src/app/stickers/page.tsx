@@ -82,37 +82,39 @@ export default async function StickersPage({ searchParams }: PageProps) {
       />
 
       {/* Breadcrumb */}
-      <nav className="text-sm text-gray-400 mb-4">
-        <Link href="/" className="hover:text-violet-500">Home</Link>
-        <span className="mx-1.5">›</span>
-        <span className="text-gray-600">Stickers</span>
+      <nav className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-8">
+        <Link href="/" className="hover:text-black">Home</Link>
+        <span className="mx-2">/</span>
+        <span className="text-black">Catalog</span>
       </nav>
 
-      <h1 className="text-2xl font-bold mb-2">Browse AI Stickers</h1>
-      <p className="text-gray-500 text-sm mb-6">
-        {total > 0 ? `${total} stickers created and counting` : "No stickers yet — be the first to create one!"}
-      </p>
+      <div className="mb-12">
+        <h1 className="text-4xl font-black uppercase tracking-tighter text-black mb-2">The Catalog</h1>
+        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+          {total > 0 ? `${total} verified creations` : "Lab is currently empty"}
+        </p>
+      </div>
 
       {/* Style Filter */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-3 mb-12">
         <Link
           href="/stickers"
-          className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+          className={`px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest border-2 transition-all ${
             !activeStyle
-              ? "bg-violet-500 text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-black text-white border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+              : "bg-white text-gray-400 border-gray-100 hover:border-black hover:text-black"
           }`}
         >
-          All
+          All Units
         </Link>
         {STICKER_STYLES.map((s) => (
           <Link
             key={s.id}
             href={styleLink(s.id)}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+            className={`px-5 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest border-2 transition-all ${
               activeStyle === s.id
-                ? "bg-violet-500 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-black text-white border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                : "bg-white text-gray-400 border-gray-100 hover:border-black hover:text-black"
             }`}
           >
             {s.emoji} {s.name}
@@ -122,14 +124,14 @@ export default async function StickersPage({ searchParams }: PageProps) {
 
       {/* Sticker Grid */}
       {stickers.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-16">
           {stickers.map((sticker) => (
             <div
               key={sticker.id}
-              className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+              className="group relative bg-white rounded-lg overflow-hidden die-cut-static"
             >
               <Link href={`/sticker/${sticker.id}`} className="block">
-                <div className="aspect-square p-2">
+                <div className="aspect-square p-4 bg-gray-50">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={sticker.imageUrl}
@@ -140,18 +142,20 @@ export default async function StickersPage({ searchParams }: PageProps) {
                     loading="lazy"
                   />
                 </div>
-                <p className="text-[10px] text-gray-500 px-2 pb-2 truncate">
-                  {sticker.prompt}
-                </p>
+                <div className="p-3 border-t-2 border-black/5">
+                  <p className="text-[9px] font-bold text-gray-400 uppercase tracking-tight truncate">
+                    {sticker.prompt}
+                  </p>
+                </div>
               </Link>
               
               {/* Try prompt overlay/action */}
-              <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-white via-white/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform">
+              <div className="absolute inset-x-0 bottom-0 p-3 bg-white translate-y-full group-hover:translate-y-0 transition-transform border-t-2 border-black">
                 <Link
                   href={`/?prompt=${encodeURIComponent(sticker.prompt)}&style=${sticker.style}#generator`}
-                  className="block w-full text-center bg-violet-600 text-white text-[10px] font-bold py-1.5 rounded-lg hover:bg-violet-700 transition-colors"
+                  className="block w-full text-center bg-black text-white text-[10px] font-black uppercase tracking-widest py-2 rounded-sm hover:bg-accent transition-colors"
                 >
-                  Try prompt
+                  Fork Prompt
                 </Link>
               </div>
             </div>

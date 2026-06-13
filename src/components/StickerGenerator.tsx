@@ -155,9 +155,9 @@ export default function StickerGenerator({
   return (
     <div>
       {/* Prompt Input */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
-        <label htmlFor="sticker-prompt" className="block text-sm font-semibold mb-2">
-          Describe your sticker
+      <div className="bg-white die-cut-static rounded-xl p-6 mb-8">
+        <label htmlFor="sticker-prompt" className="block text-xs font-bold uppercase tracking-widest mb-3 text-gray-500">
+          Step 1: Describe your sticker
         </label>
         <textarea
           id="sticker-prompt"
@@ -166,26 +166,26 @@ export default function StickerGenerator({
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="e.g. a happy cat with a birthday hat, a coffee cup saying good morning, a cute dinosaur..."
           rows={2}
-          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-violet-400 transition-colors resize-none mb-4"
+          className="w-full border-2 border-black rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all resize-none mb-6 font-medium"
         />
 
         {/* Style Selector */}
-        <div className="mb-6">
-          <label className="block text-sm font-semibold mb-3">
-            Choose a style
+        <div className="mb-8">
+          <label className="block text-xs font-bold uppercase tracking-widest mb-3 text-gray-500">
+            Step 2: Choose a style
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {STICKER_STYLES.map((style: StickerStyle) => (
               <button
                 key={style.id}
                 onClick={() => setSelectedStyle(style.id)}
-                className={`flex flex-col text-left overflow-hidden rounded-xl border-2 transition-all ${
+                className={`flex flex-col text-left overflow-hidden rounded-lg border-2 transition-all ${
                   selectedStyle === style.id
-                    ? "border-violet-500 ring-2 ring-violet-500/20"
-                    : "border-gray-100 hover:border-gray-300"
+                    ? "border-black ring-2 ring-black bg-accent/5"
+                    : "border-gray-100 hover:border-black/20"
                 }`}
               >
-                <div className="aspect-square w-full relative bg-gray-50">
+                <div className="aspect-square w-full relative bg-gray-50 border-b-2 border-transparent group-hover:border-black/10 transition-colors">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={style.image}
@@ -193,7 +193,7 @@ export default function StickerGenerator({
                     className="w-full h-full object-cover"
                   />
                   {selectedStyle === style.id && (
-                    <div className="absolute top-2 right-2 bg-violet-500 text-white p-1 rounded-full">
+                    <div className="absolute top-2 right-2 bg-black text-white p-1 rounded-sm">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
@@ -209,14 +209,14 @@ export default function StickerGenerator({
                     </div>
                   )}
                 </div>
-                <div className="p-2 bg-white">
-                  <div className="flex items-center gap-1 mb-0.5">
+                <div className="p-3 bg-white">
+                  <div className="flex items-center gap-1.5 mb-1">
                     <span className="text-xs">{style.emoji}</span>
-                    <span className="font-bold text-[11px] sm:text-xs text-gray-900 truncate">
+                    <span className="font-bold text-[11px] sm:text-xs text-black truncate uppercase tracking-tight">
                       {style.name}
                     </span>
                   </div>
-                  <p className="text-[10px] text-gray-500 leading-tight line-clamp-1">
+                  <p className="text-[10px] text-gray-400 leading-tight line-clamp-1 font-medium italic">
                     {style.desc}
                   </p>
                 </div>
@@ -229,15 +229,15 @@ export default function StickerGenerator({
         <button
           onClick={generateStickers}
           disabled={!prompt.trim() || generating}
-          className="w-full bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold py-3.5 rounded-xl text-base active:scale-95 transition-transform disabled:opacity-50"
+          className="w-full bg-accent text-white font-black py-4 rounded-lg text-lg uppercase tracking-tighter die-cut disabled:opacity-50 disabled:shadow-none disabled:translate-x-0 disabled:translate-y-0"
         >
           {generating
-            ? "Generating sticker..."
-            : "Generate Sticker (Free)"}
+            ? "Creating..."
+            : "Generate Sticker"}
         </button>
 
         {error && (
-          <p className="text-red-500 text-sm mt-3 text-center">{error}</p>
+          <p className="text-red-500 text-xs font-bold mt-4 text-center border-t-2 border-red-50/50 pt-3">{error}</p>
         )}
       </div>
 
@@ -246,36 +246,36 @@ export default function StickerGenerator({
 
       {/* Sticker Gallery */}
       {stickers.length > 0 && (
-        <div className="mb-6">
-          <div className="flex justify-between items-center mb-3">
-            <h2 className="text-lg font-bold">Your Stickers</h2>
-            <div className="flex gap-2">
+        <div className="mb-12">
+          <div className="flex justify-between items-end mb-6">
+            <div>
+              <h2 className="text-xl font-black uppercase tracking-tighter">Your Creations</h2>
+              <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Sticker Lab Output</p>
+            </div>
+            <div className="flex gap-4">
               <button
                 onClick={clearStickers}
-                className="text-sm text-gray-400 hover:text-gray-600"
+                className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors"
               >
-                Clear all
+                Reset Lab
               </button>
               <button
                 onClick={() => stickers.forEach(downloadSticker)}
-                className="text-sm text-violet-600 font-semibold hover:text-violet-800"
+                className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline"
               >
-                Download all (PNG)
+                Export All
               </button>
             </div>
           </div>
 
-          {/* Ad Unit - After sticker results */}
-          <AdSenseUnit slot={process.env.NEXT_PUBLIC_AD_SLOT_RESULTS ?? ""} />
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {stickers.map((sticker) => (
               <div
                 key={sticker.id}
-                className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-gray-100"
+                className="group relative bg-white rounded-lg overflow-hidden die-cut-static cursor-pointer"
                 onClick={() => downloadSticker(sticker)}
               >
-                <div className="aspect-square p-2">
+                <div className="aspect-square p-3">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={sticker.image}
@@ -283,49 +283,45 @@ export default function StickerGenerator({
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center gap-2">
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-semibold bg-black/50 px-3 py-1 rounded-full">
-                    Download PNG
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center">
+                  <span className="opacity-0 group-hover:opacity-100 transition-all text-white text-[10px] font-black uppercase tracking-widest bg-black px-4 py-2 rounded-sm -rotate-2">
+                    Download
                   </span>
                 </div>
                 {sticker.persisted && (
                   <Link
                     href={`/sticker/${sticker.id}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs bg-black/50 hover:bg-black/70 px-2 py-0.5 rounded-full"
+                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-white text-[8px] font-bold bg-black px-2 py-1 rounded-sm"
                   >
-                    Share
+                    SHARE
                   </Link>
                 )}
               </div>
             ))}
           </div>
 
-          <p className="text-xs text-gray-400 mt-2 text-center">
-            Click any sticker to download as PNG.
-          </p>
-
           {/* Post-Generation Pack Nudge */}
-          <div className="mt-8 bg-violet-50 rounded-2xl p-5 border border-violet-100">
-            <h3 className="text-sm font-bold text-violet-900 mb-3 flex items-center gap-2">
-              <span>Want a full WhatsApp pack?</span>
-              <span className="text-[10px] bg-white text-violet-600 px-2 py-0.5 rounded-full border border-violet-100 uppercase font-bold">
-                Idea
+          <div className="mt-12 bg-white die-cut-static rounded-xl p-6 border-accent/20">
+            <h3 className="text-sm font-black uppercase tracking-tighter mb-4 flex items-center gap-2">
+              <span>Complete the set</span>
+              <span className="text-[8px] bg-accent text-white px-2 py-0.5 rounded-sm font-bold tracking-widest">
+                MULTIPACK
               </span>
             </h3>
-            <p className="text-xs text-violet-700 mb-4 leading-relaxed">
-              WhatsApp sticker packs look better with multiple variations. Try generating a few more in the <strong>{STICKER_STYLES.find(s => s.id === selectedStyle)?.name}</strong> style:
+            <p className="text-xs text-gray-500 mb-6 font-medium leading-relaxed">
+              Stickers are better in packs. Try these variations in <span className="text-black font-bold uppercase tracking-tight underline decoration-accent decoration-2">{STICKER_STYLES.find(s => s.id === selectedStyle)?.name}</span>:
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {[
-                { label: "Make it happy", prompt: `a happy ${prompt.replace(/^(a|an)\s+/, "")}` },
-                { label: "Make it angry", prompt: `an angry ${prompt.replace(/^(a|an)\s+/, "")}` },
-                { label: "Make it cool", prompt: `a cool ${prompt.replace(/^(a|an)\s+/, "")} with sunglasses` },
+                { label: "Happy", prompt: `a happy ${prompt.replace(/^(a|an)\s+/, "")}` },
+                { label: "Angry", prompt: `an angry ${prompt.replace(/^(a|an)\s+/, "")}` },
+                { label: "Cool", prompt: `a cool ${prompt.replace(/^(a|an)\s+/, "")} with sunglasses` },
               ].map((nudge, idx) => (
                 <button
                   key={idx}
                   onClick={() => applyExample(nudge.prompt, selectedStyle)}
-                  className="px-3 py-1.5 bg-white border border-violet-200 text-violet-700 rounded-lg text-xs font-medium hover:bg-violet-100 transition-colors shadow-sm"
+                  className="px-4 py-2 bg-gray-50 border-2 border-black text-black rounded-lg text-xs font-bold uppercase tracking-tight hover:bg-accent hover:text-white transition-all transform hover:-translate-y-1"
                 >
                   {nudge.label}
                 </button>

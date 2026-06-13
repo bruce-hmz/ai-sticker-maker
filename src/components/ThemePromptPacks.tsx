@@ -78,24 +78,24 @@ export default function ThemePromptPacks({
   const currentPack = THEME_PACKS.find((p) => p.title === activeTheme) || THEME_PACKS[0];
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
-      <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
-        <span>Pick a sticker pack idea</span>
-        <span className="text-[10px] bg-violet-100 text-violet-600 px-2 py-0.5 rounded-full uppercase tracking-wider">
-          New
+    <div className="bg-white die-cut-static rounded-xl p-6 mb-8">
+      <h3 className="text-xs font-bold uppercase tracking-widest mb-6 flex items-center gap-2 text-gray-500">
+        <span>Prompt Presets</span>
+        <span className="text-[8px] bg-black text-white px-2 py-0.5 rounded-sm tracking-[0.2em] font-black">
+          CATALOG
         </span>
       </h3>
 
       {/* Theme Tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar -mx-1 px-1 mb-2">
+      <div className="flex gap-2 overflow-x-auto pb-6 no-scrollbar -mx-1 px-1 mb-2">
         {THEME_PACKS.map((pack) => (
           <button
             key={pack.title}
             onClick={() => setActiveTheme(pack.title)}
-            className={`flex-none px-4 py-2 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+            className={`flex-none px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest border-2 transition-all whitespace-nowrap ${
               activeTheme === pack.title
-                ? "bg-violet-600 text-white"
-                : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                ? "bg-black text-white border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                : "bg-white text-gray-400 border-gray-100 hover:border-black hover:text-black"
             }`}
           >
             {pack.emoji} {pack.title}
@@ -104,12 +104,12 @@ export default function ThemePromptPacks({
       </div>
 
       {/* Prompt Chips */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-3">
         {currentPack.prompts.map((chip, idx) => (
           <button
             key={idx}
             onClick={() => onUsePrompt(chip.prompt, chip.style)}
-            className="px-3 py-1.5 rounded-lg border border-gray-100 bg-gray-50 hover:border-violet-200 hover:bg-violet-50 transition-colors text-xs text-gray-700"
+            className="px-4 py-2 rounded-lg border-2 border-black bg-white hover:bg-accent hover:text-white transition-all text-xs font-bold uppercase tracking-tight shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
           >
             {chip.label}
           </button>
