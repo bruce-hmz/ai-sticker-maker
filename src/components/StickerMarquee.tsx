@@ -26,9 +26,9 @@ export default function StickerMarquee({
   const renderItem = (item: MarqueeSticker, key: string): ReactNode => (
     <div
       key={key}
-      className="group relative mx-3 w-36 sm:w-40 flex-none bg-white rounded-xl overflow-hidden shadow-sm"
+      className="group relative mx-4 w-44 sm:w-52 flex-none bg-white die-cut-static rounded-xl overflow-hidden transition-transform hover:scale-105"
     >
-      <div className="aspect-square p-4 bg-gray-50 flex items-center justify-center">
+      <div className="aspect-square p-5 bg-gray-50 flex items-center justify-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={item.src}
@@ -37,7 +37,7 @@ export default function StickerMarquee({
           className="w-full h-full object-contain transition-transform group-hover:scale-110"
         />
       </div>
-      <div className="px-3 py-2 border-t border-gray-100 bg-white">
+      <div className="p-3 border-t-2 border-black/5 bg-white">
         <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight truncate text-center">
           {item.label}
         </p>
