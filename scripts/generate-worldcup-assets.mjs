@@ -34,7 +34,7 @@ const STYLE_PREFIX = {
 
 // 文件名全部语义化命中 GSC 关键词；球队覆盖 GSC 高需求地区(南美/亚洲/北美)
 const ASSETS = [
-  { file: "world-cup-trophy-sticker.png", style: "3d-rendered", subject: "a golden FIFA World Cup trophy shining brightly, soccer champion prize, sparkles", alt: "AI generated golden World Cup trophy sticker" },
+  { file: "world-cup-trophy-sticker.png", style: "cartoon", subject: "a cute cartoon golden trophy with a happy face, simple flat design", alt: "AI generated golden World Cup trophy sticker" },
   { file: "brazil-world-cup-sticker.png", style: "chibi", subject: "a cute football wearing Brazil flag yellow green and blue as a cape, celebrating", alt: "AI generated Brazil World Cup sticker" },
   { file: "argentina-world-cup-sticker.png", style: "chibi", subject: "a chibi football player in Argentina blue and white striped jersey celebrating a goal", alt: "AI generated Argentina World Cup sticker" },
   { file: "japan-world-cup-sticker.png", style: "cute-kawaii", subject: "a kawaii samurai football player with Japan rising sun red and white background", alt: "AI generated Japan World Cup sticker" },
@@ -44,9 +44,9 @@ const ASSETS = [
   { file: "world-cup-fan-celebration-sticker.png", style: "cartoon", subject: "a cartoon soccer fan celebrating a goal with face paint and scarf, cheering wildly", alt: "AI generated World Cup fan celebration sticker" },
   { file: "france-world-cup-sticker.png", style: "chibi", subject: "a cute football wearing France flag blue white and red as a cape, celebrating", alt: "AI generated France World Cup sticker" },
   { file: "germany-world-cup-sticker.png", style: "cartoon", subject: "a cartoon football player in Germany white jersey with black red and gold colors", alt: "AI generated Germany World Cup sticker" },
-  { file: "england-world-cup-sticker.png", style: "chibi", subject: "a chibi football with England red and white Saint George cross flag pattern", alt: "AI generated England World Cup sticker" },
+  { file: "england-world-cup-sticker.png", style: "cartoon", subject: "a cute white soccer ball with a small red cross, simple flat design", alt: "AI generated England World Cup sticker" },
   // 8队 × 2张（球员 + 吉祥物）— 用于球队页主题轮播
-  { file: "brazil-player-sticker.png", style: "chibi", subject: "a chibi football player in Brazil yellow and green jersey celebrating a goal happily", alt: "AI generated Brazil football player sticker" },
+  { file: "brazil-player-sticker.png", style: "chibi", subject: "a cute chibi football player in yellow and green jersey, simple flat colors", alt: "AI generated Brazil football player sticker" },
   { file: "brazil-mascot-sticker.png", style: "cute-kawaii", subject: "a cute toucan bird with Brazil flag yellow green and blue colors", alt: "AI generated Brazil toucan mascot sticker" },
   { file: "argentina-player-sticker.png", style: "chibi", subject: "a chibi football player in Argentina sky blue and white striped jersey celebrating a goal", alt: "AI generated Argentina football player sticker" },
   { file: "argentina-mascot-sticker.png", style: "cute-kawaii", subject: "a cute jaguar with Argentina sky blue and white colors", alt: "AI generated Argentina jaguar mascot sticker" },
@@ -54,8 +54,8 @@ const ASSETS = [
   { file: "france-mascot-sticker.png", style: "cartoon", subject: "a cartoon rooster with France flag blue white and red colors", alt: "AI generated France rooster mascot sticker" },
   { file: "germany-player-sticker.png", style: "chibi", subject: "a chibi football player in Germany white jersey with black red gold celebrating", alt: "AI generated Germany football player sticker" },
   { file: "germany-mascot-sticker.png", style: "cartoon", subject: "a cartoon eagle with Germany black red and gold colors", alt: "AI generated Germany eagle mascot sticker" },
-  { file: "england-player-sticker.png", style: "chibi", subject: "a chibi football player in England white jersey celebrating a goal", alt: "AI generated England football player sticker" },
-  { file: "england-mascot-sticker.png", style: "cartoon", subject: "a cute lion with England red and white Saint George flag colors", alt: "AI generated England lion mascot sticker" },
+  { file: "england-player-sticker.png", style: "chibi", subject: "a cute chibi football player in white jersey, simple flat colors", alt: "AI generated England football player sticker" },
+  { file: "england-mascot-sticker.png", style: "cartoon", subject: "a cute cartoon lion, friendly, simple flat design", alt: "AI generated England lion mascot sticker" },
   { file: "usa-player-sticker.png", style: "chibi", subject: "a chibi football player in USA red white and blue jersey celebrating", alt: "AI generated USA football player sticker" },
   { file: "usa-mascot-sticker.png", style: "cartoon", subject: "a cute cartoon puppy dog, red white and blue colors, happy", alt: "AI generated USA dog mascot sticker" },
   { file: "mexico-player-sticker.png", style: "chibi", subject: "a chibi football player in Mexico green jersey celebrating a goal", alt: "AI generated Mexico football player sticker" },
@@ -65,7 +65,7 @@ const ASSETS = [
 ];
 
 function buildPrompt(subject, style) {
-  return `${STYLE_PREFIX[style]}, ${subject}, NO text, NO words, NO letters on the sticker`;
+  return `${STYLE_PREFIX[style]}, ${subject}, isolated on a clean solid pure white background, NO black background, NO dark background, NO text, NO words, NO letters on the sticker`;
 }
 
 async function genOne(asset) {

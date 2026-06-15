@@ -6,20 +6,6 @@ interface MarqueeSticker {
   label: string;
 }
 
-// CSS 滤镜变体 — 把少量贴纸扩展成足够 marquee 循环的视觉条目（复用 ExampleGallery 思路）
-const VARIANTS = [
-  { filter: "", tag: "" },
-  { filter: "hue-rotate(90deg) saturate(1.5)", tag: "NEON" },
-  { filter: "hue-rotate(180deg) brightness(1.1) saturate(0.8)", tag: "ICY" },
-  { filter: "sepia(1) saturate(3) hue-rotate(-30deg) brightness(0.9)", tag: "GOLDEN" },
-] as const;
-
-function expandWithVariants(stickers: MarqueeSticker[]) {
-  return stickers.flatMap((s) =>
-    VARIANTS.map((v) => ({ ...s, filter: v.filter, tag: v.tag }))
-  );
-}
-
 interface StickerMarqueeProps {
   stickers: MarqueeSticker[];
   title?: string;
@@ -27,9 +13,8 @@ interface StickerMarqueeProps {
 }
 
 /**
- * 双流反向滚动的贴纸轮播（纯 CSS 动画，server component）。
- * 用于各主题页：球队页传该队贴纸、world-cup/es 页传世界杯贴纸。
- * 少量贴纸经 CSS 变体扩展后分双流、各自重复一遍实现无缝循环。
+ * 贴纸轮播（纯 CSS marquee，server component）。
+ * 只显示真实贴纸，无滤镜变体重复。图少(<6)用单流，图多(≥6)用双流反向。
  */
 export default function StickerMarquee({
   stickers,
@@ -38,30 +23,19 @@ export default function StickerMarquee({
 }: StickerMarqueeProps) {
   if (stickers.length === 0) return null;
 
-  const expanded = expandWithVariants(stickers);
-  const half = Math.ceil(expanded.length / 2);
-  const stream1 = [...expanded.slice(0, half), ...expanded.slice(0, half)];
-  const stream2 = [...expanded.slice(half), ...expanded.slice(half)];
-
-  const renderItem = (item: (typeof expanded)[number], key: string): ReactNode => (
+  const renderItem = (item: MarqueeSticker, key: string): ReactNode => (
     <div
       key={key}
       className="group relative mx-3 w-36 sm:w-40 flex-none bg-white rounded-xl overflow-hidden shadow-sm"
     >
-      <div className="aspect-square p-4 bg-gray-50 flex items-center justify-center relative overflow-hidden">
+      <div className="aspect-square p-4 bg-gray-50 flex items-center justify-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={item.src}
           alt={item.alt}
-          style={item.filter ? { filter: item.filter } : undefined}
           loading="lazy"
           className="w-full h-full object-contain transition-transform group-hover:scale-110"
         />
-        {item.tag && (
-          <div className="absolute top-1.5 left-1.5 bg-black/80 text-white text-[7px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-sm">
-            {item.tag}
-          </div>
-        )}
       </div>
       <div className="px-3 py-2 border-t border-gray-100 bg-white">
         <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight truncate text-center">
@@ -71,16 +45,39 @@ export default function StickerMarquee({
     </div>
   );
 
+  const header =
+    title || subtitle ? (
+      <div className="text-center mb-8 px-4">
+        {title && (
+          <h2 className="text-2xl md:text-3xl font-bold mb-2">{title}</h2>
+        )}
+        {subtitle && <p className="text-gray-400 text-sm">{subtitle}</p>}
+      </div>
+    ) : null;
+
+  // 图少：单流，重复 3 次填充循环长度（相邻都是不同图，无同图并排）
+  if (stickers.length < 6) {
+    const stream = [...stickers, ...stickers, ...stickers];
+    return (
+      <section className="py-12 overflow-hidden">
+        {header}
+        <div className="relative flex">
+          <div className="flex animate-marquee-slow whitespace-nowrap">
+            {stream.map((item, idx) => renderItem(item, `s-${idx}`))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // 图多：双流反向，每流重复一遍实现无缝循环
+  const half = Math.ceil(stickers.length / 2);
+  const stream1 = [...stickers.slice(0, half), ...stickers.slice(0, half)];
+  const stream2 = [...stickers.slice(half), ...stickers.slice(half)];
+
   return (
     <section className="py-12 overflow-hidden">
-      {(title || subtitle) && (
-        <div className="text-center mb-8 px-4">
-          {title && (
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">{title}</h2>
-          )}
-          {subtitle && <p className="text-gray-400 text-sm">{subtitle}</p>}
-        </div>
-      )}
+      {header}
       <div className="space-y-4">
         <div className="relative flex">
           <div className="flex animate-marquee-slow whitespace-nowrap">
