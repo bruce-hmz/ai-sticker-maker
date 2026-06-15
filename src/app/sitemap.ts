@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { listStickers } from "@/lib/sticker-storage";
+import { WORLD_CUP_TEAMS } from "@/lib/world-cup-teams";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -11,9 +12,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: "https://stickersit.com/world-cup",
-      lastModified: "2026-06-03",
+      lastModified: "2026-06-15",
       changeFrequency: "daily",
       priority: 0.9,
+    },
+    {
+      url: "https://stickersit.com/es/mundial",
+      lastModified: "2026-06-15",
+      changeFrequency: "daily",
+      priority: 0.8,
     },
     {
       url: "https://stickersit.com/how-to-make-a-sticker-on-iphone",
@@ -53,6 +60,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  // 球队子主题页 (programmatic SEO)
+  const teamPages: MetadataRoute.Sitemap = WORLD_CUP_TEAMS.map((t) => ({
+    url: `https://stickersit.com/world-cup/teams/${t.slug}`,
+    lastModified: "2026-06-15",
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
   // Dynamic sticker detail pages
   try {
     const { stickers } = await listStickers({ page: 1, limit: 1000 });
@@ -62,9 +77,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "never" as const,
       priority: 0.6,
     }));
-    return [...staticPages, ...stickerPages];
+    return [...staticPages, ...teamPages, ...stickerPages];
   } catch {
     // If KV not configured, return static pages only
-    return staticPages;
+    return [...staticPages, ...teamPages];
   }
 }

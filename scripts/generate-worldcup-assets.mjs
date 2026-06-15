@@ -42,6 +42,9 @@ const ASSETS = [
   { file: "mexico-world-cup-sticker.png", style: "pixel-art", subject: "a pixel art football with Mexico flag green white and red colors", alt: "AI generated Mexico World Cup sticker" },
   { file: "world-cup-football-sticker.png", style: "cute-kawaii", subject: "a cute classic black and white soccer football with a happy smiley face", alt: "AI generated cute World Cup football sticker" },
   { file: "world-cup-fan-celebration-sticker.png", style: "cartoon", subject: "a cartoon soccer fan celebrating a goal with face paint and scarf, cheering wildly", alt: "AI generated World Cup fan celebration sticker" },
+  { file: "france-world-cup-sticker.png", style: "chibi", subject: "a cute football wearing France flag blue white and red as a cape, celebrating", alt: "AI generated France World Cup sticker" },
+  { file: "germany-world-cup-sticker.png", style: "cartoon", subject: "a cartoon football player in Germany white jersey with black red and gold colors", alt: "AI generated Germany World Cup sticker" },
+  { file: "england-world-cup-sticker.png", style: "chibi", subject: "a chibi football with England red and white Saint George cross flag pattern", alt: "AI generated England World Cup sticker" },
 ];
 
 function buildPrompt(subject, style) {
@@ -96,6 +99,16 @@ const arg = process.argv[2] ?? "0";
 let targets;
 if (arg === "all") {
   targets = ASSETS;
+} else if (arg.includes(",")) {
+  targets = arg
+    .split(",")
+    .map((i) => parseInt(i, 10))
+    .filter((i) => !Number.isNaN(i) && i >= 0 && i < ASSETS.length)
+    .map((i) => ASSETS[i]);
+  if (targets.length === 0) {
+    console.error(`无有效索引，应为 0-${ASSETS.length - 1}、逗号分隔或 all`);
+    process.exit(1);
+  }
 } else {
   const idx = parseInt(arg, 10);
   if (Number.isNaN(idx) || idx < 0 || idx >= ASSETS.length) {

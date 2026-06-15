@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import StickerGenerator from "@/components/StickerGenerator";
 import AdSenseUnit from "@/components/AdSenseUnit";
 import Link from "next/link";
+import { WORLD_CUP_TEAMS } from "@/lib/world-cup-teams";
 
 export const metadata: Metadata = {
   title: "Free World Cup 2026 Sticker Maker for WhatsApp & Telegram | StickerAI",
@@ -43,6 +44,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://stickersit.com/world-cup",
+    languages: {
+      en: "https://stickersit.com/world-cup",
+      es: "https://stickersit.com/es/mundial",
+    },
   },
 };
 
@@ -314,6 +319,30 @@ export default function WorldCupPage() {
                 {ex.caption}
               </figcaption>
             </figure>
+          ))}
+        </div>
+      </section>
+
+      {/* 球队子主题页内链 — programmatic SEO 入口 */}
+      <section className="py-12">
+        <h2 className="text-2xl font-bold text-center mb-3">
+          World Cup Stickers by Team
+        </h2>
+        <p className="text-gray-400 text-center text-sm mb-8">
+          Pick your team and generate custom stickers
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {WORLD_CUP_TEAMS.map((team) => (
+            <Link
+              key={team.slug}
+              href={`/world-cup/teams/${team.slug}`}
+              className="bg-white rounded-xl p-4 shadow-sm text-center hover:shadow-md transition-shadow"
+            >
+              <span className="text-3xl block mb-1">{team.flagEmoji}</span>
+              <span className="text-xs font-medium text-gray-700">
+                {team.name}
+              </span>
+            </Link>
           ))}
         </div>
       </section>
