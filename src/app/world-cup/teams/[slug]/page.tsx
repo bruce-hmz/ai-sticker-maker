@@ -111,6 +111,7 @@ export default async function TeamPage({ params }: PageProps) {
       {/* Generator — 球队主题预填 */}
       <StickerGenerator
         promptSuffix={`${team.name} ${team.jerseyDesc} ${team.colors} World Cup football soccer theme`}
+        showGallery={false}
       />
 
       {/* 该队贴纸 marquee — 主题强相关轮播 */}

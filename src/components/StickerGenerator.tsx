@@ -35,10 +35,12 @@ export default function StickerGenerator({
   initialPrompt = "",
   initialStyle,
   promptSuffix,
+  showGallery = true,
 }: {
   initialPrompt?: string;
   initialStyle?: string;
   promptSuffix?: string;
+  showGallery?: boolean;
 } = {}) {
   const [prompt, setPrompt] = useState(initialPrompt);
   const [selectedStyle, setSelectedStyle] = useState(resolveStickerStyleId(initialStyle));
@@ -335,7 +337,7 @@ export default function StickerGenerator({
       <WorldCupPrompts onUsePrompt={applyExample} />
 
       {/* Example Gallery */}
-      <ExampleGallery onUsePrompt={applyExample} />
+      {showGallery && <ExampleGallery onUsePrompt={applyExample} />}
     </div>
   );
 }

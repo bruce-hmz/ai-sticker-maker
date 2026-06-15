@@ -214,7 +214,7 @@ export default function WorldCupPage() {
       </section>
 
       {/* Generator */}
-      <StickerGenerator promptSuffix="World Cup 2026 FIFA football soccer theme" />
+      <StickerGenerator promptSuffix="World Cup 2026 FIFA football soccer theme" showGallery={false} />
 
       {/* WhatsApp 出口 — 强化 CTR 最高的 whatsapp 词转化路径 */}
       <section className="bg-green-50 border border-green-200 rounded-2xl p-6 my-8">

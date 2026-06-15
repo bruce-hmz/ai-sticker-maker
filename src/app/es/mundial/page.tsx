@@ -110,7 +110,7 @@ export default function MundialPage() {
       </section>
 
       {/* Generator */}
-      <StickerGenerator promptSuffix="Mundial 2026 fútbol soccer tema, colores de la selección" />
+      <StickerGenerator promptSuffix="Mundial 2026 fútbol soccer tema, colores de la selección" showGallery={false} />
 
       {/* WhatsApp 出口 */}
       <section className="bg-green-50 border border-green-200 rounded-2xl p-6 my-8">
