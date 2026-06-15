@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import StickerGenerator from "@/components/StickerGenerator";
+import StickerMarquee from "@/components/StickerMarquee";
 
 // 西语独立页 — 承接 GSC 已排名第1的 "figuritas del mundial"，激活西语市场(墨/南美)
 export const metadata: Metadata = {
@@ -143,35 +144,16 @@ export default function MundialPage() {
         </ol>
       </section>
 
-      {/* Ejemplos */}
-      <section className="py-12">
-        <h2 className="text-2xl font-bold text-center mb-3">
-          Ejemplos de Figuritas del Mundial
-        </h2>
-        <p className="text-gray-400 text-center text-sm mb-8">
-          Figuritas reales hechas con nuestro creador con IA
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {FIGURITAS_EXAMPLES.map((ex) => (
-            <figure
-              key={ex.file}
-              className="bg-white rounded-xl p-3 shadow-sm text-center"
-            >
-              <img
-                src={`/examples/world-cup/${ex.file}`}
-                alt={`Figurita del Mundial 2026: ${ex.caption}`}
-                width={128}
-                height={128}
-                loading="lazy"
-                className="mx-auto mb-2 w-28 h-28 object-contain"
-              />
-              <figcaption className="text-xs text-gray-600 font-medium">
-                {ex.caption}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
+      {/* Ejemplos — marquee 轮播 */}
+      <StickerMarquee
+        stickers={FIGURITAS_EXAMPLES.map((ex) => ({
+          src: `/examples/world-cup/${ex.file}`,
+          alt: `Figurita del Mundial 2026: ${ex.caption}`,
+          label: ex.caption,
+        }))}
+        title="Ejemplos de Figuritas del Mundial"
+        subtitle="Figuritas reales hechas con nuestro creador con IA"
+      />
 
       {/* FAQ */}
       <section className="py-12">

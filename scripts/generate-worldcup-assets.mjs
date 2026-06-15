@@ -45,6 +45,23 @@ const ASSETS = [
   { file: "france-world-cup-sticker.png", style: "chibi", subject: "a cute football wearing France flag blue white and red as a cape, celebrating", alt: "AI generated France World Cup sticker" },
   { file: "germany-world-cup-sticker.png", style: "cartoon", subject: "a cartoon football player in Germany white jersey with black red and gold colors", alt: "AI generated Germany World Cup sticker" },
   { file: "england-world-cup-sticker.png", style: "chibi", subject: "a chibi football with England red and white Saint George cross flag pattern", alt: "AI generated England World Cup sticker" },
+  // 8队 × 2张（球员 + 吉祥物）— 用于球队页主题轮播
+  { file: "brazil-player-sticker.png", style: "chibi", subject: "a chibi football player in Brazil yellow and green jersey celebrating a goal happily", alt: "AI generated Brazil football player sticker" },
+  { file: "brazil-mascot-sticker.png", style: "cute-kawaii", subject: "a cute toucan bird with Brazil flag yellow green and blue colors", alt: "AI generated Brazil toucan mascot sticker" },
+  { file: "argentina-player-sticker.png", style: "chibi", subject: "a chibi football player in Argentina sky blue and white striped jersey celebrating a goal", alt: "AI generated Argentina football player sticker" },
+  { file: "argentina-mascot-sticker.png", style: "cute-kawaii", subject: "a cute jaguar with Argentina sky blue and white colors", alt: "AI generated Argentina jaguar mascot sticker" },
+  { file: "france-player-sticker.png", style: "chibi", subject: "a chibi football player in France blue jersey celebrating a goal", alt: "AI generated France football player sticker" },
+  { file: "france-mascot-sticker.png", style: "cartoon", subject: "a cartoon rooster with France flag blue white and red colors", alt: "AI generated France rooster mascot sticker" },
+  { file: "germany-player-sticker.png", style: "chibi", subject: "a chibi football player in Germany white jersey with black red gold celebrating", alt: "AI generated Germany football player sticker" },
+  { file: "germany-mascot-sticker.png", style: "cartoon", subject: "a cartoon eagle with Germany black red and gold colors", alt: "AI generated Germany eagle mascot sticker" },
+  { file: "england-player-sticker.png", style: "chibi", subject: "a chibi football player in England white jersey celebrating a goal", alt: "AI generated England football player sticker" },
+  { file: "england-mascot-sticker.png", style: "cartoon", subject: "a cute lion with England red and white Saint George flag colors", alt: "AI generated England lion mascot sticker" },
+  { file: "usa-player-sticker.png", style: "chibi", subject: "a chibi football player in USA red white and blue jersey celebrating", alt: "AI generated USA football player sticker" },
+  { file: "usa-mascot-sticker.png", style: "cartoon", subject: "a cute cartoon puppy dog, red white and blue colors, happy", alt: "AI generated USA dog mascot sticker" },
+  { file: "mexico-player-sticker.png", style: "chibi", subject: "a chibi football player in Mexico green jersey celebrating a goal", alt: "AI generated Mexico football player sticker" },
+  { file: "mexico-mascot-sticker.png", style: "cute-kawaii", subject: "a cute chihuahua dog with Mexico flag green white and red colors", alt: "AI generated Mexico chihuahua mascot sticker" },
+  { file: "japan-player-sticker.png", style: "chibi", subject: "a chibi football player in Japan blue jersey celebrating a goal", alt: "AI generated Japan football player sticker" },
+  { file: "japan-mascot-sticker.png", style: "cute-kawaii", subject: "a kawaii crane bird with Japan red and white rising sun flag colors", alt: "AI generated Japan crane mascot sticker" },
 ];
 
 function buildPrompt(subject, style) {
@@ -99,6 +116,13 @@ const arg = process.argv[2] ?? "0";
 let targets;
 if (arg === "all") {
   targets = ASSETS;
+} else if (/^\d+-\d+$/.test(arg)) {
+  const [start, end] = arg.split("-").map((i) => parseInt(i, 10));
+  targets = ASSETS.slice(start, end + 1);
+  if (targets.length === 0) {
+    console.error(`范围无有效索引`);
+    process.exit(1);
+  }
 } else if (arg.includes(",")) {
   targets = arg
     .split(",")

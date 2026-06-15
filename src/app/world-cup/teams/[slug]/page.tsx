@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import StickerGenerator from "@/components/StickerGenerator";
+import StickerMarquee from "@/components/StickerMarquee";
 import { WORLD_CUP_TEAMS, getTeamBySlug } from "@/lib/world-cup-teams";
 
 interface PageProps {
@@ -37,16 +38,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: canonical,
       siteName: "StickerAI",
       type: "website",
-      images: team.stickerFile
-        ? [
-            {
-              url: `/examples/world-cup/${team.stickerFile}`,
-              width: 512,
-              height: 512,
-              alt: `${team.name} World Cup sticker`,
-            },
-          ]
-        : undefined,
+      images:
+        team.stickers.length > 0
+          ? [
+              {
+                url: `/examples/world-cup/${team.stickers[0].file}`,
+                width: 512,
+                height: 512,
+                alt: `${team.name} World Cup sticker`,
+              },
+            ]
+          : undefined,
     },
   };
 }
@@ -111,30 +113,16 @@ export default async function TeamPage({ params }: PageProps) {
         promptSuffix={`${team.name} ${team.jerseyDesc} ${team.colors} World Cup football soccer theme`}
       />
 
-      {/* 球队贴纸展示 */}
-      {team.stickerFile && (
-        <section className="py-10 text-center">
-          <h2 className="text-2xl font-bold mb-2">
-            Sample {team.name} Sticker
-          </h2>
-          <p className="text-gray-400 text-sm mb-6">
-            Made with our {team.name} sticker generator
-          </p>
-          <figure className="bg-white rounded-2xl p-6 shadow-sm inline-block">
-            <img
-              src={`/examples/world-cup/${team.stickerFile}`}
-              alt={`AI generated ${team.name} World Cup 2026 sticker`}
-              width={256}
-              height={256}
-              loading="lazy"
-              className="w-48 h-48 mx-auto object-contain"
-            />
-            <figcaption className="text-xs text-gray-500 mt-3">
-              {team.name} &middot; World Cup 2026
-            </figcaption>
-          </figure>
-        </section>
-      )}
+      {/* 该队贴纸 marquee — 主题强相关轮播 */}
+      <StickerMarquee
+        stickers={team.stickers.map((s) => ({
+          src: `/examples/world-cup/${s.file}`,
+          alt: `AI generated ${team.name} ${s.caption} World Cup 2026 sticker`,
+          label: `${team.flagEmoji} ${s.caption}`,
+        }))}
+        title={`${team.name} Sticker Gallery`}
+        subtitle={`Real ${team.name} stickers made with our generator`}
+      />
 
       {/* Prompt Ideas */}
       <section className="py-10">

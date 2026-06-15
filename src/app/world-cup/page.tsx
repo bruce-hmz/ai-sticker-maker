@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import StickerGenerator from "@/components/StickerGenerator";
+import StickerMarquee from "@/components/StickerMarquee";
 import AdSenseUnit from "@/components/AdSenseUnit";
 import Link from "next/link";
 import { WORLD_CUP_TEAMS } from "@/lib/world-cup-teams";
@@ -291,37 +292,16 @@ export default function WorldCupPage() {
         </div>
       </section>
 
-      {/* Sticker Examples — 图片 SEO 核心：真实贴纸 + 描述性 alt + generator 关键词 */}
-      <section className="py-12">
-        <h2 className="text-2xl font-bold text-center mb-3">
-          World Cup Sticker Generator Examples
-        </h2>
-        <p className="text-gray-400 text-center text-sm mb-8">
-          Real stickers made with our World Cup sticker generator. Tap any idea
-          into the maker above to create your own — free, for WhatsApp &amp;
-          Telegram.
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {WORLD_CUP_EXAMPLES.map((ex) => (
-            <figure
-              key={ex.file}
-              className="bg-white rounded-xl p-3 shadow-sm text-center"
-            >
-              <img
-                src={`/examples/world-cup/${ex.file}`}
-                alt={`AI generated ${ex.caption} World Cup 2026 sticker — ${ex.prompt}`}
-                width={128}
-                height={128}
-                loading="lazy"
-                className="mx-auto mb-2 w-28 h-28 object-contain"
-              />
-              <figcaption className="text-xs text-gray-600 font-medium">
-                {ex.caption}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
+      {/* Sticker Examples — 图片 SEO + generator 关键词，marquee 轮播 */}
+      <StickerMarquee
+        stickers={WORLD_CUP_EXAMPLES.map((ex) => ({
+          src: `/examples/world-cup/${ex.file}`,
+          alt: `AI generated ${ex.caption} World Cup 2026 sticker — ${ex.prompt}`,
+          label: ex.caption,
+        }))}
+        title="World Cup Sticker Generator Examples"
+        subtitle="Real stickers made with our World Cup sticker generator. Tap any idea into the maker above — free, for WhatsApp & Telegram."
+      />
 
       {/* 球队子主题页内链 — programmatic SEO 入口 */}
       <section className="py-12">
