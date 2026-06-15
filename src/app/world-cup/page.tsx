@@ -69,6 +69,19 @@ const WORLD_CUP_FAQ = [
   },
 ];
 
+// 真实生成的世界杯贴纸示例 — 用于图片 SEO (alt + ImageObject schema)
+// 文件名语义化命中 GSC 关键词: world cup + 球队/元素
+const WORLD_CUP_EXAMPLES = [
+  { file: "world-cup-trophy-sticker.png", caption: "Golden Trophy", prompt: "a golden FIFA World Cup trophy with sparkles" },
+  { file: "brazil-world-cup-sticker.png", caption: "Brazil", prompt: "a cute football wearing Brazil flag colors" },
+  { file: "argentina-world-cup-sticker.png", caption: "Argentina", prompt: "a chibi player in Argentina blue-white jersey" },
+  { file: "japan-world-cup-sticker.png", caption: "Japan", prompt: "a kawaii samurai football player" },
+  { file: "usa-world-cup-sticker.png", caption: "USA", prompt: "a cartoon football with USA stars and stripes" },
+  { file: "mexico-world-cup-sticker.png", caption: "Mexico", prompt: "a pixel art football with Mexico colors" },
+  { file: "world-cup-football-sticker.png", caption: "Classic Ball", prompt: "a cute black and white soccer football" },
+  { file: "world-cup-fan-celebration-sticker.png", caption: "Fan Celebration", prompt: "a cartoon soccer fan celebrating a goal" },
+];
+
 export default function WorldCupPage() {
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -127,6 +140,17 @@ export default function WorldCupPage() {
     },
   };
 
+  const imageGallerySchema = {
+    "@context": "https://schema.org",
+    "@graph": WORLD_CUP_EXAMPLES.map((ex) => ({
+      "@type": "ImageObject",
+      contentUrl: `https://stickersit.com/examples/world-cup/${ex.file}`,
+      name: `${ex.caption} World Cup 2026 sticker`,
+      description: `AI generated ${ex.caption} themed FIFA World Cup 2026 sticker`,
+      creator: { "@type": "Organization", name: "StickerAI" },
+    })),
+  };
+
   return (
     <main id="top" className="max-w-2xl mx-auto px-4 py-8">
       <script
@@ -147,6 +171,12 @@ export default function WorldCupPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(sportsEventSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(imageGallerySchema),
         }}
       />
 
@@ -179,6 +209,28 @@ export default function WorldCupPage() {
 
       {/* Generator */}
       <StickerGenerator promptSuffix="World Cup 2026 FIFA football soccer theme" />
+
+      {/* WhatsApp 出口 — 强化 CTR 最高的 whatsapp 词转化路径 */}
+      <section className="bg-green-50 border border-green-200 rounded-2xl p-6 my-8">
+        <h2 className="text-lg font-bold mb-2">
+          💬 Add Your World Cup Stickers to WhatsApp
+        </h2>
+        <p className="text-sm text-gray-600 mb-3">
+          After generating, turn your PNG into a WhatsApp sticker pack in three
+          steps:
+        </p>
+        <ol className="text-sm text-gray-600 space-y-1.5 list-decimal list-inside">
+          <li>
+            Tap <span className="font-medium">Download</span> on your generated
+            sticker.
+          </li>
+          <li>Open a free WhatsApp sticker maker app and import the PNG.</li>
+          <li>
+            Add the pack to WhatsApp and use your World Cup stickers in any
+            chat.
+          </li>
+        </ol>
+      </section>
 
       {/* How It Works */}
       <section className="py-12">
@@ -234,67 +286,34 @@ export default function WorldCupPage() {
         </div>
       </section>
 
-      {/* Sticker Ideas */}
+      {/* Sticker Examples — 图片 SEO 核心：真实贴纸 + 描述性 alt + generator 关键词 */}
       <section className="py-12">
         <h2 className="text-2xl font-bold text-center mb-3">
-          World Cup Sticker Ideas
+          World Cup Sticker Generator Examples
         </h2>
         <p className="text-gray-400 text-center text-sm mb-8">
-          Copy these prompts and generate your own versions
+          Real stickers made with our World Cup sticker generator. Tap any idea
+          into the maker above to create your own — free, for WhatsApp &amp;
+          Telegram.
         </p>
-        <div className="grid grid-cols-2 gap-3">
-          {[
-            {
-              prompt: "a chibi football player celebrating a goal with confetti",
-              style: "Chibi",
-              emoji: "🎉",
-            },
-            {
-              prompt: "a 3D golden World Cup trophy with sparkles",
-              style: "3D Rendered",
-              emoji: "🏆",
-            },
-            {
-              prompt: "a cute kawaii football wearing a tiny crown",
-              style: "Cute Kawaii",
-              emoji: "⚽",
-            },
-            {
-              prompt: "a cartoon football fan with face paint waving a flag",
-              style: "Cartoon",
-              emoji: "🇧🇷",
-            },
-            {
-              prompt: "a pixel art football stadium at night with bright lights",
-              style: "Pixel Art",
-              emoji: "🏟️",
-            },
-            {
-              prompt: "a retro vintage football with 70s colors",
-              style: "Retro",
-              emoji: "📻",
-            },
-            {
-              prompt: "a hand-drawn referee blowing a whistle",
-              style: "Hand-drawn",
-              emoji: "✏️",
-            },
-            {
-              prompt: "a minimalist football with clean single line",
-              style: "Minimalist",
-              emoji: "◻️",
-            },
-          ].map((idea) => (
-            <div
-              key={idea.prompt}
-              className="bg-white rounded-xl p-4 shadow-sm text-center"
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {WORLD_CUP_EXAMPLES.map((ex) => (
+            <figure
+              key={ex.file}
+              className="bg-white rounded-xl p-3 shadow-sm text-center"
             >
-              <span className="text-3xl block mb-2">{idea.emoji}</span>
-              <p className="text-xs text-gray-600 font-medium mb-1">
-                {idea.style}
-              </p>
-              <p className="text-xs text-gray-400">{idea.prompt}</p>
-            </div>
+              <img
+                src={`/examples/world-cup/${ex.file}`}
+                alt={`AI generated ${ex.caption} World Cup 2026 sticker — ${ex.prompt}`}
+                width={128}
+                height={128}
+                loading="lazy"
+                className="mx-auto mb-2 w-28 h-28 object-contain"
+              />
+              <figcaption className="text-xs text-gray-600 font-medium">
+                {ex.caption}
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>
