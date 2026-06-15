@@ -33,7 +33,7 @@ const STYLE_PREFIX = {
 };
 
 // 文件名全部语义化命中 GSC 关键词；球队覆盖 GSC 高需求地区(南美/亚洲/北美)
-const ASSETS = [
+const BASE_ASSETS = [
   { file: "world-cup-trophy-sticker.png", style: "cartoon", subject: "a cute cartoon golden trophy with a happy face, simple flat design", alt: "AI generated golden World Cup trophy sticker" },
   { file: "brazil-world-cup-sticker.png", style: "chibi", subject: "a cute football wearing Brazil flag yellow green and blue as a cape, celebrating", alt: "AI generated Brazil World Cup sticker" },
   { file: "argentina-world-cup-sticker.png", style: "chibi", subject: "a chibi football player in Argentina blue and white striped jersey celebrating a goal", alt: "AI generated Argentina World Cup sticker" },
@@ -63,6 +63,36 @@ const ASSETS = [
   { file: "japan-player-sticker.png", style: "chibi", subject: "a chibi football player in Japan blue jersey celebrating a goal", alt: "AI generated Japan football player sticker" },
   { file: "japan-mascot-sticker.png", style: "cute-kawaii", subject: "a kawaii crane bird with Japan red and white rising sun flag colors", alt: "AI generated Japan crane mascot sticker" },
 ];
+
+// 数据驱动：每国 × 4主题（生动带表情），用于球队页扩充轮播
+const TEAMS = [
+  { slug: "brazil", jersey: "yellow and green jersey", flag: "Brazil flag" },
+  { slug: "argentina", jersey: "blue and white striped jersey", flag: "Argentina flag" },
+  { slug: "france", jersey: "blue jersey", flag: "France flag" },
+  { slug: "germany", jersey: "white jersey", flag: "Germany flag" },
+  { slug: "england", jersey: "white jersey", flag: "England Saint George red and white flag" },
+  { slug: "usa", jersey: "red white and blue jersey", flag: "red white and blue flag" },
+  { slug: "mexico", jersey: "green jersey", flag: "Mexico green white and red tricolor flag" },
+  { slug: "japan", jersey: "blue jersey", flag: "Japan red and white flag" },
+];
+
+const THEMES = [
+  { suffix: "fan", style: "cartoon", tmpl: (t) => `a happy cartoon football fan smiling, wearing a ${t.jersey}, simple flat design, bright` },
+  { suffix: "jersey", style: "cute-kawaii", tmpl: (t) => `a cute soccer jersey in ${t.jersey} style, with a happy smiley face, simple flat design` },
+  { suffix: "flag", style: "cute-kawaii", tmpl: (t) => `a cute kawaii ${t.flag}, simple flat design, bright pastel` },
+  { suffix: "champion", style: "cute-kawaii", tmpl: (t) => `a cute kawaii football player holding a small golden trophy, wearing a ${t.jersey}, simple flat design, pastel` },
+];
+
+const TEAM_ASSETS = TEAMS.flatMap((t) =>
+  THEMES.map((th) => ({
+    file: `${t.slug}-${th.suffix}-sticker.png`,
+    style: th.style,
+    subject: th.tmpl(t),
+    alt: `AI generated ${t.slug} ${th.suffix} sticker`,
+  }))
+);
+
+const ASSETS = [...BASE_ASSETS, ...TEAM_ASSETS];
 
 function buildPrompt(subject, style) {
   return `${STYLE_PREFIX[style]}, ${subject}, isolated on a clean solid pure white background, NO black background, NO dark background, NO text, NO words, NO letters on the sticker`;

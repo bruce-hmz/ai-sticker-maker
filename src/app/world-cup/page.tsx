@@ -3,7 +3,7 @@ import StickerGenerator from "@/components/StickerGenerator";
 import StickerMarquee from "@/components/StickerMarquee";
 import AdSenseUnit from "@/components/AdSenseUnit";
 import Link from "next/link";
-import { WORLD_CUP_TEAMS } from "@/lib/world-cup-teams";
+import { WORLD_CUP_TEAMS, getAllTeamShowcaseStickers } from "@/lib/world-cup-teams";
 
 export const metadata: Metadata = {
   title: "Free World Cup 2026 Sticker Maker for WhatsApp & Telegram | StickerAI",
@@ -294,11 +294,7 @@ export default function WorldCupPage() {
 
       {/* Sticker Examples — 图片 SEO + generator 关键词，marquee 轮播 */}
       <StickerMarquee
-        stickers={WORLD_CUP_EXAMPLES.map((ex) => ({
-          src: `/examples/world-cup/${ex.file}`,
-          alt: `AI generated ${ex.caption} World Cup 2026 sticker — ${ex.prompt}`,
-          label: ex.caption,
-        }))}
+        stickers={getAllTeamShowcaseStickers()}
         title="World Cup Sticker Generator Examples"
         subtitle="Real stickers made with our World Cup sticker generator. Tap any idea into the maker above — free, for WhatsApp & Telegram."
       />

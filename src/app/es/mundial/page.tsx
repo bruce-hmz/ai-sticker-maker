@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import StickerGenerator from "@/components/StickerGenerator";
 import StickerMarquee from "@/components/StickerMarquee";
+import { getAllTeamShowcaseStickers } from "@/lib/world-cup-teams";
 
 // 西语独立页 — 承接 GSC 已排名第1的 "figuritas del mundial"，激活西语市场(墨/南美)
 export const metadata: Metadata = {
@@ -33,15 +34,6 @@ export const metadata: Metadata = {
     ],
   },
 };
-
-const FIGURITAS_EXAMPLES = [
-  { file: "world-cup-trophy-sticker.png", caption: "Trofeo" },
-  { file: "brazil-world-cup-sticker.png", caption: "Brasil" },
-  { file: "argentina-world-cup-sticker.png", caption: "Argentina" },
-  { file: "mexico-world-cup-sticker.png", caption: "México" },
-  { file: "world-cup-football-sticker.png", caption: "Balón" },
-  { file: "world-cup-fan-celebration-sticker.png", caption: "Afición" },
-];
 
 const FIGURITAS_FAQ = [
   {
@@ -146,11 +138,7 @@ export default function MundialPage() {
 
       {/* Ejemplos — marquee 轮播 */}
       <StickerMarquee
-        stickers={FIGURITAS_EXAMPLES.map((ex) => ({
-          src: `/examples/world-cup/${ex.file}`,
-          alt: `Figurita del Mundial 2026: ${ex.caption}`,
-          label: ex.caption,
-        }))}
+        stickers={getAllTeamShowcaseStickers()}
         title="Ejemplos de Figuritas del Mundial"
         subtitle="Figuritas reales hechas con nuestro creador con IA"
       />
