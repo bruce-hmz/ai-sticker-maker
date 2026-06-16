@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { listStickers } from "@/lib/sticker-storage";
 import { STICKER_STYLES } from "@/lib/sticker-styles";
+import { STICKER_THEMES } from "@/lib/sticker-themes";
 
 export const metadata: Metadata = {
   title: "Browse AI Stickers Gallery | StickerAI",
@@ -94,6 +95,27 @@ export default async function StickersPage({ searchParams }: PageProps) {
           {total > 0 ? `${total} verified creations` : "Lab is currently empty"}
         </p>
       </div>
+
+      {/* 主题快捷入口 */}
+      <section className="mb-12">
+        <h2 className="text-sm font-black uppercase tracking-tight text-black mb-4">
+          Quick Themes
+        </h2>
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+          {STICKER_THEMES.map((t) => (
+            <Link
+              key={t.slug}
+              href={`/stickers/${t.slug}`}
+              className="bg-white rounded-lg p-4 border-2 border-gray-100 hover:border-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all text-center"
+            >
+              <span className="text-2xl block mb-1">{t.emoji}</span>
+              <span className="text-[10px] font-black uppercase tracking-tight text-gray-700">
+                {t.name}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* Style Filter */}
       <div className="flex flex-wrap gap-3 mb-12">

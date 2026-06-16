@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { listStickers } from "@/lib/sticker-storage";
 import { WORLD_CUP_TEAMS } from "@/lib/world-cup-teams";
+import { STICKER_THEMES } from "@/lib/sticker-themes";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -68,6 +69,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  // 通用主题页 (programmatic SEO，对冲世界杯后断崖)
+  const themePages: MetadataRoute.Sitemap = STICKER_THEMES.map((t) => ({
+    url: `https://stickersit.com/stickers/${t.slug}`,
+    lastModified: "2026-06-16",
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
   // Dynamic sticker detail pages
   try {
     const { stickers } = await listStickers({ page: 1, limit: 1000 });
@@ -77,9 +86,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "never" as const,
       priority: 0.6,
     }));
-    return [...staticPages, ...teamPages, ...stickerPages];
+    return [...staticPages, ...teamPages, ...themePages, ...stickerPages];
   } catch {
     // If KV not configured, return static pages only
-    return [...staticPages, ...teamPages];
+    return [...staticPages, ...teamPages, ...themePages];
   }
 }

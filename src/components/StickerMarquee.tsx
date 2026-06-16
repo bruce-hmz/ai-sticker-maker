@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 
 interface MarqueeSticker {
   src: string;
@@ -28,14 +29,16 @@ export default function StickerMarquee({
       key={key}
       className="group relative mx-4 w-44 sm:w-52 flex-none bg-white die-cut-static rounded-xl overflow-hidden transition-transform hover:scale-105"
     >
-      <div className="aspect-square p-5 bg-gray-50 flex items-center justify-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={item.src}
-          alt={item.alt}
-          loading="lazy"
-          className="w-full h-full object-contain transition-transform group-hover:scale-110"
-        />
+      <div className="aspect-square p-5 bg-gray-50">
+        <div className="relative w-full h-full">
+          <Image
+            src={item.src}
+            alt={item.alt}
+            fill
+            sizes="(max-width: 640px) 176px, 208px"
+            className="object-contain transition-transform group-hover:scale-110"
+          />
+        </div>
       </div>
       <div className="p-3 border-t-2 border-black/5 bg-white">
         <p className="text-[10px] font-bold text-gray-700 uppercase tracking-tight truncate text-center">
