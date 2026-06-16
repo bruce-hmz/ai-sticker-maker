@@ -5,6 +5,7 @@ export interface WorldCupTeam {
   colors: string; // prompt 用：球队代表色
   jerseyDesc: string; // prompt 用：球衣描述
   stickers: { file: string; caption: string }[]; // 该队主题贴纸（球队页 marquee，每队7张）
+  star?: { file: string; name: string }; // 当家球星卡通（仅 AI 高还原度球队）
   promptIdeas: string[];
 }
 
@@ -26,6 +27,7 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
       { file: "brazil-flag-sticker.png", caption: "Flag" },
       { file: "brazil-champion-sticker.png", caption: "Champion" },
     ],
+    star: { file: "star-brazil-sticker.png", name: "Neymar" },
     promptIdeas: [
       "a chibi football player in Brazil yellow jersey celebrating a goal",
       "a cute football wearing Brazil flag as a cape",
@@ -47,6 +49,7 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
       { file: "argentina-flag-sticker.png", caption: "Flag" },
       { file: "argentina-champion-sticker.png", caption: "Champion" },
     ],
+    star: { file: "star-argentina-sticker.png", name: "Messi" },
     promptIdeas: [
       "a chibi football player in Argentina blue-white striped jersey",
       "a cute football with Argentina sun emblem from flag",
@@ -68,6 +71,7 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
       { file: "france-flag-sticker.png", caption: "Flag" },
       { file: "france-champion-sticker.png", caption: "Champion" },
     ],
+    star: { file: "star-france-sticker.png", name: "Mbappé" },
     promptIdeas: [
       "a chibi football player in France blue jersey",
       "a cute football wearing France tricolor flag as a cape",
@@ -110,6 +114,7 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
       { file: "england-flag-sticker.png", caption: "Flag" },
       { file: "england-champion-sticker.png", caption: "Champion" },
     ],
+    star: { file: "star-england-sticker.png", name: "Bellingham" },
     promptIdeas: [
       "a chibi football player in England white jersey",
       "a cute football with England Saint George red cross flag",
@@ -152,6 +157,7 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
       { file: "mexico-flag-sticker.png", caption: "Flag" },
       { file: "mexico-champion-sticker.png", caption: "Champion" },
     ],
+    star: { file: "star-mexico-sticker.png", name: "Chicharito" },
     promptIdeas: [
       "a pixel art football with Mexico flag colors",
       "a chibi football player in Mexico green jersey",

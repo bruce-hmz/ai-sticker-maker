@@ -108,6 +108,28 @@ export default async function TeamPage({ params }: PageProps) {
         </p>
       </section>
 
+      {/* 当家球星卡通 — 仅 AI 高还原度球队显示 */}
+      {team.star && (
+        <section className="py-6 text-center">
+          <figure className="bg-white rounded-2xl p-6 shadow-sm inline-block">
+            <img
+              src={`/examples/world-cup/${team.star.file}`}
+              alt={`AI cartoon sticker of ${team.star.name}, ${team.name} football star`}
+              width={256}
+              height={256}
+              loading="lazy"
+              className="w-44 h-44 mx-auto object-contain"
+            />
+            <figcaption className="text-sm font-bold text-gray-700 mt-3">
+              {team.flagEmoji} {team.star.name}
+            </figcaption>
+            <p className="text-xs text-gray-400 mt-1">
+              {team.name} Star &middot; cartoon sticker
+            </p>
+          </figure>
+        </section>
+      )}
+
       {/* Generator — 球队主题预填 */}
       <StickerGenerator
         promptSuffix={`${team.name} ${team.jerseyDesc} ${team.colors} World Cup football soccer theme`}
