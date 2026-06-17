@@ -163,6 +163,14 @@ export default function TermsPage() {
           >
             𝕏 @YangDada3983
           </a>
+          <a
+            href="https://fantasynamegenerator.net"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-violet-500 transition-colors"
+          >
+            Fantasy Name Generator
+          </a>
         </p>
       </footer>
     </main>
