@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { WORLD_CUP_GROUPS, getGroupById } from "@/lib/world-cup-groups";
 import { getTeamBySlug } from "@/lib/world-cup-teams";
-import { getGroupMatches } from "@/lib/worldcup-matches";
+import GroupScores from "./GroupScores";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -38,7 +38,6 @@ export default async function GroupPage({ params }: PageProps) {
   const g = getGroupById(id);
   if (!g) notFound();
   const others = WORLD_CUP_GROUPS.filter((x) => x.id !== g.id);
-  const matches = await getGroupMatches(g.name);
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
@@ -76,30 +75,8 @@ export default async function GroupPage({ params }: PageProps) {
         })}
       </div>
 
-      {/* 赛程与比分 */}
-      {matches.length > 0 && (
-        <section className="py-8">
-          <h2 className="text-xl font-bold text-center mb-4">Matches &amp; Scores</h2>
-          <div className="space-y-2">
-            {matches.map((m, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-xl p-3 shadow-sm flex items-center justify-between text-sm"
-              >
-                <span className="text-[10px] text-gray-400 w-20 shrink-0">{m.date}</span>
-                <span className="flex-1 text-right pr-2 font-medium truncate">{m.team1}</span>
-                <span className="font-bold px-2 shrink-0">
-                  {m.score ? `${m.score.ft[0]} - ${m.score.ft[1]}` : "vs"}
-                </span>
-                <span className="flex-1 pl-2 font-medium truncate">{m.team2}</span>
-              </div>
-            ))}
-          </div>
-          <p className="text-[10px] text-gray-300 text-center mt-3">
-            Scores update hourly · data by openfootball
-          </p>
-        </section>
-      )}
+      {/* 赛程与比分（client fetch，浏览器实时拉 openfootball） */}
+      <GroupScores groupName={g.name} />
 
       {/* 其他组 */}
       <section className="py-8">

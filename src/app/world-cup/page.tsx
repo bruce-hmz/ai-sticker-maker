@@ -323,6 +323,28 @@ export default function WorldCupPage() {
         </div>
       </section>
 
+      {/* Groups & Knockout 入口 */}
+      <section className="py-8">
+        <div className="grid grid-cols-2 gap-3">
+          <Link
+            href="/world-cup/groups"
+            className="bg-white rounded-2xl p-5 shadow-sm text-center hover:shadow-md transition-shadow"
+          >
+            <span className="text-3xl block mb-1">🏆</span>
+            <span className="text-sm font-bold text-gray-700">Groups &amp; Scores</span>
+            <span className="text-xs text-gray-400 block">All 12 groups, live scores</span>
+          </Link>
+          <Link
+            href="/world-cup/knockout"
+            className="bg-white rounded-2xl p-5 shadow-sm text-center hover:shadow-md transition-shadow"
+          >
+            <span className="text-3xl block mb-1">⚽</span>
+            <span className="text-sm font-bold text-gray-700">Knockout Stage</span>
+            <span className="text-xs text-gray-400 block">Round of 32 to final</span>
+          </Link>
+        </div>
+      </section>
+
       {/* Ad Unit */}
       <AdSenseUnit slot={process.env.NEXT_PUBLIC_AD_SLOT_CONTENT ?? ""} />
 
