@@ -76,7 +76,15 @@ export default async function GroupPage({ params }: PageProps) {
       </div>
 
       {/* 赛程与比分（client fetch，浏览器实时拉 openfootball） */}
-      <GroupScores groupName={g.name} />
+      <GroupScores
+        groupName={g.name}
+        teams={g.teamSlugs
+          .map((slug) => {
+            const t = getTeamBySlug(slug);
+            return t ? { name: t.name, slug } : null;
+          })
+          .filter((x): x is { name: string; slug: string } => x !== null)}
+      />
 
       {/* 其他组 */}
       <section className="py-8">
