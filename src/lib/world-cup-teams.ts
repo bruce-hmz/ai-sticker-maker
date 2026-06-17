@@ -208,7 +208,10 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇰🇷",
     colors: "red, blue and black",
     jerseyDesc: "red jersey",
-    stickers: [],
+    stickers: [
+      { file: "south-korea-player-sticker.png", caption: "Player" },
+      { file: "south-korea-mascot-sticker.png", caption: "Tiger" },
+    ],
     promptIdeas: [
       "a chibi football player in South Korea red jersey celebrating a goal",
       "a cute football wearing South Korea taegeuk flag colors",
@@ -237,7 +240,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇨🇦",
     colors: "red and white",
     jerseyDesc: "red jersey",
-    stickers: [],
+    stickers: [
+      { file: "canada-world-cup-sticker.png", caption: "Football" },
+      { file: "canada-player-sticker.png", caption: "Player" },
+      { file: "canada-mascot-sticker.png", caption: "Beaver" },
+      { file: "canada-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Canada red jersey celebrating a goal",
       "a cute football wearing Canada red maple leaf flag as a cape",
@@ -250,7 +258,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇧🇦",
     colors: "blue, yellow and white",
     jerseyDesc: "blue jersey",
-    stickers: [],
+    stickers: [
+      { file: "bosnia-world-cup-sticker.png", caption: "Football" },
+      { file: "bosnia-player-sticker.png", caption: "Player" },
+      { file: "bosnia-mascot-sticker.png", caption: "Fleur-de-lis" },
+      { file: "bosnia-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Bosnia blue jersey celebrating a goal",
       "a cute football wearing Bosnia blue and yellow flag colors",
@@ -332,7 +345,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🏴",
     colors: "navy blue and white",
     jerseyDesc: "navy blue jersey",
-    stickers: [],
+    stickers: [
+      { file: "scotland-world-cup-sticker.png", caption: "Football" },
+      { file: "scotland-player-sticker.png", caption: "Player" },
+      { file: "scotland-mascot-sticker.png", caption: "Thistle" },
+      { file: "scotland-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Scotland navy blue jersey celebrating a goal",
       "a cute football wearing Scotland saltire white cross on blue",
@@ -345,7 +363,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇵🇾",
     colors: "red, white and blue",
     jerseyDesc: "red and white striped jersey",
-    stickers: [],
+    stickers: [
+      { file: "paraguay-world-cup-sticker.png", caption: "Football" },
+      { file: "paraguay-player-sticker.png", caption: "Player" },
+      { file: "paraguay-mascot-sticker.png", caption: "Jaguar" },
+      { file: "paraguay-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Paraguay red and white striped jersey",
       "a cute football wearing Paraguay red-white-blue flag colors",
@@ -358,7 +381,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇦🇺",
     colors: "gold and green",
     jerseyDesc: "gold jersey",
-    stickers: [],
+    stickers: [
+      { file: "australia-world-cup-sticker.png", caption: "Football" },
+      { file: "australia-player-sticker.png", caption: "Player" },
+      { file: "australia-mascot-sticker.png", caption: "Kangaroo" },
+      { file: "australia-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Australia gold jersey celebrating a goal",
       "a cute football wearing Australia gold and green flag colors",
@@ -371,7 +399,11 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇹🇷",
     colors: "red and white",
     jerseyDesc: "red jersey",
-    stickers: [],
+    stickers: [
+      { file: "turkey-world-cup-sticker.png", caption: "Football" },
+      { file: "turkey-player-sticker.png", caption: "Player" },
+      { file: "turkey-mascot-sticker.png", caption: "Crescent" },
+    ],
     promptIdeas: [
       "a chibi football player in Turkey red jersey celebrating a goal",
       "a cute football wearing Turkey red flag with white crescent",
@@ -384,7 +416,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇨🇼",
     colors: "blue and yellow",
     jerseyDesc: "blue jersey",
-    stickers: [],
+    stickers: [
+      { file: "curacao-world-cup-sticker.png", caption: "Football" },
+      { file: "curacao-player-sticker.png", caption: "Player" },
+      { file: "curacao-mascot-sticker.png", caption: "Tropical Fish" },
+      { file: "curacao-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Curaçao blue jersey celebrating a goal",
       "a cute football wearing Curaçao blue and yellow flag colors",
@@ -397,7 +434,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇨🇮",
     colors: "orange, white and green",
     jerseyDesc: "orange jersey",
-    stickers: [],
+    stickers: [
+      { file: "ivory-coast-world-cup-sticker.png", caption: "Football" },
+      { file: "ivory-coast-player-sticker.png", caption: "Player" },
+      { file: "ivory-coast-mascot-sticker.png", caption: "Elephant" },
+      { file: "ivory-coast-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Ivory Coast orange jersey celebrating a goal",
       "a cute football wearing Ivory Coast orange-white-green flag colors",
@@ -410,7 +452,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇪🇨",
     colors: "yellow, blue and red",
     jerseyDesc: "yellow jersey",
-    stickers: [],
+    stickers: [
+      { file: "ecuador-world-cup-sticker.png", caption: "Football" },
+      { file: "ecuador-player-sticker.png", caption: "Player" },
+      { file: "ecuador-mascot-sticker.png", caption: "Condor" },
+      { file: "ecuador-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Ecuador yellow jersey celebrating a goal",
       "a cute football wearing Ecuador yellow-blue-red flag colors",
@@ -441,7 +488,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇸🇪",
     colors: "blue and yellow",
     jerseyDesc: "yellow jersey",
-    stickers: [],
+    stickers: [
+      { file: "sweden-world-cup-sticker.png", caption: "Football" },
+      { file: "sweden-player-sticker.png", caption: "Player" },
+      { file: "sweden-mascot-sticker.png", caption: "Viking" },
+      { file: "sweden-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Sweden yellow jersey celebrating a goal",
       "a cute football wearing Sweden yellow cross on blue flag",
@@ -454,7 +506,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇹🇳",
     colors: "red and white",
     jerseyDesc: "red jersey",
-    stickers: [],
+    stickers: [
+      { file: "tunisia-world-cup-sticker.png", caption: "Football" },
+      { file: "tunisia-player-sticker.png", caption: "Player" },
+      { file: "tunisia-mascot-sticker.png", caption: "Camel" },
+      { file: "tunisia-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Tunisia red jersey celebrating a goal",
       "a cute football wearing Tunisia red flag with white crescent",
@@ -485,7 +542,11 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇪🇬",
     colors: "red, white and black",
     jerseyDesc: "red jersey",
-    stickers: [],
+    stickers: [
+      { file: "egypt-world-cup-sticker.png", caption: "Football" },
+      { file: "egypt-mascot-sticker.png", caption: "Pyramid" },
+      { file: "egypt-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Egypt red jersey celebrating a goal",
       "a cute football wearing Egypt red-white-black flag colors",
@@ -498,7 +559,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇮🇷",
     colors: "green, white and red",
     jerseyDesc: "white jersey",
-    stickers: [],
+    stickers: [
+      { file: "iran-world-cup-sticker.png", caption: "Football" },
+      { file: "iran-player-sticker.png", caption: "Player" },
+      { file: "iran-mascot-sticker.png", caption: "Persian Cat" },
+      { file: "iran-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Iran white jersey celebrating a goal",
       "a cute football wearing Iran green-white-red flag colors",
@@ -511,7 +577,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇳🇿",
     colors: "black and white",
     jerseyDesc: "black jersey with white fern",
-    stickers: [],
+    stickers: [
+      { file: "new-zealand-world-cup-sticker.png", caption: "Football" },
+      { file: "new-zealand-player-sticker.png", caption: "Player" },
+      { file: "new-zealand-mascot-sticker.png", caption: "Kiwi" },
+      { file: "new-zealand-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in New Zealand black jersey with white fern",
       "a cute football wearing New Zealand black and silver fern colors",
@@ -560,7 +631,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇸🇦",
     colors: "green and white",
     jerseyDesc: "green jersey",
-    stickers: [],
+    stickers: [
+      { file: "saudi-arabia-world-cup-sticker.png", caption: "Football" },
+      { file: "saudi-arabia-player-sticker.png", caption: "Player" },
+      { file: "saudi-arabia-mascot-sticker.png", caption: "Falcon" },
+      { file: "saudi-arabia-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Saudi Arabia green jersey celebrating a goal",
       "a cute football wearing Saudi Arabia green and white flag colors",
@@ -573,7 +649,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇨🇻",
     colors: "blue, white and red",
     jerseyDesc: "blue jersey",
-    stickers: [],
+    stickers: [
+      { file: "cape-verde-world-cup-sticker.png", caption: "Football" },
+      { file: "cape-verde-player-sticker.png", caption: "Player" },
+      { file: "cape-verde-mascot-sticker.png", caption: "Sea Turtle" },
+      { file: "cape-verde-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Cape Verde blue jersey celebrating a goal",
       "a cute football wearing Cape Verde blue-white-red flag colors",
@@ -586,7 +667,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇸🇳",
     colors: "green, yellow and red",
     jerseyDesc: "white jersey",
-    stickers: [],
+    stickers: [
+      { file: "senegal-world-cup-sticker.png", caption: "Football" },
+      { file: "senegal-player-sticker.png", caption: "Player" },
+      { file: "senegal-mascot-sticker.png", caption: "Baobab" },
+      { file: "senegal-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Senegal white jersey celebrating a goal",
       "a cute football wearing Senegal green-yellow-red flag colors",
@@ -599,7 +685,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇳🇴",
     colors: "red, white and blue",
     jerseyDesc: "red jersey",
-    stickers: [],
+    stickers: [
+      { file: "norway-world-cup-sticker.png", caption: "Football" },
+      { file: "norway-player-sticker.png", caption: "Player" },
+      { file: "norway-mascot-sticker.png", caption: "Troll" },
+      { file: "norway-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Norway red jersey celebrating a goal",
       "a cute football wearing Norway red-white-blue flag colors",
@@ -612,7 +703,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇮🇶",
     colors: "red, white and black",
     jerseyDesc: "white jersey",
-    stickers: [],
+    stickers: [
+      { file: "iraq-world-cup-sticker.png", caption: "Football" },
+      { file: "iraq-player-sticker.png", caption: "Player" },
+      { file: "iraq-mascot-sticker.png", caption: "Date Palm" },
+      { file: "iraq-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Iraq white jersey celebrating a goal",
       "a cute football wearing Iraq red-white-black flag colors",
@@ -625,7 +721,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇩🇿",
     colors: "green and white",
     jerseyDesc: "green jersey",
-    stickers: [],
+    stickers: [
+      { file: "algeria-world-cup-sticker.png", caption: "Football" },
+      { file: "algeria-player-sticker.png", caption: "Player" },
+      { file: "algeria-mascot-sticker.png", caption: "Desert Fox" },
+      { file: "algeria-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Algeria green jersey celebrating a goal",
       "a cute football wearing Algeria green and white flag colors",
@@ -638,7 +739,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇦🇹",
     colors: "red and white",
     jerseyDesc: "red jersey",
-    stickers: [],
+    stickers: [
+      { file: "austria-world-cup-sticker.png", caption: "Football" },
+      { file: "austria-player-sticker.png", caption: "Player" },
+      { file: "austria-mascot-sticker.png", caption: "Sachertorte" },
+      { file: "austria-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Austria red jersey celebrating a goal",
       "a cute football wearing Austria red and white flag colors",
@@ -651,7 +757,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇯🇴",
     colors: "black, white and green",
     jerseyDesc: "red jersey",
-    stickers: [],
+    stickers: [
+      { file: "jordan-world-cup-sticker.png", caption: "Football" },
+      { file: "jordan-player-sticker.png", caption: "Player" },
+      { file: "jordan-mascot-sticker.png", caption: "Petra" },
+      { file: "jordan-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Jordan red jersey celebrating a goal",
       "a cute football wearing Jordan black-white-green flag colors",
@@ -682,7 +793,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇨🇩",
     colors: "sky blue, yellow and red",
     jerseyDesc: "blue jersey",
-    stickers: [],
+    stickers: [
+      { file: "dr-congo-world-cup-sticker.png", caption: "Football" },
+      { file: "dr-congo-player-sticker.png", caption: "Player" },
+      { file: "dr-congo-mascot-sticker.png", caption: "Okapi" },
+      { file: "dr-congo-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in DR Congo blue jersey celebrating a goal",
       "a cute football wearing DR Congo sky blue-yellow-red flag colors",
@@ -695,7 +811,12 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇺🇿",
     colors: "blue, white and green",
     jerseyDesc: "white jersey",
-    stickers: [],
+    stickers: [
+      { file: "uzbekistan-world-cup-sticker.png", caption: "Football" },
+      { file: "uzbekistan-player-sticker.png", caption: "Player" },
+      { file: "uzbekistan-mascot-sticker.png", caption: "Snow Leopard" },
+      { file: "uzbekistan-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Uzbekistan white jersey celebrating a goal",
       "a cute football wearing Uzbekistan blue-white-green flag colors",
@@ -744,7 +865,11 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇬🇭",
     colors: "red, yellow and green",
     jerseyDesc: "white jersey",
-    stickers: [],
+    stickers: [
+      { file: "ghana-player-sticker.png", caption: "Player" },
+      { file: "ghana-mascot-sticker.png", caption: "Elephant" },
+      { file: "ghana-flag-sticker.png", caption: "Flag" },
+    ],
     promptIdeas: [
       "a chibi football player in Ghana white jersey celebrating a goal",
       "a cute football wearing Ghana red-yellow-green flag colors",
@@ -757,7 +882,11 @@ export const WORLD_CUP_TEAMS: WorldCupTeam[] = [
     flagEmoji: "🇵🇦",
     colors: "blue, red and white",
     jerseyDesc: "red jersey",
-    stickers: [],
+    stickers: [
+      { file: "panama-world-cup-sticker.png", caption: "Football" },
+      { file: "panama-player-sticker.png", caption: "Player" },
+      { file: "panama-mascot-sticker.png", caption: "Toucan" },
+    ],
     promptIdeas: [
       "a chibi football player in Panama red jersey celebrating a goal",
       "a cute football wearing Panama blue-red-white flag colors",
