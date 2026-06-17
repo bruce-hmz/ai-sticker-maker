@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { listStickers } from "@/lib/sticker-storage";
 import { WORLD_CUP_TEAMS } from "@/lib/world-cup-teams";
 import { STICKER_THEMES } from "@/lib/sticker-themes";
+import { WORLD_CUP_GROUPS } from "@/lib/world-cup-groups";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -16,6 +17,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: "2026-06-15",
       changeFrequency: "daily",
       priority: 0.9,
+    },
+    {
+      url: "https://stickersit.com/world-cup/groups",
+      lastModified: "2026-06-17",
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: "https://stickersit.com/world-cup/knockout",
+      lastModified: "2026-06-17",
+      changeFrequency: "weekly",
+      priority: 0.8,
     },
     {
       url: "https://stickersit.com/es/mundial",
@@ -77,6 +90,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  // 世界杯分组页 (programmatic SEO)
+  const groupPages: MetadataRoute.Sitemap = WORLD_CUP_GROUPS.map((g) => ({
+    url: `https://stickersit.com/world-cup/group/${g.id}`,
+    lastModified: "2026-06-17",
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
   // Dynamic sticker detail pages
   try {
     const { stickers } = await listStickers({ page: 1, limit: 1000 });
@@ -86,9 +107,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "never" as const,
       priority: 0.6,
     }));
-    return [...staticPages, ...teamPages, ...themePages, ...stickerPages];
+    return [...staticPages, ...teamPages, ...themePages, ...groupPages, ...stickerPages];
   } catch {
     // If KV not configured, return static pages only
-    return [...staticPages, ...teamPages, ...themePages];
+    return [...staticPages, ...teamPages, ...themePages, ...groupPages];
   }
 }
