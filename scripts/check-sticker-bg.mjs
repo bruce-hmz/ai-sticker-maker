@@ -3,7 +3,7 @@ import sharp from "sharp";
 import fs from "fs";
 import path from "path";
 
-const dir = path.resolve("public/examples/world-cup");
+const dir = path.resolve(process.argv[2] || "public/examples/world-cup");
 const files = fs.readdirSync(dir).filter((f) => f.endsWith(".png")).sort();
 
 console.log(`检测 ${files.length} 张贴纸背景（采样最外边缘）...\n`);

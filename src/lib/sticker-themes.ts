@@ -152,6 +152,66 @@ export const STICKER_THEMES: StickerTheme[] = [
       },
     ],
   },
+  {
+    slug: "anime",
+    name: "Anime",
+    emoji: "🎌",
+    promptSuffix: "anime manga style, big expressive eyes, colorful hair",
+    h1: "Anime Sticker Maker",
+    description:
+      "Make anime stickers free — manga girls, chibi heroes, magical characters. AI anime sticker maker for WhatsApp & Telegram. Big eyes, colorful hair, instant PNG. No sign up.",
+    intro:
+      "Big sparkly eyes, colorful hair and manga vibes. Create your own anime character stickers.",
+    keywords: ["anime stickers", "anime sticker maker", "manga sticker", "chibi anime sticker"],
+    stickers: [
+      { file: "anime-girl-big-eyes.png", caption: "Anime Girl" },
+      { file: "anime-boy-chibi.png", caption: "Chibi Boy" },
+      { file: "anime-princess.png", caption: "Princess" },
+      { file: "anime-magical-girl.png", caption: "Magical Girl" },
+      { file: "anime-warrior-chibi.png", caption: "Warrior" },
+      { file: "anime-idol-star.png", caption: "Idol" },
+    ],
+    faq: [
+      {
+        q: "How to make an anime sticker?",
+        a: "Describe your anime character — like \"a cute anime girl with big blue eyes and long pink hair\" or \"a chibi anime warrior with a sword\" — pick a style such as Cute Kawaii or Chibi, and click Generate. In about 30 seconds you get a die-cut PNG anime sticker for WhatsApp, Telegram or iMessage. Free and no sign up.",
+      },
+      {
+        q: "Can I make any anime character?",
+        a: "Yes — describe the look you want: hair color and style, eye shape, outfit and mood. The AI creates an original anime-style character from your description. Avoid requesting real copyrighted characters; describe their features instead (e.g. \"spiky blonde hair, blue eyes, orange outfit\") for an original sticker in that style.",
+      },
+    ],
+  },
+  {
+    slug: "emoji",
+    name: "Emoji",
+    emoji: "😎",
+    promptSuffix: "emoji face, expressive emotion, sticker",
+    h1: "Emoji Sticker Maker",
+    description:
+      "Make custom emoji stickers free — laughing, heart eyes, cool, sad faces. AI emoji sticker generator for WhatsApp & Telegram. Express any emotion, instant PNG. No sign up.",
+    intro:
+      "Express any emotion. Generate custom emoji face stickers for your chats.",
+    keywords: ["emoji stickers", "emoji sticker maker", "emoji face sticker", "custom emoji sticker"],
+    stickers: [
+      { file: "emoji-laughing.png", caption: "Laughing" },
+      { file: "emoji-heart-eyes.png", caption: "Heart Eyes" },
+      { file: "emoji-cool-sunglasses.png", caption: "Cool" },
+      { file: "emoji-sad-puppy.png", caption: "Sad Puppy" },
+      { file: "emoji-wink-tongue.png", caption: "Wink" },
+      { file: "emoji-star-struck.png", caption: "Star Struck" },
+    ],
+    faq: [
+      {
+        q: "How to make a custom emoji sticker?",
+        a: "Describe the emotion and face you want — \"a laughing emoji with tears of joy\" or \"a cool emoji wearing sunglasses\" — pick a style, and generate. You get a die-cut PNG emoji sticker in seconds. Free, no sign up, works on WhatsApp and Telegram.",
+      },
+      {
+        q: "What emotions can I make?",
+        a: "Any emotion: laughing, crying, love (heart eyes), cool, angry, surprised, winking, star-struck and more. Cute Kawaii gives adorable pastel emoji; Cartoon gives bold expressive faces. Describe the exact expression and let the AI render it.",
+      },
+    ],
+  },
 ];
 
 export function getThemeBySlug(slug: string): StickerTheme | undefined {
