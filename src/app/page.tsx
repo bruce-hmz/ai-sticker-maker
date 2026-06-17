@@ -4,6 +4,7 @@ import StartCreatingButton from "@/components/StartCreatingButton";
 import AdSenseUnit from "@/components/AdSenseUnit";
 import { resolveStickerStyleId, STICKER_STYLES } from "@/lib/sticker-styles";
 import { listStickers } from "@/lib/sticker-storage";
+import { STICKER_THEMES } from "@/lib/sticker-themes";
 
 const FAQ_ITEMS = [
   {
@@ -191,15 +192,15 @@ export default async function Home({ searchParams }: PageProps) {
       {/* Hero */}
       <section className="text-center mb-16">
         <div className="inline-block bg-black text-white px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-[0.3em] mb-6">
-          System v2.0
+          Free AI Sticker Maker
         </div>
         <h1 className="text-4xl md:text-5xl font-black leading-[0.9] mb-6 uppercase tracking-tighter">
-          The AI Sticker
+          AI Sticker
           <br />
-          <span className="text-accent">Workshop</span>
+          <span className="text-accent">Maker</span>
         </h1>
         <p className="text-gray-500 text-sm mb-2 font-bold uppercase tracking-widest">
-          No app. No login. Just pure creation.
+          Free AI sticker maker for WhatsApp, Telegram &amp; more.
         </p>
         <p className="text-black font-black text-xs uppercase border-y-2 border-black inline-block py-1 tracking-tight">
           WhatsApp • Telegram • iMessage • Discord
@@ -268,6 +269,26 @@ export default async function Home({ searchParams }: PageProps) {
           </p>
         </div>
       </Link>
+
+      {/* Sticker Themes — SEO 内链 + 主题发现 */}
+      <section className="py-12">
+        <h2 className="text-2xl font-bold text-center mb-3">Sticker Themes</h2>
+        <p className="text-gray-400 text-center text-sm mb-8">
+          Pick a theme and start creating your own stickers
+        </p>
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+          {STICKER_THEMES.map((t) => (
+            <Link
+              key={t.slug}
+              href={`/stickers/${t.slug}`}
+              className="bg-white rounded-xl p-4 shadow-sm text-center hover:shadow-md transition-shadow"
+            >
+              <span className="text-3xl block mb-1">{t.emoji}</span>
+              <span className="text-xs font-bold text-gray-700">{t.name}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* How To Section */}
       <section className="py-16 border-t-2 border-black/5">
