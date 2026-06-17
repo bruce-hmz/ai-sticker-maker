@@ -15,7 +15,10 @@ const DATA_URL =
 
 export async function getWorldCupMatches(): Promise<WorldCupMatch[]> {
   try {
-    const res = await fetch(DATA_URL, { next: { revalidate: 3600 } });
+    const res = await fetch(DATA_URL, {
+      next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(10000),
+    });
     if (!res.ok) return [];
     const data = await res.json();
     return data.matches ?? [];
