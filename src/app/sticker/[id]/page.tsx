@@ -69,6 +69,10 @@ export default async function StickerDetailPage({ params }: PageProps) {
       name: `AI sticker of ${sticker.prompt}`,
       description: `AI-generated ${styleName} style sticker`,
       uploadDate: sticker.createdAt,
+      creditText: "StickerAI",
+      copyrightNotice: "© StickerAI",
+      license: "https://stickersit.com/terms",
+      acquireLicensePage: "https://stickersit.com/terms",
     },
     {
       "@context": "https://schema.org",

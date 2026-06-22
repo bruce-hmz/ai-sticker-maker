@@ -154,6 +154,10 @@ export default function WorldCupPage() {
       name: `${ex.caption} World Cup 2026 sticker`,
       description: `AI generated ${ex.caption} themed FIFA World Cup 2026 sticker`,
       creator: { "@type": "Organization", name: "StickerAI" },
+      creditText: "StickerAI",
+      copyrightNotice: "© StickerAI",
+      license: "https://stickersit.com/terms",
+      acquireLicensePage: "https://stickersit.com/terms",
     })),
   };
 
