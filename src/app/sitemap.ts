@@ -3,6 +3,7 @@ import { listStickers } from "@/lib/sticker-storage";
 import { WORLD_CUP_TEAMS } from "@/lib/world-cup-teams";
 import { STICKER_THEMES } from "@/lib/sticker-themes";
 import { WORLD_CUP_GROUPS } from "@/lib/world-cup-groups";
+import { BLOG_POSTS } from "@/lib/blog-posts";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -40,6 +41,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: "https://stickersit.com/how-to-make-a-sticker-on-iphone",
       lastModified: "2026-06-07",
       changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://stickersit.com/blog",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
       priority: 0.8,
     },
     {
@@ -98,6 +105,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  // 博客文章页（元数据驱动）
+  const blogPages: MetadataRoute.Sitemap = BLOG_POSTS.filter(
+    (p) => p.path !== "/how-to-make-a-sticker-on-iphone", // 已在 staticPages 中
+  ).map((p) => ({
+    url: `https://stickersit.com${p.path}`,
+    lastModified: p.publishedAt,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
   // Dynamic sticker detail pages
   try {
     const { stickers } = await listStickers({ page: 1, limit: 1000 });
@@ -107,9 +124,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "never" as const,
       priority: 0.6,
     }));
-    return [...staticPages, ...teamPages, ...themePages, ...groupPages, ...stickerPages];
+    return [...staticPages, ...teamPages, ...themePages, ...groupPages, ...blogPages, ...stickerPages];
   } catch {
     // If KV not configured, return static pages only
-    return [...staticPages, ...teamPages, ...themePages, ...groupPages];
+    return [...staticPages, ...teamPages, ...themePages, ...groupPages, ...blogPages];
   }
 }

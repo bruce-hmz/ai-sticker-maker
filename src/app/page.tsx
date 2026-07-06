@@ -5,6 +5,7 @@ import AdSenseUnit from "@/components/AdSenseUnit";
 import { resolveStickerStyleId, STICKER_STYLES } from "@/lib/sticker-styles";
 import { listStickers } from "@/lib/sticker-storage";
 import { STICKER_THEMES } from "@/lib/sticker-themes";
+import { postsByNewest } from "@/lib/blog-posts";
 
 const FAQ_ITEMS = [
   {
@@ -290,6 +291,39 @@ export default async function Home({ searchParams }: PageProps) {
         </div>
       </section>
 
+      {/* Sticker Guides — content discovery + 内链到博客 */}
+      <section className="py-12">
+        <div className="flex justify-between items-end mb-6">
+          <div>
+            <h2 className="text-2xl font-bold">Sticker Guides</h2>
+            <p className="text-gray-400 text-sm">
+              Tutorials on sizes, packs, and making stickers for every app
+            </p>
+          </div>
+          <Link
+            href="/blog"
+            className="text-xs text-violet-600 font-bold uppercase tracking-widest hover:underline shrink-0"
+          >
+            View all →
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {postsByNewest().slice(0, 3).map((post) => (
+            <Link
+              key={post.slug}
+              href={post.path}
+              className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow block"
+            >
+              <p className="text-[10px] font-black uppercase tracking-tight text-violet-600 mb-2">
+                {post.category}
+              </p>
+              <p className="text-sm font-bold text-black mb-2">{post.title}</p>
+              <p className="text-xs text-gray-500 line-clamp-3">{post.description}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* How To Section */}
       <section className="py-16 border-t-2 border-black/5">
         <h2 className="text-3xl font-black uppercase tracking-tighter text-center mb-4">
@@ -406,36 +440,6 @@ export default async function Home({ searchParams }: PageProps) {
         </p>
         <StartCreatingButton />
       </section>
-
-      {/* Footer */}
-      <footer className="text-center py-10 text-xs text-gray-300 border-t border-gray-100 mt-8">
-        <p className="text-sm font-semibold text-gray-400 mb-1">StickerAI</p>
-        <p className="mb-3">Free AI Sticker Maker for WhatsApp, Telegram &amp; More</p>
-        <div className="flex flex-wrap justify-center gap-4 mt-2">
-          <Link href="/stickers" className="text-gray-400 hover:text-violet-500 transition-colors">Browse Stickers</Link>
-          <Link href="/about" className="text-gray-400 hover:text-violet-500 transition-colors">About</Link>
-          <Link href="/contact" className="text-gray-400 hover:text-violet-500 transition-colors">Contact</Link>
-          <Link href="/privacy" className="text-gray-400 hover:text-violet-500 transition-colors">Privacy Policy</Link>
-          <Link href="/terms" className="text-gray-400 hover:text-violet-500 transition-colors">Terms</Link>
-          <Link href="/how-to-make-a-sticker-on-iphone" className="text-gray-400 hover:text-violet-500 transition-colors">iPhone Stickers</Link>
-          <a
-            href="https://x.com/YangDada3983"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-violet-500 transition-colors"
-          >
-            𝕏 @YangDada3983
-          </a>
-          <a
-            href="https://fantasynamegenerator.net"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-violet-500 transition-colors"
-          >
-            Fantasy Name Generator
-          </a>
-        </div>
-      </footer>
     </main>
   );
 }

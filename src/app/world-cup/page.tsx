@@ -130,22 +130,6 @@ export default function WorldCupPage() {
     ],
   };
 
-  const sportsEventSchema = {
-    "@context": "https://schema.org",
-    "@type": "SportsEvent",
-    name: "FIFA World Cup 2026",
-    startDate: "2026-06-11",
-    endDate: "2026-07-19",
-    location: {
-      "@type": "Place",
-      name: "United States, Canada, Mexico",
-    },
-    organizer: {
-      "@type": "Organization",
-      name: "FIFA",
-    },
-  };
-
   const imageGallerySchema = {
     "@context": "https://schema.org",
     "@graph": WORLD_CUP_EXAMPLES.map((ex) => ({
@@ -176,12 +160,6 @@ export default function WorldCupPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(sportsEventSchema),
-        }}
       />
       <script
         type="application/ld+json"
@@ -387,37 +365,6 @@ export default function WorldCupPage() {
           ⚽ Create World Cup Sticker
         </a>
       </section>
-
-      {/* Footer */}
-      <footer className="text-center py-10 text-xs text-gray-300 border-t border-gray-100 mt-8">
-        <p className="text-sm font-semibold text-gray-400 mb-1">StickerAI</p>
-        <p className="mb-3">
-          Free World Cup 2026 Sticker Maker for WhatsApp, Telegram &amp; More
-        </p>
-        <div className="flex flex-wrap justify-center gap-4 mt-2">
-          <Link href="/" className="text-gray-400 hover:text-violet-500 transition-colors">Home</Link>
-          <Link href="/about" className="text-gray-400 hover:text-violet-500 transition-colors">About</Link>
-          <Link href="/contact" className="text-gray-400 hover:text-violet-500 transition-colors">Contact</Link>
-          <Link href="/privacy" className="text-gray-400 hover:text-violet-500 transition-colors">Privacy Policy</Link>
-          <Link href="/terms" className="text-gray-400 hover:text-violet-500 transition-colors">Terms</Link>
-          <a
-            href="https://x.com/YangDada3983"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-violet-500 transition-colors"
-          >
-            𝕏 @YangDada3983
-          </a>
-          <a
-            href="https://fantasynamegenerator.net"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-violet-500 transition-colors"
-          >
-            Fantasy Name Generator
-          </a>
-        </div>
-      </footer>
     </main>
   );
 }

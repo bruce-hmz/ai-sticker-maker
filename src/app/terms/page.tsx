@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Terms of Service | StickerAI",
@@ -147,32 +146,6 @@ export default function TermsPage() {
           </p>
         </section>
       </div>
-
-      <footer className="text-center py-10 text-xs text-gray-300 border-t border-gray-100 mt-8">
-        <p className="text-sm font-semibold text-gray-400 mb-1">StickerAI</p>
-        <p className="mt-2">
-          <Link href="/" className="text-violet-400 hover:text-violet-600">
-            &larr; Back to StickerAI Home
-          </Link>
-          <span className="mx-2">·</span>
-          <a
-            href="https://x.com/YangDada3983"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-violet-500 transition-colors"
-          >
-            𝕏 @YangDada3983
-          </a>
-          <a
-            href="https://fantasynamegenerator.net"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-400 hover:text-violet-500 transition-colors"
-          >
-            Fantasy Name Generator
-          </a>
-        </p>
-      </footer>
     </main>
   );
 }

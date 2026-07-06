@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -59,7 +61,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://image.pollinations.ai" />
       </head>
       <body className="min-h-full flex flex-col bg-gray-50">
-        {children}
+        <SiteHeader />
+        <div className="flex-1">{children}</div>
+        <SiteFooter />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-83FLS7XP32"
           strategy="afterInteractive"

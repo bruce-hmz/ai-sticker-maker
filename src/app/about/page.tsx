@@ -109,13 +109,6 @@ export default function AboutPage() {
           </p>
         </section>
       </div>
-
-      <div className="mt-10 pt-6 border-t border-gray-100 flex gap-4 text-xs text-gray-400">
-        <Link href="/" className="hover:text-violet-500">Home</Link>
-        <Link href="/privacy" className="hover:text-violet-500">Privacy Policy</Link>
-        <Link href="/terms" className="hover:text-violet-500">Terms</Link>
-        <Link href="/contact" className="hover:text-violet-500">Contact</Link>
-      </div>
     </main>
   );
 }
