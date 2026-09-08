@@ -38,3 +38,20 @@ export function getImageProviders(): ImageProviderRegistry {
   cached = { primary, fallback: primary ? fallback : null, referenceCapable };
   return cached;
 }
+
+/**
+ * Provider for reference-image generation (photo → sticker pack).
+ *
+ * Unlike text generation, this MUST NOT fall back to a text-only provider:
+ * a text-only "success" would silently produce a different character and
+ * lose the uploaded subject's identity. Callers receive null instead and
+ * must fail explicitly when no reference-capable provider is configured.
+ */
+export function getReferenceProvider(): ImageProvider | null {
+  return getImageProviders().referenceCapable;
+}
+
+/** Test-only: forget the cached registry so env changes take effect. */
+export function resetProviderCacheForTests() {
+  cached = null;
+}

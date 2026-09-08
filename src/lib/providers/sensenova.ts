@@ -86,10 +86,14 @@ export class SenseNovaAdapter implements ImageProvider {
     }
 
     if (!response.ok) {
-      // 401/403 = bad key, 400 = rejected params; caller surfaces a generic message.
+      // Map upstream status to caller-facing status: 400 stays a client-side
+      // rejection (no retry/fallback will help), 429 stays retryable, auth
+      // errors and anything else surface as a generic upstream failure.
+      const upstream = response.status;
+      const status = upstream === 400 ? 400 : upstream === 429 ? 429 : 502;
       throw new ProviderError(
-        `Image provider rejected the request (${response.status})`,
-        response.status === 401 || response.status === 403 ? 502 : 502,
+        `Image provider rejected the request (${upstream})`,
+        status,
       );
     }
 
