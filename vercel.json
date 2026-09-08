@@ -2,6 +2,9 @@
   "functions": {
     "src/app/api/generate/route.ts": {
       "maxDuration": 60
+    },
+    "src/app/api/pack/sticker/route.ts": {
+      "maxDuration": 60
     }
   }
 }
