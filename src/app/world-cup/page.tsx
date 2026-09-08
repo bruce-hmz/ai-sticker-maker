@@ -6,7 +6,7 @@ import Link from "next/link";
 import { WORLD_CUP_TEAMS, getAllTeamShowcaseStickers } from "@/lib/world-cup-teams";
 
 export const metadata: Metadata = {
-  title: "Free World Cup 2026 Sticker Maker for WhatsApp & Telegram | StickerAI",
+  title: "Free World Cup 2026 Sticker Maker for WhatsApp & Telegram | StickerSit",
   description:
     "Create custom FIFA World Cup 2026 stickers for WhatsApp, Telegram, iMessage. Free AI sticker maker — generate football, trophy, team stickers instantly. No app, no sign up.",
   keywords: [
@@ -26,13 +26,13 @@ export const metadata: Metadata = {
       "Create custom World Cup stickers with AI. Free, instant, no sign up. Works with WhatsApp, Telegram, iMessage.",
     type: "website",
     url: "https://stickersit.com/world-cup",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     images: [
       {
         url: "/thumbnail.png",
         width: 1200,
         height: 630,
-        alt: "StickerAI - Free World Cup 2026 Sticker Maker",
+        alt: "StickerSit - Free World Cup 2026 Sticker Maker",
       },
     ],
   },
@@ -55,23 +55,23 @@ export const metadata: Metadata = {
 const WORLD_CUP_FAQ = [
   {
     q: "How to make World Cup stickers for WhatsApp?",
-    a: "Making FIFA World Cup 2026 stickers for WhatsApp is easy with StickerAI at stickersit.com/world-cup. Simply visit the page on your phone or computer, type your World Cup sticker idea in the text box — for example \"a cute football with Brazil flag colors\" or \"a chibi football player celebrating a goal\" — pick a style like Kawaii or Chibi, and click Generate. The AI creates your custom sticker in about 30 seconds. Download the PNG file, then open WhatsApp and add it to your sticker tray using any sticker pack tool. No app download or sign-up is required — it works entirely in your mobile browser. You can generate unlimited World Cup stickers for free and create themed packs of 3-12 stickers for each match day.",
+    a: "Making FIFA World Cup 2026 stickers for WhatsApp is easy with StickerSit at stickersit.com/world-cup. Simply visit the page on your phone or computer, type your World Cup sticker idea in the text box — for example \"a cute football with Brazil flag colors\" or \"a chibi football player celebrating a goal\" — pick a style like Kawaii or Chibi, and click Generate. The AI creates your custom sticker in about 30 seconds. Download the PNG file, then open WhatsApp and add it to your sticker tray using any sticker pack tool. No app download or sign-up is required — it works entirely in your mobile browser. You can generate unlimited World Cup stickers for free and create themed packs of 3-12 stickers for each match day.",
   },
   {
     q: "Are these World Cup stickers free?",
-    a: "Yes, all World Cup 2026 stickers created on StickerAI (stickersit.com/world-cup) are completely free. No sign-up, no app download, no hidden fees, and no watermarks on your downloaded stickers. You can generate unlimited stickers for every World Cup match, every team, and every celebration moment without ever entering a credit card or email address. Unlike paid sticker apps that charge $1-3 per sticker pack, StickerAI gives you unlimited creative freedom at zero cost. The tool is supported by non-intrusive advertising, so all features — including all 8 artistic styles, unlimited downloads, and PNG export — are available to everyone for free. Whether you're making stickers for one match or the entire tournament, the price is always $0.",
+    a: "Yes, all World Cup 2026 stickers created on StickerSit (stickersit.com/world-cup) are completely free. No sign-up, no app download, no hidden fees, and no watermarks on your downloaded stickers. You can generate unlimited stickers for every World Cup match, every team, and every celebration moment without ever entering a credit card or email address. Unlike paid sticker apps that charge $1-3 per sticker pack, StickerSit gives you unlimited creative freedom at zero cost. The tool is supported by non-intrusive advertising, so all features — including all 8 artistic styles, unlimited downloads, and PNG export — are available to everyone for free. Whether you're making stickers for one match or the entire tournament, the price is always $0.",
   },
   {
     q: "Can I make stickers for my favorite World Cup team?",
-    a: "Absolutely! StickerAI can create stickers for any of the 48 teams competing in the 2026 FIFA World Cup. Just describe your team's visual identity in the prompt — include the country's flag colors, jersey design, mascot, or famous symbols. For example: \"a chibi football player wearing Argentina's blue and white striped jersey celebrating a goal\" will produce an Argentina-themed sticker. For Brazil, try \"a cute football wearing a yellow and green Brazilian flag as a cape\". For Japan, write \"a kawaii samurai football player with a rising sun background\". You can also create stickers for specific moments — penalty kicks, trophy celebrations, fan reactions, or stadium scenes. The more specific you are about the team colors and the action, the more accurate and recognizable your sticker will be.",
+    a: "Absolutely! StickerSit can create stickers for any of the 48 teams competing in the 2026 FIFA World Cup. Just describe your team's visual identity in the prompt — include the country's flag colors, jersey design, mascot, or famous symbols. For example: \"a chibi football player wearing Argentina's blue and white striped jersey celebrating a goal\" will produce an Argentina-themed sticker. For Brazil, try \"a cute football wearing a yellow and green Brazilian flag as a cape\". For Japan, write \"a kawaii samurai football player with a rising sun background\". You can also create stickers for specific moments — penalty kicks, trophy celebrations, fan reactions, or stadium scenes. The more specific you are about the team colors and the action, the more accurate and recognizable your sticker will be.",
   },
   {
     q: "What sticker styles work best for World Cup themes?",
-    a: "Each of StickerAI's 8 styles creates a different mood that works for different World Cup moments. Chibi style is the fan favorite for player stickers — the oversized heads and cute proportions make even intense celebrations look fun and shareable. Cartoon style produces bold, vibrant stickers that work great for fan reactions and group chat celebrations. 3D Rendered creates stunning trophy and football stickers with realistic lighting — perfect for \"we won!\" moments. Pixel Art gives a retro arcade gaming vibe that matches the tournament energy. Cute Kawaii turns footballs, mascots, and national symbols into adorable characters that everyone loves. Hand-drawn adds an authentic, sketch-like feel for artistic football scenes. Try the same prompt in multiple styles and pick the one that best captures the emotion of the moment.",
+    a: "Each of StickerSit's 8 styles creates a different mood that works for different World Cup moments. Chibi style is the fan favorite for player stickers — the oversized heads and cute proportions make even intense celebrations look fun and shareable. Cartoon style produces bold, vibrant stickers that work great for fan reactions and group chat celebrations. 3D Rendered creates stunning trophy and football stickers with realistic lighting — perfect for \"we won!\" moments. Pixel Art gives a retro arcade gaming vibe that matches the tournament energy. Cute Kawaii turns footballs, mascots, and national symbols into adorable characters that everyone loves. Hand-drawn adds an authentic, sketch-like feel for artistic football scenes. Try the same prompt in multiple styles and pick the one that best captures the emotion of the moment.",
   },
   {
     q: "Can I share World Cup stickers on Telegram and Discord?",
-    a: "Yes! All World Cup stickers from stickersit.com download as PNG files that work on every messaging platform. For Telegram, open the @Stickers bot, send your downloaded PNG stickers, and it will create a shareable sticker pack with a custom name and icon that anyone on Telegram can install. For Discord, go to Server Settings then Stickers, and upload your PNG files — Discord recommends 320x320 pixels and supports animated stickers as well. For iMessage on iPhone, use the free \"Sticker Maker Studio\" app to import your World Cup PNGs into iMessage. Because StickerAI exports in the universal PNG format, your World Cup 2026 stickers are compatible with any chat app that supports custom stickers, including Signal, LINE, and WeChat. Share your sticker pack links in your World Cup group chats so everyone can use the same stickers during matches.",
+    a: "Yes! All World Cup stickers from stickersit.com download as PNG files that work on every messaging platform. For Telegram, open the @Stickers bot, send your downloaded PNG stickers, and it will create a shareable sticker pack with a custom name and icon that anyone on Telegram can install. For Discord, go to Server Settings then Stickers, and upload your PNG files — Discord recommends 320x320 pixels and supports animated stickers as well. For iMessage on iPhone, use the free \"Sticker Maker Studio\" app to import your World Cup PNGs into iMessage. Because StickerSit exports in the universal PNG format, your World Cup 2026 stickers are compatible with any chat app that supports custom stickers, including Signal, LINE, and WeChat. Share your sticker pack links in your World Cup group chats so everyone can use the same stickers during matches.",
   },
 ];
 
@@ -93,7 +93,7 @@ export default function WorldCupPage() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": "https://stickersit.com/#organization",
-    name: "StickerAI",
+    name: "StickerSit",
     url: "https://stickersit.com",
     logo: "https://stickersit.com/thumbnail.png",
     description:
@@ -137,9 +137,9 @@ export default function WorldCupPage() {
       contentUrl: `https://stickersit.com/examples/world-cup/${ex.file}`,
       name: `${ex.caption} World Cup 2026 sticker`,
       description: `AI generated ${ex.caption} themed FIFA World Cup 2026 sticker`,
-      creator: { "@type": "Organization", name: "StickerAI" },
-      creditText: "StickerAI",
-      copyrightNotice: "© StickerAI",
+      creator: { "@type": "Organization", name: "StickerSit" },
+      creditText: "StickerSit",
+      copyrightNotice: "© StickerSit",
       license: "https://stickersit.com/terms",
       acquireLicensePage: "https://stickersit.com/terms",
     })),

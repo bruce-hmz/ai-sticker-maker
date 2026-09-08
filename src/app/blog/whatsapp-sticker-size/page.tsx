@@ -11,7 +11,7 @@ const DESCRIPTION =
 const PUBLISHED = "2026-07-06";
 
 export const metadata: Metadata = {
-  title: `${TITLE} | StickerAI`,
+  title: `${TITLE} | StickerSit`,
   description: DESCRIPTION,
   keywords: [
     "whatsapp sticker size",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: `${SITE}${PATH}`,
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "article",
     images: [{ url: "/thumbnail.png", width: 1200, height: 630, alt: TITLE }],
   },
@@ -124,10 +124,10 @@ export default function WhatsAppStickerSizePage() {
     description: DESCRIPTION,
     datePublished: PUBLISHED,
     dateModified: PUBLISHED,
-    author: { "@type": "Organization", name: "StickerAI", url: SITE },
+    author: { "@type": "Organization", name: "StickerSit", url: SITE },
     publisher: {
       "@type": "Organization",
-      name: "StickerAI",
+      name: "StickerSit",
       logo: { "@type": "ImageObject", url: `${SITE}/thumbnail.png` },
     },
     mainEntityOfPage: `${SITE}${PATH}`,
@@ -184,7 +184,7 @@ export default function WhatsAppStickerSizePage() {
           and how to resize any image to 512×512.
         </p>
         <p className="text-xs text-gray-400">
-          Updated {PUBLISHED} · 6 min read · by StickerAI
+          Updated {PUBLISHED} · 6 min read · by StickerSit
         </p>
       </section>
 
@@ -320,7 +320,7 @@ export default function WhatsAppStickerSizePage() {
           </p>
         </div>
         <div className="bg-green-50 rounded-lg p-4 text-sm text-green-700 mt-4">
-          <strong>Tip:</strong> AI sticker tools like StickerAI export at the
+          <strong>Tip:</strong> AI sticker tools like StickerSit export at the
           right size with the background already removed, so you can skip
           straight to step 4. <Link href="/" className="underline">Open the sticker maker</Link>.
         </div>
@@ -395,7 +395,7 @@ export default function WhatsAppStickerSizePage() {
       <section className="mt-10 text-center py-8 border-t border-gray-100">
         <h2 className="text-lg font-bold mb-2">Want stickers sized perfectly?</h2>
         <p className="text-sm text-gray-500 mb-5">
-          StickerAI exports at 512×512 with a transparent background, ready to go.
+          StickerSit exports at 512×512 with a transparent background, ready to go.
         </p>
         <Link
           href="/"

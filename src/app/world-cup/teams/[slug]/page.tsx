@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const team = getTeamBySlug(slug);
   if (!team) return { title: "Team Not Found" };
 
-  const title = `${team.name} World Cup 2026 Stickers | StickerAI`;
+  const title = `${team.name} World Cup 2026 Stickers | StickerSit`;
   const desc = `Create free ${team.name} World Cup 2026 stickers for WhatsApp & Telegram. AI ${team.name} sticker maker — ${team.colors} team themes, instant, no sign up.`;
   const canonical = `https://stickersit.com/world-cup/teams/${team.slug}`;
 
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description: desc,
       url: canonical,
-      siteName: "StickerAI",
+      siteName: "StickerSit",
       type: "website",
       images:
         team.stickers.length > 0

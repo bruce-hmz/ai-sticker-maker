@@ -2,23 +2,23 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About | StickerAI",
+  title: "About | StickerSit",
   description:
-    "StickerAI is a free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord. No app download, no sign up required.",
+    "StickerSit is a free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord. No app download, no sign up required.",
   alternates: { canonical: "https://stickersit.com/about" },
   openGraph: {
-    title: "About | StickerAI",
+    title: "About | StickerSit",
     description:
-      "StickerAI is a free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord. No app download, no sign up required.",
+      "StickerSit is a free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord. No app download, no sign up required.",
     url: "https://stickersit.com/about",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "About | StickerAI",
+    title: "About | StickerSit",
     description:
-      "StickerAI is a free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord.",
+      "StickerSit is a free AI-powered sticker maker for WhatsApp, Telegram, iMessage, and Discord.",
   },
 };
 
@@ -38,13 +38,13 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <h1 className="text-3xl font-bold mb-6">About StickerAI</h1>
+      <h1 className="text-3xl font-bold mb-6">About StickerSit</h1>
 
       <div className="space-y-8 text-sm text-gray-700 leading-relaxed">
         <section>
-          <h2 className="text-lg font-semibold mb-3">What is StickerAI?</h2>
+          <h2 className="text-lg font-semibold mb-3">What is StickerSit?</h2>
           <p>
-            StickerAI (stickersit.com) is a free, browser-based AI sticker generator. Type a description,
+            StickerSit (stickersit.com) is a free, browser-based AI sticker generator. Type a description,
             pick an art style, and get custom stickers ready for WhatsApp, Telegram, iMessage, or Discord
             — in about 30 seconds, with no app download and no account required.
           </p>
@@ -54,7 +54,7 @@ export default function AboutPage() {
           <h2 className="text-lg font-semibold mb-3">Why we built it</h2>
           <p>
             Making custom chat stickers used to require downloading an app, signing up, and navigating
-            complicated tools. We wanted to remove all that friction. StickerAI lets anyone create a
+            complicated tools. We wanted to remove all that friction. StickerSit lets anyone create a
             unique sticker from a simple text description, right in the browser, completely free.
           </p>
         </section>
@@ -76,7 +76,7 @@ export default function AboutPage() {
         <section>
           <h2 className="text-lg font-semibold mb-3">Our commitment</h2>
           <p>
-            StickerAI will always have a free tier. We believe creative tools should be accessible
+            StickerSit will always have a free tier. We believe creative tools should be accessible
             to everyone. We respect your privacy — we do not store the stickers you generate or require
             any personal information to use the service.
           </p>

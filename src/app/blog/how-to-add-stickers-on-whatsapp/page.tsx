@@ -12,7 +12,7 @@ const DESCRIPTION =
 const PUBLISHED = "2026-07-06";
 
 export const metadata: Metadata = {
-  title: `${TITLE} | StickerAI`,
+  title: `${TITLE} | StickerSit`,
   description: DESCRIPTION,
   keywords: [
     "how to add stickers on whatsapp",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: `${SITE}${PATH}`,
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "article",
     images: [{ url: "/thumbnail.png", width: 1200, height: 630, alt: TITLE }],
   },
@@ -86,10 +86,10 @@ export default function HowToAddStickersOnWhatsAppPage() {
     description: DESCRIPTION,
     datePublished: PUBLISHED,
     dateModified: PUBLISHED,
-    author: { "@type": "Organization", name: "StickerAI", url: SITE },
+    author: { "@type": "Organization", name: "StickerSit", url: SITE },
     publisher: {
       "@type": "Organization",
-      name: "StickerAI",
+      name: "StickerSit",
       logo: { "@type": "ImageObject", url: `${SITE}/thumbnail.png` },
     },
     mainEntityOfPage: `${SITE}${PATH}`,
@@ -158,7 +158,7 @@ export default function HowToAddStickersOnWhatsAppPage() {
           app, from a shared pack link, or from a downloaded PNG — plus where to
           find them and how to fix packs that will not show.
         </p>
-        <p className="text-xs text-gray-400">Updated {PUBLISHED} · 6 min read · by StickerAI</p>
+        <p className="text-xs text-gray-400">Updated {PUBLISHED} · 6 min read · by StickerSit</p>
       </section>
 
       <p className="text-sm text-gray-700 leading-relaxed mb-8">

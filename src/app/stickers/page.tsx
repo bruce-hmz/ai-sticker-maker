@@ -5,21 +5,21 @@ import { STICKER_STYLES } from "@/lib/sticker-styles";
 import { STICKER_THEMES } from "@/lib/sticker-themes";
 
 export const metadata: Metadata = {
-  title: "Browse AI Stickers Gallery | StickerAI",
+  title: "Browse AI Stickers Gallery | StickerSit",
   description:
     "Browse AI-generated stickers in multiple styles — cute kawaii, chibi, pixel art, cartoon, and more. Download free for WhatsApp, Telegram, iMessage.",
   alternates: { canonical: "https://stickersit.com/stickers" },
   openGraph: {
-    title: "Browse AI Stickers Gallery | StickerAI",
+    title: "Browse AI Stickers Gallery | StickerSit",
     description:
       "Browse thousands of AI-generated stickers. Filter by style, download for free.",
     url: "https://stickersit.com/stickers",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Browse AI Stickers Gallery | StickerAI",
+    title: "Browse AI Stickers Gallery | StickerSit",
     description:
       "Browse thousands of AI-generated stickers. Filter by style, download for free.",
   },

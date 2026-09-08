@@ -4,7 +4,7 @@ import { WORLD_CUP_GROUPS } from "@/lib/world-cup-groups";
 import { getTeamBySlug } from "@/lib/world-cup-teams";
 
 export const metadata: Metadata = {
-  title: "World Cup 2026 Knockout Stage — Round of 32 | StickerAI",
+  title: "World Cup 2026 Knockout Stage — Round of 32 | StickerSit",
   description:
     "World Cup 2026 knockout stage format: Round of 32, Round of 16, quarterfinals, semifinals and final. Browse groups and make stickers for every team.",
   alternates: { canonical: "https://stickersit.com/world-cup/knockout" },
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "World Cup 2026 Knockout Stage",
     description: "Round of 32 to the final. Browse groups and make team stickers.",
     url: "https://stickersit.com/world-cup/knockout",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "website",
   },
 };

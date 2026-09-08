@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | StickerAI",
+  title: "Privacy Policy | StickerSit",
   description:
-    "Privacy policy for StickerAI — learn how we handle your data when using our free AI sticker maker.",
+    "Privacy policy for StickerSit — learn how we handle your data when using our free AI sticker maker.",
   alternates: { canonical: "https://stickersit.com/privacy" },
   openGraph: {
-    title: "Privacy Policy | StickerAI",
+    title: "Privacy Policy | StickerSit",
     description:
-      "Privacy policy for StickerAI — learn how we handle your data when using our free AI sticker maker.",
+      "Privacy policy for StickerSit — learn how we handle your data when using our free AI sticker maker.",
     url: "https://stickersit.com/privacy",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Privacy Policy | StickerAI",
+    title: "Privacy Policy | StickerSit",
     description:
-      "Privacy policy for StickerAI — learn how we handle your data when using our free AI sticker maker.",
+      "Privacy policy for StickerSit — learn how we handle your data when using our free AI sticker maker.",
   },
 };
 
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
             1. Information We Collect
           </h2>
           <p>
-            StickerAI (stickersit.com) is designed to collect minimal personal
+            StickerSit (stickersit.com) is designed to collect minimal personal
             information. We do not require account registration, email addresses,
             or personal details to use the service.
           </p>
@@ -102,7 +102,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-lg font-semibold mb-3">3. Cookies</h2>
           <p>
-            StickerAI uses cookies and similar tracking technologies through
+            StickerSit uses cookies and similar tracking technologies through
             Google Analytics and Google AdSense. These cookies help us understand
             site usage and deliver relevant advertisements. You can control
             cookie settings through your browser preferences. Disabling cookies
@@ -138,7 +138,7 @@ export default function PrivacyPage() {
             6. Children&apos;s Privacy
           </h2>
           <p>
-            StickerAI does not knowingly collect personal information from
+            StickerSit does not knowingly collect personal information from
             children under 13. The service does not require registration or
             personal data entry. If you believe a child has provided personal
             information through our service, please contact us so we can take

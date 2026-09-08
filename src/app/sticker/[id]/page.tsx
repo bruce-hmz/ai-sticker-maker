@@ -17,16 +17,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     STICKER_STYLES.find((s) => s.id === sticker.style)?.name ?? sticker.style;
 
   return {
-    title: `AI Sticker: "${sticker.prompt}" | StickerAI`,
-    description: `AI-generated ${styleName} sticker of "${sticker.prompt}". Make your own free sticker at StickerAI.`,
+    title: `AI Sticker: "${sticker.prompt}" | StickerSit`,
+    description: `AI-generated ${styleName} sticker of "${sticker.prompt}". Make your own free sticker at StickerSit.`,
     alternates: {
       canonical: `https://stickersit.com/sticker/${sticker.id}`,
     },
     openGraph: {
       title: `AI Sticker: "${sticker.prompt}"`,
-      description: `AI-generated ${styleName} sticker — make your own free at StickerAI`,
+      description: `AI-generated ${styleName} sticker — make your own free at StickerSit`,
       url: `https://stickersit.com/sticker/${sticker.id}`,
-      siteName: "StickerAI",
+      siteName: "StickerSit",
       type: "website",
       images: [
         {
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     twitter: {
       card: "summary",
       title: `AI Sticker: "${sticker.prompt}"`,
-      description: `AI-generated ${styleName} sticker — make your own free at StickerAI`,
+      description: `AI-generated ${styleName} sticker — make your own free at StickerSit`,
       images: [sticker.imageUrl],
     },
   };
@@ -69,8 +69,8 @@ export default async function StickerDetailPage({ params }: PageProps) {
       name: `AI sticker of ${sticker.prompt}`,
       description: `AI-generated ${styleName} style sticker`,
       uploadDate: sticker.createdAt,
-      creditText: "StickerAI",
-      copyrightNotice: "© StickerAI",
+      creditText: "StickerSit",
+      copyrightNotice: "© StickerSit",
       license: "https://stickersit.com/terms",
       acquireLicensePage: "https://stickersit.com/terms",
     },

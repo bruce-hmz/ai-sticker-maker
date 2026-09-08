@@ -5,7 +5,7 @@ export interface BlogPost {
   slug: string;
   /** 站点绝对路径；旧文用其已收录 URL，例如 "/how-to-make-a-sticker-on-iphone" */
   path: string;
-  /** 标题（不带 " | StickerAI" 后缀） */
+  /** 标题（不带 " | StickerSit" 后缀） */
   title: string;
   description: string;
   category: BlogCategory;

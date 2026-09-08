@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "StickerAI - Free AI WhatsApp Sticker Maker",
-    short_name: "StickerAI",
+    name: "StickerSit - Free AI WhatsApp Sticker Maker",
+    short_name: "StickerSit",
     description:
       "Create custom AI stickers for WhatsApp, Telegram, and iMessage. Free online sticker maker.",
     start_url: "/",

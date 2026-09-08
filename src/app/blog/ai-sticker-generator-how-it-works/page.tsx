@@ -12,7 +12,7 @@ const DESCRIPTION =
 const PUBLISHED = "2026-07-06";
 
 export const metadata: Metadata = {
-  title: `${TITLE} | StickerAI`,
+  title: `${TITLE} | StickerSit`,
   description: DESCRIPTION,
   keywords: [
     "ai sticker generator how it works",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: `${SITE}${PATH}`,
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "article",
     images: [{ url: "/thumbnail.png", width: 1200, height: 630, alt: TITLE }],
   },
@@ -58,7 +58,7 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: "Are AI stickers free to generate?",
-    a: "Many web-based generators, including StickerAI, are free with no sign up. The compute is paid for through ads rather than subscriptions. There may be fair-use limits to keep the service available to everyone.",
+    a: "Many web-based generators, including StickerSit, are free with no sign up. The compute is paid for through ads rather than subscriptions. There may be fair-use limits to keep the service available to everyone.",
   },
   {
     q: "Can AI make animated stickers?",
@@ -86,10 +86,10 @@ export default function AIStickerGeneratorHowItWorksPage() {
     description: DESCRIPTION,
     datePublished: PUBLISHED,
     dateModified: PUBLISHED,
-    author: { "@type": "Organization", name: "StickerAI", url: SITE },
+    author: { "@type": "Organization", name: "StickerSit", url: SITE },
     publisher: {
       "@type": "Organization",
-      name: "StickerAI",
+      name: "StickerSit",
       logo: { "@type": "ImageObject", url: `${SITE}/thumbnail.png` },
     },
     mainEntityOfPage: `${SITE}${PATH}`,
@@ -130,7 +130,7 @@ export default function AIStickerGeneratorHowItWorksPage() {
           the diffusion model behind it, why prompts matter, how the styles and
           transparent die-cut output happen, and how to get better results.
         </p>
-        <p className="text-xs text-gray-400">Updated {PUBLISHED} · 7 min read · by StickerAI</p>
+        <p className="text-xs text-gray-400">Updated {PUBLISHED} · 7 min read · by StickerSit</p>
       </section>
 
       <p className="text-sm text-gray-700 leading-relaxed mb-8">

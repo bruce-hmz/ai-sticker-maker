@@ -15,7 +15,7 @@ export default function SiteHeader() {
           href="/"
           className="text-sm font-bold text-black hover:text-violet-600 transition-colors whitespace-nowrap"
         >
-          StickerAI
+          StickerSit
         </Link>
         <nav aria-label="Main" className="overflow-x-auto no-scrollbar">
           <ul className="flex items-center gap-x-4 sm:gap-x-6 whitespace-nowrap">

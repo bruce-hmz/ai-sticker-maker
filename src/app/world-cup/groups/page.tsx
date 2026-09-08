@@ -4,7 +4,7 @@ import { WORLD_CUP_GROUPS } from "@/lib/world-cup-groups";
 import { getTeamBySlug } from "@/lib/world-cup-teams";
 
 export const metadata: Metadata = {
-  title: "World Cup 2026 Groups — All 12 Groups | StickerAI",
+  title: "World Cup 2026 Groups — All 12 Groups | StickerSit",
   description:
     "Browse all 12 World Cup 2026 groups and 48 teams. Click any team to make its custom World Cup sticker for WhatsApp & Telegram.",
   alternates: { canonical: "https://stickersit.com/world-cup/groups" },
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "World Cup 2026 Groups — All 12 Groups",
     description: "Browse all 12 World Cup 2026 groups and 48 teams.",
     url: "https://stickersit.com/world-cup/groups",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "website",
   },
 };

@@ -2,23 +2,23 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Contact | StickerAI",
+  title: "Contact | StickerSit",
   description:
-    "Get in touch with the StickerAI team. Questions, feedback, or partnership inquiries welcome.",
+    "Get in touch with the StickerSit team. Questions, feedback, or partnership inquiries welcome.",
   alternates: { canonical: "https://stickersit.com/contact" },
   openGraph: {
-    title: "Contact | StickerAI",
+    title: "Contact | StickerSit",
     description:
-      "Get in touch with the StickerAI team. Questions, feedback, or partnership inquiries welcome.",
+      "Get in touch with the StickerSit team. Questions, feedback, or partnership inquiries welcome.",
     url: "https://stickersit.com/contact",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Contact | StickerAI",
+    title: "Contact | StickerSit",
     description:
-      "Get in touch with the StickerAI team. Questions, feedback, or partnership inquiries welcome.",
+      "Get in touch with the StickerSit team. Questions, feedback, or partnership inquiries welcome.",
   },
 };
 
@@ -26,11 +26,11 @@ export default function ContactPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    name: "Contact StickerAI",
+    name: "Contact StickerSit",
     url: "https://stickersit.com/contact",
     mainEntity: {
       "@type": "Organization",
-      name: "StickerAI",
+      name: "StickerSit",
       email: "yang2big@gmail.com",
     },
   };

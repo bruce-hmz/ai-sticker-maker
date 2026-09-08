@@ -12,7 +12,7 @@ const DESCRIPTION =
 const PUBLISHED = "2026-07-06";
 
 export const metadata: Metadata = {
-  title: `${TITLE} | StickerAI`,
+  title: `${TITLE} | StickerSit`,
   description: DESCRIPTION,
   keywords: [
     "how to make stickers on android",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: `${SITE}${PATH}`,
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "article",
     images: [{ url: "/thumbnail.png", width: 1200, height: 630, alt: TITLE }],
   },
@@ -46,7 +46,7 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: "Can I make WhatsApp stickers on Android without an app?",
-    a: "Yes. A browser-based AI generator like StickerAI works on Android with no install and no sign up — describe a sticker, download the PNG, then move it into WhatsApp using either WhatsApp's built-in maker or a one-time pack app.",
+    a: "Yes. A browser-based AI generator like StickerSit works on Android with no install and no sign up — describe a sticker, download the PNG, then move it into WhatsApp using either WhatsApp's built-in maker or a one-time pack app.",
   },
   {
     q: "What size do Android WhatsApp stickers need to be?",
@@ -86,10 +86,10 @@ export default function HowToMakeStickersOnAndroidPage() {
     description: DESCRIPTION,
     datePublished: PUBLISHED,
     dateModified: PUBLISHED,
-    author: { "@type": "Organization", name: "StickerAI", url: SITE },
+    author: { "@type": "Organization", name: "StickerSit", url: SITE },
     publisher: {
       "@type": "Organization",
-      name: "StickerAI",
+      name: "StickerSit",
       logo: { "@type": "ImageObject", url: `${SITE}/thumbnail.png` },
     },
     mainEntityOfPage: `${SITE}${PATH}`,
@@ -143,7 +143,7 @@ export default function HowToMakeStickersOnAndroidPage() {
           web tool, sticker maker apps, and WhatsApp&rsquo;s built-in maker — with the
           exact steps, sizes, and troubleshooting.
         </p>
-        <p className="text-xs text-gray-400">Updated {PUBLISHED} · 6 min read · by StickerAI</p>
+        <p className="text-xs text-gray-400">Updated {PUBLISHED} · 6 min read · by StickerSit</p>
       </section>
 
       <p className="text-sm text-gray-700 leading-relaxed mb-8">

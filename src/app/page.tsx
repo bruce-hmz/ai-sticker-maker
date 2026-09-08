@@ -1,4 +1,5 @@
 import StickerGenerator from "@/components/StickerGenerator";
+import StickerPackStudio from "@/components/StickerPackStudio";
 import Link from "next/link";
 import StartCreatingButton from "@/components/StartCreatingButton";
 import AdSenseUnit from "@/components/AdSenseUnit";
@@ -10,23 +11,23 @@ import { postsByNewest } from "@/lib/blog-posts";
 const FAQ_ITEMS = [
   {
     q: "Can I make WhatsApp stickers without downloading an app?",
-    a: "Yes! StickerAI at stickersit.com is a free web-based tool that works right in your browser — no app download, no installation, and no sign-up needed. Simply visit stickersit.com on any device (iPhone, Android phone, iPad, or computer), type your sticker idea in the text box — for example \"a cute cat wearing sunglasses\" — pick one of 8 artistic styles like Kawaii, Chibi, or Pixel Art, and click Generate. Your custom stickers are created by AI in about 30 seconds and can be downloaded as PNG files directly to your device. Unlike sticker maker apps from the App Store or Google Play, StickerAI requires zero installation and works across all platforms. You can generate unlimited stickers without ever creating an account or entering your email address.",
+    a: "Yes! StickerSit at stickersit.com is a free web-based tool that works right in your browser — no app download, no installation, and no sign-up needed. Simply visit stickersit.com on any device (iPhone, Android phone, iPad, or computer), type your sticker idea in the text box — for example \"a cute cat wearing sunglasses\" — pick one of 8 artistic styles like Kawaii, Chibi, or Pixel Art, and click Generate. Your custom stickers are created by AI in about 30 seconds and can be downloaded as PNG files directly to your device. Unlike sticker maker apps from the App Store or Google Play, StickerSit requires zero installation and works across all platforms. You can generate unlimited stickers without ever creating an account or entering your email address.",
   },
   {
     q: "How do I add AI stickers to WhatsApp?",
-    a: "Adding stickers from StickerAI to WhatsApp is simple and takes under a minute. First, generate your stickers on stickersit.com and download them as PNG images to your phone or computer. On your phone, open WhatsApp and go to any chat. Tap the sticker icon (the square smiley face next to the text input), then tap the \"+\" or \"Add\" button. Select the downloaded PNG files and they will appear in your sticker tray. For the best quality, each sticker should be 512x512 pixels — StickerAI generates them at this optimal size by default. You can also create themed packs of 3 to 12 stickers and import them all at once using third-party sticker pack tools like \"Sticker Maker\" (iOS) or \"Personal Stickers for WhatsApp\" (Android), which let you organize your AI-generated stickers into named collections.",
+    a: "Adding stickers from StickerSit to WhatsApp is simple and takes under a minute. First, generate your stickers on stickersit.com and download them as PNG images to your phone or computer. On your phone, open WhatsApp and go to any chat. Tap the sticker icon (the square smiley face next to the text input), then tap the \"+\" or \"Add\" button. Select the downloaded PNG files and they will appear in your sticker tray. For the best quality, each sticker should be 512x512 pixels — StickerSit generates them at this optimal size by default. You can also create themed packs of 3 to 12 stickers and import them all at once using third-party sticker pack tools like \"Sticker Maker\" (iOS) or \"Personal Stickers for WhatsApp\" (Android), which let you organize your AI-generated stickers into named collections.",
   },
   {
     q: "Is this AI sticker maker really free?",
-    a: "Yes, StickerAI at stickersit.com is completely free with no sign-up, no email required, no credit card needed, and no watermarks on your downloaded stickers. Unlike many sticker maker apps that charge $2-5 for premium styles, limit you to 3 free stickers per day, or add visible watermarks to free downloads, StickerAI generates unlimited stickers at absolutely no cost. You can use all 8 styles — Cute Kawaii, Chibi, Pixel Art, Cartoon, Hand-drawn, 3D Rendered, Minimalist, and Retro/Vintage — without any daily limits, monthly caps, or hidden fees. The tool is supported by non-intrusive advertising, so there are no costs passed on to users. Whether you create 1 sticker or 100 stickers, the price is always $0. No premium tier exists because the entire feature set is free for everyone.",
+    a: "Yes, StickerSit at stickersit.com is completely free with no sign-up, no email required, no credit card needed, and no watermarks on your downloaded stickers. Unlike many sticker maker apps that charge $2-5 for premium styles, limit you to 3 free stickers per day, or add visible watermarks to free downloads, StickerSit generates unlimited stickers at absolutely no cost. You can use all 8 styles — Cute Kawaii, Chibi, Pixel Art, Cartoon, Hand-drawn, 3D Rendered, Minimalist, and Retro/Vintage — without any daily limits, monthly caps, or hidden fees. The tool is supported by non-intrusive advertising, so there are no costs passed on to users. Whether you create 1 sticker or 100 stickers, the price is always $0. No premium tier exists because the entire feature set is free for everyone.",
   },
   {
     q: "What sticker styles are available?",
-    a: "StickerAI offers 8 distinct artistic styles, each producing a completely different visual result from the same text prompt. Cute Kawaii creates pastel-colored, adorable stickers with soft shading and rounded shapes — perfect for sweet and gentle expressions. Chibi style gives characters oversized heads and small bodies in a Japanese anime-inspired look. Pixel Art renders your idea in 16-bit retro gaming aesthetics with visible pixels and nostalgic color palettes. Cartoon style produces bold, colorful illustrations with thick outlines — similar to Western animation. Hand-drawn creates a pencil sketch, doodle-style appearance with visible line work. 3D Rendered generates Pixar-quality three-dimensional stickers with realistic lighting and depth. Minimalist strips everything down to clean lines and simple shapes for a modern, elegant look. Retro/Vintage applies aged textures, faded colors, and nostalgic vibes reminiscent of 1970s-80s design. Try the same prompt across multiple styles to discover which artistic treatment best matches your vision.",
+    a: "StickerSit offers 8 distinct artistic styles, each producing a completely different visual result from the same text prompt. Cute Kawaii creates pastel-colored, adorable stickers with soft shading and rounded shapes — perfect for sweet and gentle expressions. Chibi style gives characters oversized heads and small bodies in a Japanese anime-inspired look. Pixel Art renders your idea in 16-bit retro gaming aesthetics with visible pixels and nostalgic color palettes. Cartoon style produces bold, colorful illustrations with thick outlines — similar to Western animation. Hand-drawn creates a pencil sketch, doodle-style appearance with visible line work. 3D Rendered generates Pixar-quality three-dimensional stickers with realistic lighting and depth. Minimalist strips everything down to clean lines and simple shapes for a modern, elegant look. Retro/Vintage applies aged textures, faded colors, and nostalgic vibes reminiscent of 1970s-80s design. Try the same prompt across multiple styles to discover which artistic treatment best matches your vision.",
   },
   {
     q: "Can I use these stickers for Telegram and iMessage too?",
-    a: "Yes! Stickers downloaded from stickersit.com as PNG files work with every major messaging platform that supports custom stickers. For Telegram, open the app and search for the @Stickers bot. Send it your PNG files one by one, give your pack a name and a short title, and it will create a shareable sticker pack that anyone on Telegram can install. For iMessage on iPhone, download a free app called \"Sticker Maker Studio\" from the App Store, import your PNG stickers, and they will appear in your iMessage sticker drawer. For Discord, go to your Server Settings, navigate to Stickers, and upload your PNG files — Discord recommends 320x320 pixels for the best display quality. Because StickerAI exports in the universal PNG format, your stickers are compatible with any messaging app that allows custom sticker imports, including Signal, LINE, and Viber.",
+    a: "Yes! Stickers downloaded from stickersit.com as PNG files work with every major messaging platform that supports custom stickers. For Telegram, open the app and search for the @Stickers bot. Send it your PNG files one by one, give your pack a name and a short title, and it will create a shareable sticker pack that anyone on Telegram can install. For iMessage on iPhone, download a free app called \"Sticker Maker Studio\" from the App Store, import your PNG stickers, and they will appear in your iMessage sticker drawer. For Discord, go to your Server Settings, navigate to Stickers, and upload your PNG files — Discord recommends 320x320 pixels for the best display quality. Because StickerSit exports in the universal PNG format, your stickers are compatible with any messaging app that allows custom sticker imports, including Signal, LINE, and Viber.",
   },
   {
     q: "How do I create a full WhatsApp sticker pack?",
@@ -38,7 +39,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Do I own the stickers I create?",
-    a: "Stickers generated by StickerAI at stickersit.com are created using AI image generation technology. For personal, non-commercial use — sharing with friends on WhatsApp, posting in Telegram groups, using in Discord servers, or sending via iMessage — you are completely free to use, download, and share your stickers without any restrictions. For commercial purposes such as selling stickers on Redbubble or Etsy, using them for business branding, printing on merchandise (T-shirts, mugs, phone cases), or including them in a commercial product, the ownership situation depends on the AI model's terms of service and varies by country and jurisdiction. As a general rule, AI-generated images may not qualify for full copyright protection in many countries. We recommend checking the latest terms of the underlying AI model (SenseNova by SenseTime, at sensenova.cn) for the most current commercial use guidelines. Personal use is always free and unrestricted.",
+    a: "Stickers generated by StickerSit at stickersit.com are created using AI image generation technology. For personal, non-commercial use — sharing with friends on WhatsApp, posting in Telegram groups, using in Discord servers, or sending via iMessage — you are completely free to use, download, and share your stickers without any restrictions. For commercial purposes such as selling stickers on Redbubble or Etsy, using them for business branding, printing on merchandise (T-shirts, mugs, phone cases), or including them in a commercial product, the ownership situation depends on the AI model's terms of service and varies by country and jurisdiction. As a general rule, AI-generated images may not qualify for full copyright protection in many countries. We recommend checking the latest terms of the underlying AI model (SenseNova by SenseTime, at sensenova.cn) for the most current commercial use guidelines. Personal use is always free and unrestricted.",
   },
 ];
 
@@ -69,7 +70,7 @@ export default async function Home({ searchParams }: PageProps) {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": "https://stickersit.com/#organization",
-    name: "StickerAI",
+    name: "StickerSit",
     url: "https://stickersit.com",
     logo: "https://stickersit.com/thumbnail.png",
     description:
@@ -82,7 +83,7 @@ export default async function Home({ searchParams }: PageProps) {
     "@type": "WebSite",
     "@id": "https://stickersit.com/#website",
     url: "https://stickersit.com",
-    name: "StickerAI",
+    name: "StickerSit",
     description: "Free AI WhatsApp Sticker Maker Online",
     publisher: { "@id": "https://stickersit.com/#organization" },
   };
@@ -104,7 +105,7 @@ export default async function Home({ searchParams }: PageProps) {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "@id": "https://stickersit.com/#webapplication",
-    name: "StickerAI",
+    name: "StickerSit",
     url: "https://stickersit.com",
     description:
       "Free AI-powered sticker maker for WhatsApp, Telegram, and iMessage. Create custom stickers online without downloading an app.",
@@ -190,35 +191,98 @@ export default async function Home({ searchParams }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
 
-      {/* Hero */}
-      <section className="text-center mb-16">
+      {/* Hero — photo-first */}
+      <section className="text-center mb-10">
         <div className="inline-block bg-black text-white px-3 py-1 rounded-sm text-[10px] font-black uppercase tracking-[0.3em] mb-6">
-          Free AI Sticker Maker
+          AI Sticker Pack Maker
         </div>
-        <h1 className="text-4xl md:text-5xl font-black leading-[0.9] mb-6 uppercase tracking-tighter">
-          AI Sticker
-          <br />
-          <span className="text-accent">Maker</span>
+        <h1 className="text-4xl md:text-5xl font-black leading-[0.95] mb-6 tracking-tighter">
+          Turn One Photo Into a <span className="text-accent">Sticker Pack</span>
         </h1>
-        <p className="text-gray-500 text-sm mb-2 font-bold uppercase tracking-widest">
-          Free AI sticker maker for WhatsApp, Telegram &amp; more.
+        <p className="text-gray-500 text-base md:text-lg max-w-xl mx-auto mb-6">
+          Upload a photo and turn it into a consistent set of reaction stickers
+          ready to download and share.
         </p>
-        <p className="text-black font-black text-xs uppercase border-y-2 border-black inline-block py-1 tracking-tight">
-          WhatsApp • Telegram • iMessage • Discord
-        </p>
-        <div className="mt-8">
-          <Link href="/stickers" className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-accent transition-colors">
-            Enter the Gallery →
-          </Link>
+        <div className="flex items-center justify-center gap-6">
+          <a
+            href="#pack-studio"
+            className="bg-black text-white font-bold text-sm px-8 py-3 rounded-full hover:bg-gray-800 transition-colors"
+          >
+            Upload a Photo
+          </a>
+          <a
+            href="#text-studio"
+            className="text-gray-500 hover:text-black font-bold text-sm underline underline-offset-4 transition-colors"
+          >
+            Create from Text
+          </a>
         </div>
       </section>
 
-      {/* Interactive Tool */}
-      <StickerGenerator
-        key={`${initialStyle}:${initialPrompt}`}
-        initialPrompt={initialPrompt}
-        initialStyle={initialStyle}
-      />
+      {/* Example: one photo → six reactions */}
+      <section className="mb-12">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+          <figure className="text-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/examples/pack/reference.jpg"
+              alt="Reference photo of an orange tabby cat"
+              width={400}
+              height={400}
+              className="w-28 h-28 md:w-32 md:h-32 rounded-2xl object-cover border-2 border-black/10 shadow-sm"
+              loading="lazy"
+            />
+            <figcaption className="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-2">
+              1 Photo
+            </figcaption>
+          </figure>
+          <span className="text-2xl font-black text-gray-300">→</span>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { src: "/examples/pack/laughing.png", alt: "Laughing cat sticker" },
+              { src: "/examples/pack/crying.png", alt: "Crying cat sticker" },
+              { src: "/examples/pack/angry.png", alt: "Angry cat sticker" },
+              { src: "/examples/pack/shocked.png", alt: "Shocked cat sticker" },
+              { src: "/examples/pack/love.png", alt: "In-love cat sticker" },
+              { src: "/examples/pack/sleepy.png", alt: "Sleepy cat sticker" },
+            ].map((item) => (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                key={item.src}
+                src={item.src}
+                alt={item.alt}
+                width={512}
+                height={512}
+                className="w-16 h-16 md:w-[72px] md:h-[72px] rounded-xl object-cover bg-white shadow-sm border border-black/5"
+                loading="lazy"
+              />
+            ))}
+          </div>
+        </div>
+        <p className="text-center text-xs text-gray-400 mt-4 font-medium">
+          Same cat, six reactions — that&apos;s one photo turned into a pack.
+        </p>
+      </section>
+
+      {/* Photo → Sticker Pack studio */}
+      <section id="pack-studio" className="scroll-mt-20 mb-16">
+        <StickerPackStudio />
+      </section>
+
+      {/* Text generator — kept, secondary */}
+      <section id="text-studio" className="scroll-mt-20 pt-12 border-t-2 border-black/5">
+        <h2 className="text-2xl font-black uppercase tracking-tighter text-center mb-2">
+          Or Create from Text
+        </h2>
+        <p className="text-center text-gray-400 text-sm mb-8">
+          No photo? Describe any sticker you imagine.
+        </p>
+        <StickerGenerator
+          key={`${initialStyle}:${initialPrompt}`}
+          initialPrompt={initialPrompt}
+          initialStyle={initialStyle}
+        />
+      </section>
 
       {/* Latest Stickers — social proof */}
       {latestStickers.length > 0 && (
@@ -255,21 +319,6 @@ export default async function Home({ searchParams }: PageProps) {
           </div>
         </section>
       )}
-
-      {/* World Cup 2026 Banner */}
-      <Link href="/world-cup" className="block mb-12">
-        <div className="bg-black rounded-xl p-6 die-cut-static text-white text-center group">
-          <p className="text-[10px] tracking-[0.3em] mb-2 font-black uppercase text-accent">
-            ⚽ Limited Edition
-          </p>
-          <p className="text-2xl font-black mb-1 uppercase tracking-tighter">
-            World Cup 2026 Lab
-          </p>
-          <p className="text-xs font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity">
-            Start the tournament →
-          </p>
-        </div>
-      </Link>
 
       {/* Sticker Themes — SEO 内链 + 主题发现 */}
       <section className="py-12">
@@ -330,7 +379,7 @@ export default async function Home({ searchParams }: PageProps) {
           The Process
         </h2>
         <p className="text-gray-400 text-center text-[10px] font-black uppercase tracking-[0.2em] mb-12">
-          3 Steps to physical stickers
+          Create Your Sticker Pack in 3 Steps
         </p>
         <div className="grid gap-6">
           <div className="bg-white die-cut-static rounded-xl p-8 flex gap-6 items-start">
@@ -339,10 +388,10 @@ export default async function Home({ searchParams }: PageProps) {
             </span>
             <div>
               <h3 className="font-black uppercase tracking-tight text-lg mb-2 text-black">
-                Draft the Idea
+                Upload a Photo
               </h3>
               <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                Describe your subject in detail. The Sticker Lab works best with specific prompts like &ldquo;a happy cat wearing sunglasses&rdquo;.
+                Pick a clear photo of a face, pet, or character. We keep its look — fur pattern, hairstyle, outfit — across every sticker.
               </p>
             </div>
           </div>
@@ -352,10 +401,10 @@ export default async function Home({ searchParams }: PageProps) {
             </span>
             <div>
               <h3 className="font-black uppercase tracking-tight text-lg mb-2 text-black">
-                Select Visual Engine
+                Generate Your Pack
               </h3>
               <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                Pick from 8 precision engines (Kawaii, Chibi, Pixel Art, etc.) to set the artistic DNA of your creation.
+                Get six reaction stickers — laughing, crying, angry, shocked, love, sleepy — with the background removed automatically.
               </p>
             </div>
           </div>
@@ -365,10 +414,10 @@ export default async function Home({ searchParams }: PageProps) {
             </span>
             <div>
               <h3 className="font-black uppercase tracking-tight text-lg mb-2 text-black">
-                Export to World
+                Download &amp; Share
               </h3>
               <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                Download your high-res PNG and import it into WhatsApp, Telegram, or Discord. Instant digital presence.
+                Save transparent PNGs one by one or grab the whole pack as a ZIP, then import into WhatsApp, Telegram, or Discord.
               </p>
             </div>
           </div>

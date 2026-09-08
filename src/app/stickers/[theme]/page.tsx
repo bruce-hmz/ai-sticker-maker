@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!t) return { title: "Theme Not Found" };
   const canonical = `https://stickersit.com/stickers/${t.slug}`;
   return {
-    title: `${t.h1} | StickerAI`,
+    title: `${t.h1} | StickerSit`,
     description: t.description,
     keywords: t.keywords,
     alternates: { canonical },
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: t.h1,
       description: t.description,
       url: canonical,
-      siteName: "StickerAI",
+      siteName: "StickerSit",
       type: "website",
     },
   };

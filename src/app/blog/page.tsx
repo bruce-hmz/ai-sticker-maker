@@ -3,21 +3,21 @@ import Link from "next/link";
 import { postsByNewest } from "@/lib/blog-posts";
 
 export const metadata: Metadata = {
-  title: "Sticker Guides & Tutorials | StickerAI",
+  title: "Sticker Guides & Tutorials | StickerSit",
   description:
     "In-depth guides on making stickers for WhatsApp, iPhone, Android, and Telegram — sticker sizes and formats, sticker packs, prompt tips, and how AI sticker generators work.",
   alternates: { canonical: "https://stickersit.com/blog" },
   openGraph: {
-    title: "Sticker Guides & Tutorials | StickerAI",
+    title: "Sticker Guides & Tutorials | StickerSit",
     description:
       "In-depth guides on making stickers for WhatsApp, iPhone, Android, and Telegram.",
     url: "https://stickersit.com/blog",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sticker Guides & Tutorials | StickerAI",
+    title: "Sticker Guides & Tutorials | StickerSit",
     description:
       "In-depth guides on making stickers for WhatsApp, iPhone, Android, and Telegram.",
   },
@@ -40,7 +40,7 @@ export default function BlogIndexPage() {
   const collectionSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "StickerAI Guides & Tutorials",
+    name: "StickerSit Guides & Tutorials",
     description:
       "In-depth guides on making stickers for WhatsApp, iPhone, Android, and Telegram.",
     url: `${SITE}/blog`,

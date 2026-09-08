@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const AGENTS_MD = `# StickerAI Agent Card
+const AGENTS_MD = `# StickerSit Agent Card
 > Free AI WhatsApp Sticker Maker Online — no app download, no sign up required
 
 ## About
-StickerAI (stickersit.com) is a free, browser-based AI sticker maker that generates custom stickers for WhatsApp, Telegram, iMessage, and Discord. Users type a text prompt describing their sticker idea, choose from 8 artistic styles, and download generated stickers as PNG files. No sign-up, no app download, no payment.
+StickerSit (stickersit.com) is a free, browser-based AI sticker maker that generates custom stickers for WhatsApp, Telegram, iMessage, and Discord. Upload one photo and get a consistent pack of 6 reaction stickers (laughing, crying, angry, shocked, love, sleepy) with transparent backgrounds, or create stickers from a text prompt with 8 artistic styles. No sign-up, no app download, no payment.
 
 ## Capabilities
+- Photo-to-sticker-pack: one uploaded photo → 6 consistent reaction stickers (512x512 transparent PNG, ZIP download)
 - Text-to-sticker AI generation
 - 8 styles: Cute Kawaii, Chibi, Pixel Art, Cartoon, Hand-drawn, 3D Rendered, Minimalist, Retro/Vintage
 - Export as PNG (512x512)

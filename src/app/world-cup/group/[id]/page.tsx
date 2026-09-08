@@ -20,14 +20,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const teamNames = g.teamSlugs.map((s) => getTeamBySlug(s)?.name).filter(Boolean).join(", ");
   const canonical = `https://stickersit.com/world-cup/group/${g.id}`;
   return {
-    title: `World Cup 2026 ${g.name} (${teamNames}) | StickerAI`,
+    title: `World Cup 2026 ${g.name} (${teamNames}) | StickerSit`,
     description: `${g.name} at the 2026 World Cup: ${teamNames}. Make custom stickers for every team in ${g.name}.`,
     alternates: { canonical },
     openGraph: {
       title: `World Cup 2026 ${g.name}`,
       description: `${g.name}: ${teamNames}. Make custom stickers for each team.`,
       url: canonical,
-      siteName: "StickerAI",
+      siteName: "StickerSit",
       type: "website",
     },
   };

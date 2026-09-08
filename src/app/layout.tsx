@@ -7,11 +7,13 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://stickersit.com"),
   title:
-    "Free AI WhatsApp Sticker Maker Online - No App Needed | StickerAI",
+    "AI Sticker Pack Maker — Turn a Photo Into 6 Stickers | StickerSit",
   description:
-    "Create custom AI stickers for WhatsApp, Telegram, and iMessage. Free online sticker maker — no app download, no sign up. Generate cute, kawaii, chibi, and cartoon stickers instantly.",
+    "Upload one photo and get a consistent pack of 6 reaction stickers with transparent backgrounds — free, no sign up, no app. Or create custom AI stickers from text for WhatsApp, Telegram, and iMessage.",
   keywords: [
     "AI sticker maker",
+    "sticker pack maker",
+    "photo to sticker",
     "WhatsApp sticker maker",
     "sticker maker online",
     "whatsapp sticker maker online without app",
@@ -20,26 +22,26 @@ export const metadata: Metadata = {
     "custom stickers online",
   ],
   openGraph: {
-    title: "Free AI WhatsApp Sticker Maker Online - No App Needed",
+    title: "AI Sticker Pack Maker — Turn a Photo Into 6 Stickers",
     description:
-      "Create custom AI stickers for WhatsApp and Telegram. Free, no sign up, no app download.",
+      "Upload a photo and turn it into 6 consistent reaction stickers. Free, no sign up, no app.",
     type: "website",
     url: "https://stickersit.com",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     images: [
       {
         url: "/thumbnail.png",
         width: 1200,
         height: 630,
-        alt: "StickerAI - Free AI WhatsApp Sticker Maker",
+        alt: "StickerSit - AI Sticker Pack Maker",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free AI WhatsApp Sticker Maker Online - No App Needed",
+    title: "AI Sticker Pack Maker — Turn a Photo Into 6 Stickers",
     description:
-      "Create custom AI stickers for WhatsApp and Telegram. Free, no sign up, no app download.",
+      "Upload a photo and turn it into 6 consistent reaction stickers. Free, no sign up, no app.",
     images: ["/thumbnail.png"],
   },
   alternates: {

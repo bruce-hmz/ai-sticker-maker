@@ -12,7 +12,7 @@ const DESCRIPTION =
 const PUBLISHED = "2026-07-06";
 
 export const metadata: Metadata = {
-  title: `${TITLE} | StickerAI`,
+  title: `${TITLE} | StickerSit`,
   description: DESCRIPTION,
   keywords: [
     "how to make stickers for whatsapp",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: `${SITE}${PATH}`,
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     type: "article",
     images: [{ url: "/thumbnail.png", width: 1200, height: 630, alt: TITLE }],
   },
@@ -47,7 +47,7 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: "Can I make WhatsApp stickers without downloading an app?",
-    a: "Yes. A web tool like StickerAI runs in your browser, so on a phone or computer you can type a description, generate a sticker, and download the PNG — no install, no sign up. You then move that PNG into WhatsApp using either WhatsApp's built-in sticker maker or a one-time pack tool.",
+    a: "Yes. A web tool like StickerSit runs in your browser, so on a phone or computer you can type a description, generate a sticker, and download the PNG — no install, no sign up. You then move that PNG into WhatsApp using either WhatsApp's built-in sticker maker or a one-time pack tool.",
   },
   {
     q: "How many stickers do I need for a pack?",
@@ -63,7 +63,7 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: "Are these methods free?",
-    a: "All five methods in this guide are free. WhatsApp's built-in maker and the iPhone cutout feature are part of the operating system. Sticker maker apps like Sticker Maker (iOS) and Personal Stickers for WhatsApp (Android) are free to install, and StickerAI is free with no sign up.",
+    a: "All five methods in this guide are free. WhatsApp's built-in maker and the iPhone cutout feature are part of the operating system. Sticker maker apps like Sticker Maker (iOS) and Personal Stickers for WhatsApp (Android) are free to install, and StickerSit is free with no sign up.",
   },
 ];
 
@@ -87,10 +87,10 @@ export default function HowToMakeWhatsAppStickersPage() {
     description: DESCRIPTION,
     datePublished: PUBLISHED,
     dateModified: PUBLISHED,
-    author: { "@type": "Organization", name: "StickerAI", url: SITE },
+    author: { "@type": "Organization", name: "StickerSit", url: SITE },
     publisher: {
       "@type": "Organization",
-      name: "StickerAI",
+      name: "StickerSit",
       logo: { "@type": "ImageObject", url: `${SITE}/thumbnail.png` },
     },
     mainEntityOfPage: `${SITE}${PATH}`,
@@ -178,7 +178,7 @@ export default function HowToMakeWhatsAppStickersPage() {
           each method.
         </p>
         <p className="text-xs text-gray-400">
-          Updated {PUBLISHED} · 7 min read · by StickerAI
+          Updated {PUBLISHED} · 7 min read · by StickerSit
         </p>
       </section>
 
@@ -220,7 +220,7 @@ export default function HowToMakeWhatsAppStickersPage() {
         </p>
       </section>
 
-      {/* Method 1: StickerAI */}
+      {/* Method 1: StickerSit */}
       <section className="py-6 space-y-4">
         <div className="flex items-center gap-3">
           <span className="bg-violet-100 text-violet-700 font-bold text-sm w-8 h-8 rounded-full flex items-center justify-center shrink-0">

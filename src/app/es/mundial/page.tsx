@@ -6,7 +6,7 @@ import { getAllTeamShowcaseStickers } from "@/lib/world-cup-teams";
 
 // 西语独立页 — 承接 GSC 已排名第1的 "figuritas del mundial"，激活西语市场(墨/南美)
 export const metadata: Metadata = {
-  title: "Creador de Figuritas del Mundial 2026 para WhatsApp | StickerAI",
+  title: "Creador de Figuritas del Mundial 2026 para WhatsApp | StickerSit",
   description:
     "Crea figuritas del Mundial 2026 gratis para WhatsApp, Telegram y iMessage. Creador de stickers de fútbol con IA — genera stickers de tu selección al instante. Sin app, sin registro.",
   alternates: {
@@ -23,13 +23,13 @@ export const metadata: Metadata = {
       "Crea figuritas del Mundial 2026 con IA. Gratis, al instante, sin registro.",
     type: "website",
     url: "https://stickersit.com/es/mundial",
-    siteName: "StickerAI",
+    siteName: "StickerSit",
     images: [
       {
         url: "/thumbnail.png",
         width: 1200,
         height: 630,
-        alt: "StickerAI - Creador de Figuritas del Mundial 2026",
+        alt: "StickerSit - Creador de Figuritas del Mundial 2026",
       },
     ],
   },
@@ -38,15 +38,15 @@ export const metadata: Metadata = {
 const FIGURITAS_FAQ = [
   {
     q: "¿Cómo hacer figuritas del Mundial para WhatsApp?",
-    a: "Crear figuritas del Mundial 2026 para WhatsApp es fácil con StickerAI en stickersit.com/es/mundial. Visita la página en tu teléfono, escribe tu idea en la caja de texto — por ejemplo, \"un jugador chibi celebrando un gol con los colores de tu selección\" — elige un estilo y haz clic en Generar. La IA crea tu figurita en unos 30 segundos. Descarga el PNG y añádelo a tu pack de stickers de WhatsApp. Es gratis, sin registro y sin descargar ninguna app.",
+    a: "Crear figuritas del Mundial 2026 para WhatsApp es fácil con StickerSit en stickersit.com/es/mundial. Visita la página en tu teléfono, escribe tu idea en la caja de texto — por ejemplo, \"un jugador chibi celebrando un gol con los colores de tu selección\" — elige un estilo y haz clic en Generar. La IA crea tu figurita en unos 30 segundos. Descarga el PNG y añádelo a tu pack de stickers de WhatsApp. Es gratis, sin registro y sin descargar ninguna app.",
   },
   {
     q: "¿Las figuritas del Mundial son gratis?",
-    a: "Sí, todas las figuritas del Mundial 2026 creadas en StickerAI son completamente gratis. Sin registro, sin descargas, sin marcas de agua. Puedes generar stickers ilimitados de cada selección y cada partido del Mundial sin pagar nada.",
+    a: "Sí, todas las figuritas del Mundial 2026 creadas en StickerSit son completamente gratis. Sin registro, sin descargas, sin marcas de agua. Puedes generar stickers ilimitados de cada selección y cada partido del Mundial sin pagar nada.",
   },
   {
     q: "¿Puedo hacer stickers de mi selección favorita?",
-    a: "¡Por supuesto! StickerAI puede crear stickers de cualquiera de las selecciones del Mundial 2026. Simplemente describe los colores de la bandera y el diseño de la camiseta de tu país en el prompt. Por ejemplo: \"un jugador chibi con la camiseta amarilla y verde de Brasil\" o \"un balón con los colores de la bandera de Argentina\".",
+    a: "¡Por supuesto! StickerSit puede crear stickers de cualquiera de las selecciones del Mundial 2026. Simplemente describe los colores de la bandera y el diseño de la camiseta de tu país en el prompt. Por ejemplo: \"un jugador chibi con la camiseta amarilla y verde de Brasil\" o \"un balón con los colores de la bandera de Argentina\".",
   },
 ];
 

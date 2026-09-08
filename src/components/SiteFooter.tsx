@@ -37,7 +37,7 @@ export default function SiteFooter() {
       <div className="max-w-4xl mx-auto px-4 py-10">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-8">
           <div>
-            <p className="text-sm font-bold text-black mb-1">StickerAI</p>
+            <p className="text-sm font-bold text-black mb-1">StickerSit</p>
             <p className="text-xs text-gray-400">
               Free AI Sticker Maker for WhatsApp, Telegram &amp; iMessage.
             </p>
@@ -76,7 +76,7 @@ export default function SiteFooter() {
         </div>
         <div className="flex flex-wrap justify-between items-center gap-2 pt-6 border-t border-gray-100">
           <p className="text-xs text-gray-400">
-            © {new Date().getFullYear()} StickerAI. All rights reserved.
+            © {new Date().getFullYear()} StickerSit. All rights reserved.
           </p>
           <div className="flex gap-4">
             <a
