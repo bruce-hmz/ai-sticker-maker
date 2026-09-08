@@ -57,9 +57,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <head>
-        <link rel="preconnect" href="https://image.pollinations.ai" />
-      </head>
+      <head></head>
       <body className="min-h-full flex flex-col bg-gray-50">
         <SiteHeader />
         <div className="flex-1">{children}</div>

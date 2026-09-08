@@ -39,7 +39,7 @@ export default function PrivacyPage() {
       />
       <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
       <p className="text-sm text-gray-500 mb-8">
-        Last updated: June 3, 2026
+        Last updated: September 8, 2026
       </p>
 
       <div className="space-y-8 text-sm text-gray-700 leading-relaxed">
@@ -54,8 +54,9 @@ export default function PrivacyPage() {
           </p>
           <p className="mt-2">
             The text prompts you type to generate stickers are sent to our
-            AI image generation provider (Pollinations.ai) to produce your
-            stickers. We do not permanently store your prompts on our servers.
+            AI image generation provider (SenseNova, a SenseTime service) to
+            produce your stickers. We do not permanently store your prompts on
+            our servers.
           </p>
         </section>
 
@@ -114,10 +115,10 @@ export default function PrivacyPage() {
             4. Third-Party Services
           </h2>
           <p>
-            Your sticker prompts are processed by Pollinations.ai for image
-            generation. Their use of your data is governed by their own privacy
-            policy. We encourage you to review their terms if you have concerns
-            about prompt data handling.
+            Your sticker prompts are processed by SenseNova (SenseTime) for
+            image generation. Their use of your data is governed by their own
+            privacy policy. We encourage you to review their terms if you have
+            concerns about prompt data handling.
           </p>
         </section>
 

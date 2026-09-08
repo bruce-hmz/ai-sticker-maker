@@ -3,13 +3,10 @@ import { createHash } from "crypto";
 import sharp from "sharp";
 import { buildPrompt, STICKER_STYLES } from "@/lib/sticker-styles";
 import { isStorageConfigured, saveSticker } from "@/lib/sticker-storage";
+import { getImageProviders, ProviderError } from "@/lib/providers";
 
 // SenseNova image generation takes ~25-30s
 export const maxDuration = 60;
-
-const SENSENOVA_API_URL = "https://token.sensenova.cn/v1/images/generations";
-const SENSENOVA_MODEL = "sensenova-u1-fast";
-const SENSENOVA_IMAGE_SIZE = "2048x2048";
 
 const RATE_LIMIT_WINDOW = 60_000;
 const RATE_LIMIT_WINDOW_SECONDS = RATE_LIMIT_WINDOW / 1000;
@@ -82,8 +79,8 @@ async function isSharedRateLimited(ip: string, count = 1): Promise<boolean> {
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.SENSENOVA_API_KEY;
-  if (!apiKey) {
+  const { primary, fallback } = getImageProviders();
+  if (!primary) {
     return NextResponse.json(
       { error: "Service unavailable. Please try again later." },
       { status: 503 },
@@ -146,56 +143,22 @@ export async function POST(request: NextRequest) {
 
   const fullPrompt = buildPrompt(promptStr, styleStr);
 
+  // Resize provider output to 512x512 for stickers
+  const renderSticker = async (buffer: Buffer): Promise<Buffer> =>
+    sharp(buffer).resize(512, 512, { fit: "inside" }).png({ quality: 90 }).toBuffer();
+
   try {
-    const apiResponse = await fetch(SENSENOVA_API_URL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: SENSENOVA_MODEL,
-        prompt: fullPrompt,
-        size: SENSENOVA_IMAGE_SIZE,
-        n: 1,
-      }),
-      signal: AbortSignal.timeout(60_000),
-    });
-
-    if (!apiResponse.ok) {
-      const errorText = await apiResponse.text().catch(() => "Unknown error");
-      return NextResponse.json(
-        { error: `Image generation failed. Please try again.` },
-        { status: 502 },
-      );
+    let generated;
+    try {
+      generated = await primary.generateFromText({ prompt: fullPrompt, timeoutMs: 60_000 });
+    } catch (error) {
+      // A 400 means the provider rejected our payload — retrying elsewhere won't help.
+      const isClientRejection = error instanceof ProviderError && error.status === 400;
+      if (!fallback || isClientRejection) throw error;
+      generated = await fallback.generateFromText({ prompt: fullPrompt, timeoutMs: 60_000 });
     }
 
-    const data = await apiResponse.json();
-    const imageUrl: string | undefined = data?.data?.[0]?.url;
-
-    if (!imageUrl) {
-      return NextResponse.json(
-        { error: "Image generation returned no image. Please try again." },
-        { status: 502 },
-      );
-    }
-
-    // Fetch image from SenseNova CDN, resize to 512x512 for stickers
-    const imageResponse = await fetch(imageUrl, {
-      signal: AbortSignal.timeout(30_000),
-    });
-    if (!imageResponse.ok) {
-      return NextResponse.json(
-        { error: "Failed to download generated image. Please try again." },
-        { status: 502 },
-      );
-    }
-
-    const rawBuffer = Buffer.from(await imageResponse.arrayBuffer());
-    const resizedBuffer = await sharp(rawBuffer)
-      .resize(512, 512, { fit: "inside" })
-      .png({ quality: 90 })
-      .toBuffer();
+    const resizedBuffer = await renderSticker(generated.buffer);
 
     const seed = Date.now();
 
@@ -223,10 +186,12 @@ export async function POST(request: NextRequest) {
         "X-Sticker-Seed": String(seed),
       },
     });
-  } catch {
-    return NextResponse.json(
-      { error: "Image generation timed out. Please try again." },
-      { status: 504 },
-    );
+  } catch (error) {
+    const status = error instanceof ProviderError ? error.status : 504;
+    const message =
+      status === 504
+        ? "Image generation timed out. Please try again."
+        : "Image generation failed. Please try again.";
+    return NextResponse.json({ error: message }, { status });
   }
 }
