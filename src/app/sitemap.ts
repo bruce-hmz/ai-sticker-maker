@@ -14,6 +14,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: "https://stickersit.com/pet-sticker-maker",
+      lastModified: "2026-09-09",
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: "https://stickersit.com/world-cup",
       lastModified: "2026-06-15",
       changeFrequency: "daily",
