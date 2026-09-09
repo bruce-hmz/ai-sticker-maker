@@ -9,10 +9,10 @@ export type PackStickerStatus =
 
 export const REACTION_IDS = [
   "laughing",
-  "crying",
-  "angry",
-  "shocked",
   "love",
+  "shocked",
+  "angry",
+  "crying",
   "sleepy",
 ] as const;
 
@@ -26,6 +26,9 @@ export interface ReactionSpec {
   modifier: string;
 }
 
+// Generation order = array order. P0 benchmark showed all six equally
+// reliable (6/6 ×3 packs), so the order optimizes for time-to-first-value:
+// laughing gives the strongest visual payoff, love the most shareable.
 export const REACTIONS: ReactionSpec[] = [
   {
     id: "laughing",
@@ -35,18 +38,11 @@ export const REACTIONS: ReactionSpec[] = [
       "laughing joyfully with eyes squeezed shut, mouth wide open in a big grin, cheeks raised, energetic bouncy pose",
   },
   {
-    id: "crying",
-    label: "Crying",
-    emoji: "😢",
+    id: "love",
+    label: "Love",
+    emoji: "😍",
     modifier:
-      "crying dramatically with big glossy teardrops streaming down, trembling downturned mouth, sad drooping posture",
-  },
-  {
-    id: "angry",
-    label: "Angry",
-    emoji: "😠",
-    modifier:
-      "angry and annoyed with furrowed brows, puffed cheeks, gritted teeth, small red anger mark, fists clenched",
+      "deeply in love with sparkling heart-shaped eyes, gentle happy smile, small floating hearts around the head",
   },
   {
     id: "shocked",
@@ -56,11 +52,18 @@ export const REACTIONS: ReactionSpec[] = [
       "shocked and stunned with wide open eyes, dropped jaw, fur or hair standing up, a bold exclamation mark beside the head",
   },
   {
-    id: "love",
-    label: "Love",
-    emoji: "😍",
+    id: "angry",
+    label: "Angry",
+    emoji: "😠",
     modifier:
-      "deeply in love with sparkling heart-shaped eyes, gentle happy smile, small floating hearts around the head",
+      "angry and annoyed with furrowed brows, puffed cheeks, gritted teeth, small red anger mark, fists clenched",
+  },
+  {
+    id: "crying",
+    label: "Crying",
+    emoji: "😢",
+    modifier:
+      "crying dramatically with big glossy teardrops streaming down, trembling downturned mouth, sad drooping posture",
   },
   {
     id: "sleepy",

@@ -8,7 +8,7 @@ export interface QueueTask<T> {
   run: () => Promise<T>;
 }
 
-export interface QueueOptions {
+export interface QueueOptions<T> {
   /** Retries for transient failures (429 / network / 5xx). */
   retries?: number;
   retryDelayMs?: number;
@@ -16,7 +16,9 @@ export interface QueueOptions {
   /** Abort check between tasks. */
   shouldStop?: () => boolean;
   onTaskStart?: (id: string, index: number) => void;
-  onTaskSettled?: <T>(id: string, index: number, result: T | null, error: unknown) => void;
+  onTaskSettled?: (id: string, index: number, result: T | null, error: unknown) => void;
+  /** Fired when an attempt fails — `willRetry` tells whether it gets another go. */
+  onTaskError?: (id: string, error: unknown, attempt: number, willRetry: boolean) => void;
 }
 
 export interface QueueResult<T> {
@@ -32,7 +34,7 @@ export function isRetryablePackError(error: unknown): boolean {
 
 export async function runSerialQueue<T>(
   tasks: QueueTask<T>[],
-  options: QueueOptions = {},
+  options: QueueOptions<T> = {},
 ): Promise<QueueResult<T>> {
   const retries = options.retries ?? 1;
   const retryDelayMs = options.retryDelayMs ?? 4000;
@@ -55,7 +57,9 @@ export async function runSerialQueue<T>(
       } catch (caught) {
         error = caught;
         const retryable = options.isRetryable?.(error) ?? isRetryablePackError(error);
-        if (retryable && attempt < retries) {
+        const willRetry = retryable && attempt < retries;
+        options.onTaskError?.(task.id, caught, attempt + 1, willRetry);
+        if (willRetry) {
           await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
           continue;
         }

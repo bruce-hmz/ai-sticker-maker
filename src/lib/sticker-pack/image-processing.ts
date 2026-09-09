@@ -81,6 +81,53 @@ export function decodeDataUrl(dataUrl: string): Blob {
  */
 export const BGR_PUBLIC_PATH = "/bgr/";
 
+// Session-level flags for first-run vs cached performance tracking.
+let modelEverLoaded = false;
+
+/**
+ * Warm the browser HTTP cache with the background-removal model (~54MB)
+ * while the first SenseNova generation is in flight (27–44s of dead time).
+ * Fire-and-forget: failures here never block generation — the real
+ * removeBackground call will re-fetch what it needs.
+ */
+export async function prefetchBackgroundModel(
+  onProgress?: (loadedBytes: number) => void,
+): Promise<void> {
+  try {
+    const base = new URL(BGR_PUBLIC_PATH, window.location.origin).toString();
+    const metaRes = await fetch(`${base}resources.json`, { cache: "force-cache" });
+    if (!metaRes.ok) return;
+    const meta = (await metaRes.json()) as Record<
+      string,
+      { chunks: { name: string; offsets: [number, number] }[] }
+    >;
+    const chunkNames = Object.values(meta).flatMap((entry) =>
+      entry.chunks.map((c) => c.name),
+    );
+    let loaded = 0;
+    // Modest parallelism keeps the warm-up from competing with the API call.
+    const QUEUE = 4;
+    let cursor = 0;
+    await Promise.all(
+      Array.from({ length: QUEUE }, async () => {
+        while (cursor < chunkNames.length) {
+          const name = chunkNames[cursor++];
+          try {
+            const res = await fetch(`${base}${name}`, { cache: "force-cache" });
+            const blob = await res.blob();
+            loaded += blob.size;
+            onProgress?.(loaded);
+          } catch {
+            /* individual chunk failures are fine — real call re-fetches */
+          }
+        }
+      }),
+    );
+  } catch {
+    /* best-effort prefetch only */
+  }
+}
+
 export async function removeStickerBackground(
   sourceDataUrl: string,
   onProgress?: (ratio: number) => void,
@@ -88,6 +135,7 @@ export async function removeStickerBackground(
   const { removeBackground } = await import("@imgly/background-removal");
   try {
     const source = decodeDataUrl(sourceDataUrl);
+    const t0 = performance.now();
     const out = await removeBackground(source, {
       // imgly resolves chunk URLs via new URL(name, publicPath) — needs absolute.
       publicPath: new URL(BGR_PUBLIC_PATH, window.location.origin).toString(),
@@ -97,6 +145,17 @@ export async function removeStickerBackground(
       },
       output: { format: "image/png" },
     });
+    const elapsed = performance.now() - t0;
+    if (typeof window !== "undefined") {
+      // Expose for the pipeline to report as background_model_loaded /
+      // background_removal_completed with first-run vs cached distinction.
+      window.dispatchEvent(
+        new CustomEvent("stickersit:bg-removal-done", {
+          detail: { elapsedMs: elapsed, firstRun: !modelEverLoaded },
+        }),
+      );
+      modelEverLoaded = true;
+    }
     return out;
   } catch (error) {
     // Message only — never the image payload. Helps diagnose model/WASM issues.
@@ -168,20 +227,62 @@ export async function processStickerImage(
   return applyStickerOutline(removed);
 }
 
-/** ZIP a completed pack: stickersit-laughing.png … stickersit-reaction-pack.zip */
+/** ZIP a completed pack: stickersit-laughing.png … stickersit-reaction-pack.zip
+ *  WhatsApp/Telegram want WebP — when the browser can encode it, include a
+ *  .webp copy next to every PNG (PNGs always stay for universal use). */
 export async function zipStickerPack(
   stickers: { reaction: ReactionId; dataUrl: string }[],
 ): Promise<Blob> {
   const { zipSync, strToU8 } = await import("fflate");
   const files: Record<string, Uint8Array> = {};
+  const webpSupported = await canvasSupportsWebp();
   for (const sticker of stickers) {
     const base64 = sticker.dataUrl.split(",")[1];
-    files[`stickersit-${sticker.reaction}.png`] = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+    files[`stickersit-${sticker.reaction}.png`] = Uint8Array.from(atob(base64), (c) =>
+      c.charCodeAt(0),
+    );
+    if (webpSupported) {
+      const webpBlob = await dataUrlToWebp(sticker.dataUrl);
+      if (webpBlob) {
+        files[`stickersit-${sticker.reaction}.webp`] = new Uint8Array(
+          await webpBlob.arrayBuffer(),
+        );
+      }
+    }
   }
   files["stickersit-pack-info.txt"] = strToU8(
-    "StickerSit Reaction Pack — 6 transparent PNG stickers, 512x512.\nGenerated at stickersit.com\n",
+    "StickerSit Reaction Pack — 6 transparent stickers, 512x512.\nPNG: universal. WebP: WhatsApp/Telegram sticker format.\nGenerated at stickersit.com\n",
   );
   return new Blob([zipSync(files) as BlobPart], { type: "application/zip" });
+}
+
+async function canvasSupportsWebp(): Promise<boolean> {
+  try {
+    // Synchronous capability probe (jsdom lacks a real toBlob — never hang on it).
+    const canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = 1;
+    return canvas.toDataURL("image/webp").startsWith("data:image/webp");
+  } catch {
+    return false;
+  }
+}
+
+async function dataUrlToWebp(dataUrl: string): Promise<Blob | null> {
+  try {
+    const img = await loadHtmlImage(dataUrl);
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    ctx.drawImage(img, 0, 0);
+    return await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve, "image/webp", 0.9),
+    );
+  } catch {
+    return null;
+  }
 }
 
 export function downloadBlob(blob: Blob, filename: string) {

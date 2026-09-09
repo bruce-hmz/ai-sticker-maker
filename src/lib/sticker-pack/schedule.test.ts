@@ -14,13 +14,13 @@ describe("pack model", () => {
     expect(pack.packId).toMatch(/^pack_/);
   });
 
-  it("reactions cover laughing, crying, angry, shocked, love, sleepy", () => {
+  it("reactions cover the P1 order: laughing, love, shocked, angry, crying, sleepy", () => {
     expect(REACTIONS.map((r) => r.id)).toEqual([
       "laughing",
-      "crying",
-      "angry",
-      "shocked",
       "love",
+      "shocked",
+      "angry",
+      "crying",
       "sleepy",
     ]);
     expect(getReaction("love")?.modifier).toContain("heart");
@@ -140,7 +140,7 @@ describe("serial queue (concurrency = 1)", () => {
       retries: 0,
       shouldStop: () => ran.length >= 2,
     });
-    expect(ran).toEqual(["laughing", "crying"]);
+    expect(ran).toEqual(["laughing", "love"]);
     expect(result.succeeded).toHaveLength(2);
   });
 

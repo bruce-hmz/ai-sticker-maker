@@ -56,10 +56,12 @@ interface DecodeImage {
 /**
  * Validate + downscale a user photo and return a JPEG data URL (EXIF-free —
  * canvas re-encoding drops metadata) suitable for the reference-image API.
+ * `onDimensions` reports the decoded source dimensions for analytics buckets.
  */
 export async function prepareReferenceImage(
   file: File,
   decodeImage: DecodeImage = defaultDecodeImage,
+  onDimensions?: (width: number, height: number) => void,
 ): Promise<{ dataUrl: string; error?: never } | { dataUrl?: never; error: UploadValidationError }> {
   const metaError = validateUploadMeta(file);
   if (metaError) return { error: metaError };
@@ -72,6 +74,7 @@ export async function prepareReferenceImage(
     } catch {
       return { error: "not-an-image" };
     }
+    onDimensions?.(dims.width, dims.height);
 
     const dimError = validateDimensions(dims.width, dims.height);
     if (dimError) return { error: dimError };
