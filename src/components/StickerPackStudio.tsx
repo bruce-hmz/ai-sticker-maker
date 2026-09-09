@@ -211,6 +211,21 @@ export default function StickerPackStudio({
     if (willRetry) trackPackEvent("sticker_retry", { reaction });
   }, []);
 
+  /** User-facing failure copy: network drops need a different action (check
+   *  connection / proxy) than provider-side generation failures. */
+  const failureCopy = useCallback((error: unknown): string => {
+    const message = error instanceof Error ? error.message : String(error);
+    if (/network/i.test(message)) {
+      return "Connection lost — check your network (or VPN/proxy) and retry.";
+    }
+    if (/timed out|timeout/i.test(message)) {
+      return "Timed out — connection was slow. Retry.";
+    }
+    const status = providerStatusFromError(message);
+    if (status === 429) return "Server busy — retry in a moment.";
+    return "Generation failed. Tap retry.";
+  }, []);
+
   const runSticker = useCallback(
     async (reaction: ReactionId): Promise<StickerOutcome> => {
       const startedAt = Date.now();
@@ -252,7 +267,7 @@ export default function StickerPackStudio({
           trackPackEvent("sticker_generation_failed", { reaction: id });
           updateSticker(setPack, id as ReactionId, {
             status: "failed",
-            error: "Generation failed. Tap retry.",
+            error: failureCopy(error),
           });
         }
         setPack((prev) => {
@@ -286,14 +301,13 @@ export default function StickerPackStudio({
     (freshPack: PackState, succeeded: number, failed: number) => {
       setPack((prev) => {
         if (!prev) return prev;
-        const failedIds = new Set(
-          prev.stickers.filter((s) => s.status === "failed").map((s) => s.reaction),
-        );
         return {
           ...prev,
+          // Tasks cancelled mid-queue (Stop) never settle — mark those only;
+          // settled failures keep their detailed error copy from onTaskSettled.
           stickers: prev.stickers.map((s) =>
-            failedIds.has(s.reaction) && s.status !== "completed"
-              ? { ...s, status: "failed" as const, error: "Generation failed. Tap retry." }
+            s.status === "queued" || s.status === "generating"
+              ? { ...s, status: "failed" as const, error: "Stopped — tap retry to continue." }
               : s,
           ),
         };
