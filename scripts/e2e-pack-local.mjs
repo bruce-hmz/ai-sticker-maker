@@ -65,6 +65,16 @@ try {
   }
   mark("intermediate progress visible (n of 6)", sawProgressText);
 
+  // Progressive first-value UX: banner appears as soon as sticker #1 lands.
+  let sawFirstStickerBanner = false;
+  try {
+    await page.waitForSelector("text=Your first sticker is ready", { timeout: 90_000 });
+    sawFirstStickerBanner = true;
+  } catch {
+    /* banner may have been missed if run was fast — not fatal */
+  }
+  mark("first-sticker banner (progressive value)", sawFirstStickerBanner);
+
   await page.waitForSelector("text=Your sticker pack is ready", { timeout: 6 * 60 * 1000 });
   const genSeconds = Math.round((Date.now() - t0) / 1000);
   mark("all 6 stickers completed", true, `${genSeconds}s total`);
@@ -104,7 +114,9 @@ try {
 
   const entries = unzipSync(new Uint8Array(readFileSync(zipPath)));
   const pngNames = Object.keys(entries).filter((k) => k.endsWith(".png")).sort();
+  const webpNames = Object.keys(entries).filter((k) => k.endsWith(".webp")).sort();
   mark("ZIP contains 6 transparent PNGs", pngNames.length === 6, pngNames.join(","));
+  mark("ZIP includes WhatsApp/Telegram WebP copies", webpNames.length === 6, `${webpNames.length} webp`);
 
   // Verify alpha on the first PNG inside the ZIP via canvas-free check (IHDR color type)
   const ihdr = (bytes) => {
