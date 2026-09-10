@@ -8,7 +8,27 @@ import {
   BackgroundRemovalError,
   ProcessedSticker,
   processStickerImage,
+  abortPrefetchBackgroundModel,
+  BGR_PUBLIC_PATH,
 } from "./image-processing";
+
+/**
+ * Cheap connectivity gate before queueing a pack. On a dead VPN/proxy this
+ * fails in seconds with a clear signal, instead of burning 3× retries × 6
+ * stickers against a black hole.
+ */
+export async function preflightNetwork(timeoutMs = 6000): Promise<boolean> {
+  try {
+    const res = await fetch(`${BGR_PUBLIC_PATH}resources.json`, {
+      method: "HEAD",
+      cache: "no-store",
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
 
 export interface StickerOutcome {
   reaction: ReactionId;
@@ -34,6 +54,9 @@ export async function requestStickerGeneration(
       signal: AbortSignal.timeout(timeoutMs),
     });
   } catch (error) {
+    // The 54MB model prefetch may be starving this connection — free the
+    // pipe before the queue's retry goes out.
+    abortPrefetchBackgroundModel();
     throw new Error(`Sticker request failed (network)`);
   }
 

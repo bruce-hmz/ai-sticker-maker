@@ -12,6 +12,8 @@ export interface QueueOptions<T> {
   /** Retries for transient failures (429 / network / 5xx). */
   retries?: number;
   retryDelayMs?: number;
+  /** Optional per-attempt backoff override: attempt starts at 1. */
+  retryDelayFn?: (attempt: number) => number;
   isRetryable?: (error: unknown) => boolean;
   /** Abort check between tasks. */
   shouldStop?: () => boolean;
@@ -38,6 +40,8 @@ export async function runSerialQueue<T>(
 ): Promise<QueueResult<T>> {
   const retries = options.retries ?? 1;
   const retryDelayMs = options.retryDelayMs ?? 4000;
+  const retryDelayFn =
+    options.retryDelayFn ?? ((attempt: number) => retryDelayMs * attempt);
 
   const result: QueueResult<T> = { succeeded: [], failed: [] };
 
@@ -60,7 +64,7 @@ export async function runSerialQueue<T>(
         const willRetry = retryable && attempt < retries;
         options.onTaskError?.(task.id, caught, attempt + 1, willRetry);
         if (willRetry) {
-          await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
+          await new Promise((resolve) => setTimeout(resolve, retryDelayFn(attempt + 1)));
           continue;
         }
         break;

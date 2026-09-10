@@ -83,19 +83,52 @@ export const BGR_PUBLIC_PATH = "/bgr/";
 
 // Session-level flags for first-run vs cached performance tracking.
 let modelEverLoaded = false;
+// Active prefetch handle — generation requests can abort it to free bandwidth
+// on constrained links (flaky VPN/proxy) where 54MB of parallel downloads
+// starve the 28s generation POST.
+let activePrefetch: AbortController | null = null;
+
+export function abortPrefetchBackgroundModel() {
+  activePrefetch?.abort();
+  activePrefetch = null;
+}
+
+/** Coarse link-quality gate — skip the 54MB warm-up where it would hurt. */
+function linkTooSlowForPrefetch(): boolean {
+  try {
+    const conn = (
+      navigator as Navigator & {
+        connection?: { saveData?: boolean; effectiveType?: string };
+      }
+    ).connection;
+    if (!conn) return false;
+    if (conn.saveData) return true;
+    return conn.effectiveType === "slow-2g" || conn.effectiveType === "2g";
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Warm the browser HTTP cache with the background-removal model (~54MB)
  * while the first SenseNova generation is in flight (27–44s of dead time).
  * Fire-and-forget: failures here never block generation — the real
- * removeBackground call will re-fetch what it needs.
+ * removeBackground call will re-fetch what it needs. Two parallel streams
+ * (not more) so it can't starve the generation POST on constrained links.
  */
 export async function prefetchBackgroundModel(
   onProgress?: (loadedBytes: number) => void,
 ): Promise<void> {
+  if (linkTooSlowForPrefetch()) return;
+  abortPrefetchBackgroundModel();
+  const controller = new AbortController();
+  activePrefetch = controller;
   try {
     const base = new URL(BGR_PUBLIC_PATH, window.location.origin).toString();
-    const metaRes = await fetch(`${base}resources.json`, { cache: "force-cache" });
+    const metaRes = await fetch(`${base}resources.json`, {
+      cache: "force-cache",
+      signal: controller.signal,
+    });
     if (!metaRes.ok) return;
     const meta = (await metaRes.json()) as Record<
       string,
@@ -105,15 +138,17 @@ export async function prefetchBackgroundModel(
       entry.chunks.map((c) => c.name),
     );
     let loaded = 0;
-    // Modest parallelism keeps the warm-up from competing with the API call.
-    const QUEUE = 4;
+    const QUEUE = 2; // deliberately low — generation POST has priority
     let cursor = 0;
     await Promise.all(
       Array.from({ length: QUEUE }, async () => {
         while (cursor < chunkNames.length) {
           const name = chunkNames[cursor++];
           try {
-            const res = await fetch(`${base}${name}`, { cache: "force-cache" });
+            const res = await fetch(`${base}${name}`, {
+              cache: "force-cache",
+              signal: controller.signal,
+            });
             const blob = await res.blob();
             loaded += blob.size;
             onProgress?.(loaded);
@@ -124,7 +159,9 @@ export async function prefetchBackgroundModel(
       }),
     );
   } catch {
-    /* best-effort prefetch only */
+    /* aborted or best-effort failure — fine */
+  } finally {
+    if (activePrefetch === controller) activePrefetch = null;
   }
 }
 

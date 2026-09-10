@@ -17,6 +17,7 @@ import {
 import { runSerialQueue, isRetryablePackError } from "@/lib/sticker-pack/schedule";
 import {
   generateAndProcessSticker,
+  preflightNetwork,
   retryCleanupOnly,
   type StickerOutcome,
 } from "@/lib/sticker-pack/pipeline";
@@ -334,6 +335,28 @@ export default function StickerPackStudio({
   const startGeneration = useCallback(
     async (only?: ReactionId[]) => {
       if (!referenceDataRef.current) return;
+
+      // Connectivity gate: fail fast with a clear message on a dead
+      // VPN/proxy instead of burning 3 retries × N stickers.
+      const connected = await preflightNetwork();
+      if (!connected) {
+        const base = pack ?? createPack();
+        setPack({
+          ...base,
+          stickers: base.stickers.map((s) =>
+            only && s.status === "completed"
+              ? s
+              : {
+                  ...s,
+                  status: "failed" as const,
+                  error: "Network unreachable — check your connection (or VPN/proxy) and retry.",
+                },
+          ),
+        });
+        setPhase("ready");
+        return;
+      }
+
       cancelRef.current = false;
       firstStickerRef.current = false;
       threeStickerRef.current = false;
@@ -372,8 +395,8 @@ export default function StickerPackStudio({
       }));
       const cbs = makeQueueCallbacks();
       const result = await runSerialQueue(tasks, {
-        retries: 2,
-        retryDelayMs: 6000,
+        retries: 3,
+        retryDelayMs: 6000, // linear backoff base: 6s, 12s, 18s
         isRetryable: isRetryablePackError,
         shouldStop: () => cancelRef.current,
         onTaskError: cbs.onTaskError,
@@ -408,8 +431,8 @@ export default function StickerPackStudio({
     const result = await runSerialQueue(
       missing.map((id) => ({ id, run: () => runSticker(id) })),
       {
-        retries: 2,
-        retryDelayMs: 6000,
+        retries: 3,
+        retryDelayMs: 6000, // linear backoff base: 6s, 12s, 18s
         isRetryable: isRetryablePackError,
         onTaskError: cbs.onTaskError,
         onTaskSettled: (id, index, value, error) => {
@@ -573,6 +596,12 @@ export default function StickerPackStudio({
           onReset={handleReset}
           onRegenerate={handleRegenerate}
           onRetryCleanup={handleRetryCleanup}
+          onRetryAllFailed={() => {
+            const failedIds = (pack?.stickers ?? [])
+              .filter((s) => s.status === "failed" && !s.cleanupError)
+              .map((s) => s.reaction);
+            if (failedIds.length > 0) void startGeneration(failedIds);
+          }}
           onDownloadOne={handleDownloadOne}
           onDownloadPack={handleDownloadPack}
           onLightbox={setLightbox}
@@ -778,6 +807,7 @@ function ProgressPanel({
   onReset,
   onRegenerate,
   onRetryCleanup,
+  onRetryAllFailed,
   onDownloadOne,
   onDownloadPack,
   onLightbox,
@@ -791,6 +821,7 @@ function ProgressPanel({
   onReset: () => void;
   onRegenerate: (reaction: ReactionId) => void;
   onRetryCleanup: (reaction: ReactionId) => void;
+  onRetryAllFailed: () => void;
   onDownloadOne: (sticker: PackSticker) => void;
   onDownloadPack: () => void;
   onLightbox: (value: { url: string; label: string }) => void;
@@ -798,6 +829,7 @@ function ProgressPanel({
 }) {
   const generating = phase === "generating";
   const firstReady = pack.stickers.find((s) => s.status === "completed" && s.imageUrl);
+  const failedStickers = pack.stickers.filter((s) => s.status === "failed" && !s.cleanupError);
   return (
     <div className="flex flex-col items-center gap-6">
       {showFirstBanner && firstReady && (
@@ -852,6 +884,14 @@ function ProgressPanel({
           </button>
         ) : (
           <>
+            {failedStickers.length >= 2 && (
+              <button
+                onClick={onRetryAllFailed}
+                className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full transition-colors"
+              >
+                Retry failed ({failedStickers.length})
+              </button>
+            )}
             <button
               onClick={onDownloadPack}
               disabled={zipping || completedCount === 0}
