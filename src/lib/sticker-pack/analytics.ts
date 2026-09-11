@@ -40,6 +40,9 @@ export type PackAnalyticsEvent =
   | "wtp_probe_viewed"
   | "wtp_probe_clicked";
 
+// Parameter names below are matched EXACTLY by the GA4 custom definitions in
+// docs/ga4-custom-definitions.md — rename only together with that file and the
+// GA4 registrations.
 export interface PackEventPayload {
   reaction?: string;
   durationMs?: number;
