@@ -35,7 +35,10 @@ export type PackAnalyticsEvent =
   | "provider_5xx"
   | "provider_timeout"
   | "sticker_generation_failed"
-  | "sticker_retry";
+  | "sticker_retry"
+  // WTP research probes (docs/review-2026-09-16.md §4 — research only, no paywall)
+  | "wtp_probe_viewed"
+  | "wtp_probe_clicked";
 
 export interface PackEventPayload {
   reaction?: string;
@@ -70,6 +73,10 @@ export interface PackEventPayload {
   modelLoadMs?: number;
   removalMs?: number;
   cached?: boolean;
+  // WTP research probes
+  probeType?: "use_case" | "pricing_door";
+  pricePoint?: string; // free | 1.99 | 4.99 | 9.99_plus
+  option?: string; // use_case answer: personal_chat | print_physical | resell | client_work | other
 }
 
 /** Fields that must never appear in analytics (privacy guard). */

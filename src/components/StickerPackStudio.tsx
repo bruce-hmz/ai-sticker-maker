@@ -45,6 +45,7 @@ import {
   savePackSession,
   type PackSessionState,
 } from "@/lib/sticker-pack/session";
+import { WtpUseCaseSurvey, WtpPricingProbe } from "./WtpProbes";
 
 type Phase = "upload" | "preview" | "generating" | "ready" | "restored";
 
@@ -80,6 +81,9 @@ export default function StickerPackStudio({
   const [uploadError, setUploadError] = useState("");
   const [lightbox, setLightbox] = useState<{ url: string; label: string } | null>(null);
   const [zipping, setZipping] = useState(false);
+  // WTP research probes: survey eligibility starts at the session's first
+  // successful download (any kind) — never before the user has results.
+  const [downloadedOnce, setDownloadedOnce] = useState(false);
   const cancelRef = useRef(false);
   const busyReactionRef = useRef<ReactionId | null>(null);
 
@@ -506,6 +510,7 @@ export default function StickerPackStudio({
         completedCount,
         elapsedSinceGenerationStartMs: elapsed,
       });
+      setDownloadedOnce(true);
       if (!firstDownloadRef.current) {
         firstDownloadRef.current = true;
         trackPackEvent("first_sticker_downloaded", {
@@ -535,6 +540,7 @@ export default function StickerPackStudio({
           ? Date.now() - generationStartRef.current
           : undefined,
       });
+      setDownloadedOnce(true);
     } finally {
       setZipping(false);
     }
@@ -608,6 +614,18 @@ export default function StickerPackStudio({
           zipping={zipping}
         />
       )}
+
+      {/* WTP research probes — secondary, dismissible, once per session (docs/review-2026-09-16.md §4) */}
+      <WtpUseCaseSurvey
+        visible={downloadedOnce}
+        completedCount={completedCount}
+        landingPage={landingId}
+      />
+      <WtpPricingProbe
+        visible={phase === "ready" && completedCount >= 6}
+        completedCount={completedCount}
+        landingPage={landingId}
+      />
 
       {lightbox && (
         <div
